@@ -74,7 +74,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # new packeges middleware
-    "config.middleware.AdminDebugToolbarMiddleware",
+    "config.middlewares.admin_toolbar.AdminDebugToolbarMiddleware",
     "simple_history.middleware.HistoryRequestMiddleware",
     "easyaudit.middleware.easyaudit.EasyAuditMiddleware",
 ]
