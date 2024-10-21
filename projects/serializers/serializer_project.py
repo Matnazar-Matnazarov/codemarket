@@ -6,6 +6,7 @@ from .serializer_language import ProjectLanguageSerializer
 from accounts.serializers.accounts import CustomUserSerializer
 
 
+#serializers Project
 class ProjectSerializer(serializers.ModelSerializer):
     technology = ProjectLanguageSerializer(read_only=True, many=True)
     database = ProjectBaseSerializer(read_only=True, many=True)
@@ -47,3 +48,4 @@ class ProjectSerializer(serializers.ModelSerializer):
     def get_main_image(obj):
         main_image = obj.main_image
         return ProjectImageSerializer(main_image).data if main_image else None
+
