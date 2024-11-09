@@ -2,7 +2,7 @@ import uuid
 
 from django.db import models
 from .model_project import Project
-from .model_comment import ModelComment
+from blog.models.model_comment import ModelComment
 
 
 class ModelProjectBuy(ModelComment):

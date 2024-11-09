@@ -18,18 +18,18 @@ class ProjectLanguage(ModelBase):
         upload_to="project_language/",
         null=True,
         blank=True,
-        validators=[FileExtensionValidator(allowed_extensions=["png", "jpg"])],
+        validators=[FileExtensionValidator(allowed_extensions=["png", "jpg", 'webp'])],
     )
     technology_image = models.ImageField(
         upload_to="project_technology/",
         null=True,
         blank=True,
-        validators=[FileExtensionValidator(allowed_extensions=["png", "jpg"])],
+        validators=[FileExtensionValidator(allowed_extensions=["png", "jpg", 'webp'])],
     )
 
     class Meta:
-        verbose_name = "Project Image"
-        verbose_name_plural = "Project Images"
+        verbose_name = "Project Technology"
+        verbose_name_plural = "Project Language"
         db_table = "projects_project_language"
         indexes = [
             models.Index(fields=["technology"]),

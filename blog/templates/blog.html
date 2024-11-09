@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CodeMarket - Your marketplace for code">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <script src="../static/js/tailwinds.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+    
+    <link rel="stylesheet" href="../static/css/mobil.css">
+    <script src="../static/js/dark_tool.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.className = savedTheme;
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+    <title>CodeMarket - Home</title>
+    
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/50 z-40 lg:hidden mobile-menu-overlay"></div>
+    
+    <div class="flex min-h-screen">
+        <!-- Sidebar for mobile -->
+        <div id="mobile-menu" class="lg:hidden fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-900 transform -translate-x-full transition-transform duration-300 ease-in-out z-50">
+            <div class="p-4 border-b dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <a href="../templates/home.html" class="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">CodeMarket</a>
+                    <button onclick="toggleMobileMenu()" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="../templates/home.html" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
+                    <i class="fas fa-home mr-3"></i>
+                    Home
+                </a>
+                <a href="../templates/product.html" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
+                    <i class="fas fa-store mr-3"></i>
+                    Products
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
+                    <i class="fas fa-shopping-cart mr-3"></i>
+                    Cart
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
+                    <i class="fas fa-info-circle mr-3"></i>
+                    About
+                </a>
+            </nav>
+            <div class="p-4 border-t dark:border-gray-700">
+                <button onclick="toggleDarkMode()" class="w-full flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg mb-2">
+                    <i class="fas fa-moon dark:hidden mr-3"></i>
+                    <i class="fas fa-sun hidden dark:block mr-3"></i>
+                    Toggle Dark Mode
+                </button>
+                <a href="../templates/login.html" class="w-full flex items-center px-4 py-2 text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 rounded-lg">
+                    <i class="fas fa-sign-in-alt mr-3"></i>
+                    Login
+                </a>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="flex-1">
+          <header class="fixed top-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-sm z-30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex-shrink-0">
+                        <a href="../templates/home.html"
+                            class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent hover:from-purple-700 hover:to-blue-700 transition-all">CodeMarket</a>
+                    </div>
+    
+                    <button type="button"
+                        class="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-purple-600 hover:bg-purple-50 dark:hover:bg-gray-800 focus:outline-none"
+                        onclick="toggleMobileMenu()">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+    
+                    <!-- Desktop Navigation -->
+                    <nav class="hidden lg:flex lg:items-center lg:space-x-8">
+                        <a href="../templates/home.html"
+                            class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
+                            <i class="fas fa-home mr-2"></i>
+                            Home
+                        </a>
+                        <a href="../templates/product.html"
+                            class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
+                            <i class="fas fa-store mr-2"></i>
+                            Products
+                        </a>
+                        <a href="../templates/product_purchases.html"
+                            class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
+                            <i class="fas fa-shopping-cart mr-2"></i>
+                            Cart
+                        </a>
+                        <a href="../templates/product_purchases.html"
+                            class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            About
+                        </a>
+                        <button onclick="toggleDarkMode()"
+                            class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
+                            <i class="fas fa-moon dark:hidden"></i>
+                            <i class="fas fa-sun hidden dark:block"></i>
+                        </button>
+                        <a href="../templates/login.html"
+                            class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300">
+                            <i class="fas fa-sign-in-alt mr-2"></i>
+                            Login
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </header>
+    
+            <main class="pt-20 pb-12">
+                <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+                    <!-- Python Basics Blog Post -->
+                    <a href="../templates/post_comment.html" class="block group">
+                        <div class="bg-white dark:bg-gray-800 backdrop-blur-sm rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 transform group-hover:-translate-y-1">
+                            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8">
+                                <div class="w-full sm:w-auto flex-shrink-0 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-700 dark:to-gray-600 p-4 sm:p-6 rounded-xl">
+                                    <img src="../images/photo_2024-10-23_16-22-58-removebg-preview.png" alt="Python Logo" class="w-20 h-20 sm:w-24 sm:h-24 object-contain mx-auto filter dark:brightness-90"/>
+                                    <div class="flex items-center justify-center mt-3 space-x-1">
+                                        <span class="h-2 w-2 rounded-full bg-green-500"></span>
+                                        <h3 class="font-semibold text-purple-600 dark:text-purple-400 text-sm sm:text-base">Featured</h3>
+                                    </div>
+                                </div>
+
+                                <div class="flex-1 space-y-4 sm:space-y-6 text-center sm:text-left">
+                                    <div>
+                                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
+                                            <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Getting Started with Python: A Beginner's Guide</h1>
+                                            <div class="flex items-center justify-center sm:justify-start space-x-2 text-gray-500 dark:text-gray-400 text-sm">
+                                                <i class="fas fa-clock"></i>
+                                                <span>10 min read</span>
+                                            </div>
+                                        </div>
+                                        <p class="mt-2 text-gray-600 dark:text-gray-300 text-base sm:text-lg leading-relaxed">An in-depth introduction to Python programming language fundamentals, perfect for beginners starting their coding journey.</p>
+                                    </div>
+
+                                    <div class="flex flex-wrap justify-center sm:justify-start gap-2">
+                                        <span class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-purple-50 dark:bg-gray-700 text-purple-600 dark:text-purple-400 text-sm sm:text-base border border-purple-100 dark:border-gray-600">#PythonBasics</span>
+                                        <span class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400 text-sm sm:text-base border border-blue-100 dark:border-gray-600">#Programming</span>
+                                        <span class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-green-50 dark:bg-gray-700 text-green-600 dark:text-green-400 text-sm sm:text-base border border-green-100 dark:border-gray-600">#Beginner</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Django Projects Blog Post -->
+                    <a href="../templates/post_comment.html" class="block group">
+                        <div class="bg-white dark:bg-gray-800 backdrop-blur-sm rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 transform group-hover:-translate-y-1">
+                            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8">
+                                <div class="w-full sm:w-auto flex-shrink-0 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-gray-700 dark:to-gray-600 p-4 sm:p-6 rounded-xl">
+                                    <img src="../images/django.png" alt="Django Logo" class="w-20 h-20 sm:w-24 sm:h-24 object-contain mx-auto filter dark:brightness-90"/>
+                                    <div class="flex items-center justify-center mt-3 space-x-1">
+                                        <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                                        <h3 class="font-semibold text-emerald-600 dark:text-emerald-400 text-sm sm:text-base">Advanced</h3>
+                                    </div>
+                                </div>
+
+                                <div class="flex-1 space-y-4 sm:space-y-6 text-center sm:text-left">
+                                    <div>
+                                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
+                                            <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Building Modern Web Applications with Django</h1>
+                                            <div class="flex items-center justify-center sm:justify-start space-x-2 text-gray-500 dark:text-gray-400 text-sm">
+                                                <i class="fas fa-clock"></i>
+                                                <span>15 min read</span>
+                                            </div>
+                                        </div>
+                                        <p class="mt-2 text-gray-600 dark:text-gray-300 text-base sm:text-lg leading-relaxed">Explore advanced Django concepts and best practices for building scalable, secure, and maintainable web applications.</p>
+                                    </div>
+
+                                    <div class="flex flex-wrap justify-center sm:justify-start gap-2">
+                                        <span class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-emerald-50 dark:bg-gray-700 text-emerald-600 dark:text-emerald-400 text-sm sm:text-base border border-emerald-100 dark:border-gray-600">#Django</span>
+                                        <span class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-teal-50 dark:bg-gray-700 text-teal-600 dark:text-teal-400 text-sm sm:text-base border border-teal-100 dark:border-gray-600">#WebDev</span>
+                                        <span class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400 text-sm sm:text-base border border-blue-100 dark:border-gray-600">#Advanced</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </section>
+            
+
+            </main>
+        </div>
+    </div>
+</body>
+</html>

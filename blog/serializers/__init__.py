@@ -1,0 +1,2 @@
+from .serializer_blog_post import BlogPostSerializer
+from .serializer_comment import CommentSerializer

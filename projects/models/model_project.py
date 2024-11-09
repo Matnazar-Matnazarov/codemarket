@@ -8,6 +8,7 @@ from accounts.models import CustomUser
 from .model_base import ModelBase
 from hitcount.models import HitCount
 from django.contrib.contenttypes.fields import GenericRelation
+from .model_stars import Stars
 import uuid
 
 
@@ -32,14 +33,14 @@ class Project(ModelBase):
     images = models.ManyToManyField(
         ProjectImage, blank=True, related_name="projects_many_to_many_images"
     )
-    likes = models.ManyToManyField(
-        CustomUser, blank=True, related_name="project_many_to_many_likes"
+    star = models.ManyToManyField(
+        Stars, blank=True, related_name="projects_many_to_many_stars"
     )
     zip_file = models.FileField(
         upload_to="projects/",
         null=True,
         blank=True,
-        validators=[FileExtensionValidator(allowed_extensions=["zip", "rar", "7zip"])],
+        validators=[FileExtensionValidator(allowed_extensions=["zip", "rar", "7zip",'webp'])],
     )
     guid = models.UUIDField(
         primary_key=True,
@@ -76,11 +77,11 @@ class Project(ModelBase):
         super().save(*args, **kwargs)
 
     @property
-    def likes_count(self):
-        return self.likes.count()
-
-    @property
     def main_image(self):
         if self.images.exists():
             return self.images.first()
         return None
+
+    @property
+    def all_comments(self):
+        return self.modelprojectcomment_set.select_related("projects").all()

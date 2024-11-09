@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CodeMarket - Your marketplace for code">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <script src="../static/js/tailwinds.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+    
+    <link rel="stylesheet" href="../static/css/mobil.css">
+    <script src="../static/js/dark_tool.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.className = savedTheme;
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+    <title>CodeMarket - Home</title>
+    
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/50 z-40 lg:hidden mobile-menu-overlay"></div>
+    
+    <div class="flex min-h-screen">
+        <!-- Sidebar for mobile -->
+        <div id="mobile-menu" class="lg:hidden fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-900 transform -translate-x-full transition-transform duration-300 ease-in-out z-50">
+            <div class="p-4 border-b dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <a href="../templates/home.html" class="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">CodeMarket</a>
+                    <button onclick="toggleMobileMenu()" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="../templates/home.html" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
+                    <i class="fas fa-home mr-3"></i>
+                    Home
+                </a>
+                <a href="../templates/product.html" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
+                    <i class="fas fa-store mr-3"></i>
+                    Products
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
+                    <i class="fas fa-shopping-cart mr-3"></i>
+                    Cart
+                </a>
+                <a href="#" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
+                    <i class="fas fa-info-circle mr-3"></i>
+                    About
+                </a>
+            </nav>
+            <div class="p-4 border-t dark:border-gray-700">
+                <button onclick="toggleDarkMode()" class="w-full flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg mb-2">
+                    <i class="fas fa-moon dark:hidden mr-3"></i>
+                    <i class="fas fa-sun hidden dark:block mr-3"></i>
+                    Toggle Dark Mode
+                </button>
+                <a href="../templates/login.html" class="w-full flex items-center px-4 py-2 text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 rounded-lg">
+                    <i class="fas fa-sign-in-alt mr-3"></i>
+                    Login
+                </a>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="flex-1">
+          <header class="fixed top-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-sm z-30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex-shrink-0">
+                        <a href="../templates/home.html"
+                            class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent hover:from-purple-700 hover:to-blue-700 transition-all">CodeMarket</a>
+                    </div>
+    
+                    <button type="button"
+                        class="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-purple-600 hover:bg-purple-50 dark:hover:bg-gray-800 focus:outline-none"
+                        onclick="toggleMobileMenu()">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+    
+                    <!-- Desktop Navigation -->
+                    <nav class="hidden lg:flex lg:items-center lg:space-x-8">
+                        <a href="../templates/home.html"
+                            class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
+                            <i class="fas fa-home mr-2"></i>
+                            Home
+                        </a>
+                        <a href="../templates/product.html"
+                            class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
+                            <i class="fas fa-store mr-2"></i>
+                            Products
+                        </a>
+                        <a href="../templates/product_purchases.html"
+                            class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
+                            <i class="fas fa-shopping-cart mr-2"></i>
+                            Cart
+                        </a>
+                        <a href="../templates/product_purchases.html"
+                            class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            About
+                        </a>
+                        <button onclick="toggleDarkMode()"
+                            class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
+                            <i class="fas fa-moon dark:hidden"></i>
+                            <i class="fas fa-sun hidden dark:block"></i>
+                        </button>
+                        <a href="../templates/login.html"
+                            class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300">
+                            <i class="fas fa-sign-in-alt mr-2"></i>
+                            Login
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </header>
+            <main class="pt-28 pb-12">
+            <div class="container mx-auto px-4">
+                <!-- Hero Section -->
+                <section class="mb-16">
+                    <div class="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-12 text-white relative overflow-hidden">
+                        <div class="max-w-3xl relative z-10">
+                            <h1 class="text-5xl font-bold mb-4 animate-fade-in-down">Matnazarov Matnazar</h1>
+                            <p class="text-xl opacity-90 animate-fade-in-up">Full Stack Developer & Competitive Programmer</p>
+                            <div class="mt-6 flex flex-wrap gap-4">
+                                <span class="px-4 py-2 bg-white/20 rounded-full text-sm hover:bg-white/30 transition-all cursor-default">Algorithm Expert</span>
+                                <span class="px-4 py-2 bg-white/20 rounded-full text-sm hover:bg-white/30 transition-all cursor-default">Full Stack Developer</span>
+                                <span class="px-4 py-2 bg-white/20 rounded-full text-sm hover:bg-white/30 transition-all cursor-default">ICPC Competitor</span>
+                                <span class="px-4 py-2 bg-white/20 rounded-full text-sm hover:bg-white/30 transition-all cursor-default">Solution Architect</span>
+                            </div>
+                            <div class="mt-8">
+                                <img src="https://avatars.githubusercontent.com/u/153491609?s=96&v=4" alt="Profile" class="w-32 h-32 rounded-full border-4 border-white shadow-xl hover:scale-105 transition-transform duration-300">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- About Section -->
+                <section class="mb-16">
+                    <h2 class="text-3xl font-bold mb-6 text-gray-800 dark:text-white flex items-center">
+                        <span class="mr-3">About Me</span>
+                        <div class="h-1 flex-grow bg-gradient-to-r from-purple-600 to-blue-600 rounded"></div>
+                    </h2>
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg backdrop-blur-lg border border-gray-200 dark:border-gray-700">
+                        <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6 text-lg">
+                            I'm a passionate 20-year-old developer from Xorazm, Uzbekistan, with 3 years of intensive programming experience. My journey in technology has been driven by a deep fascination with algorithmic problem-solving and software development. I specialize in creating efficient, scalable solutions for businesses while maintaining my competitive programming edge.
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-semibold text-purple-600 dark:text-purple-400">Competitive Programming</h3>
+                                <p class="text-gray-700 dark:text-gray-300">
+                                    Active participant in ICPC international competitions, solving complex algorithmic challenges using C++, Java, and Python. Regular contributor on:
+                                </p>
+                                <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                                    <li class="flex items-center"><i class="fas fa-trophy text-yellow-500 mr-2"></i>Codeforces</li>
+                                    <li class="flex items-center"><i class="fas fa-code text-green-500 mr-2"></i>LeetCode</li>
+                                    <li class="flex items-center"><i class="fas fa-laptop-code text-blue-500 mr-2"></i>AlgoUbtuit</li>
+                                    <li class="flex items-center"><i class="fas fa-robot text-purple-500 mr-2"></i>RoboContest</li>
+                                    <li class="flex items-center"><i class="fas fa-terminal text-red-500 mr-2"></i>KEP.uz</li>
+                                </ul>
+                            </div>
+                            <div class="space-y-4">
+                                <h3 class="text-xl font-semibold text-purple-600 dark:text-purple-400">Professional Development</h3>
+                                <p class="text-gray-700 dark:text-gray-300">
+                                    Specialized in building scalable web applications and services, with expertise in both frontend and backend technologies. I offer:
+                                </p>
+                                <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                                    <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i>Custom Software Solutions</li>
+                                    <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i>E-commerce Platforms</li>
+                                    <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i>Business Management Tools</li>
+                                    <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i>API Development</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Skills Section -->
+                <section class="mb-16">
+                    <h2 class="text-3xl font-bold mb-6 text-gray-800 dark:text-white flex items-center">
+                        <span class="mr-3">Technical Arsenal</span>
+                        <div class="h-1 flex-grow bg-gradient-to-r from-purple-600 to-blue-600 rounded"></div>
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Programming Languages -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg transform hover:scale-105 transition-transform border border-gray-200 dark:border-gray-700">
+                            <h3 class="text-xl font-semibold mb-4 text-purple-600 dark:text-purple-400">Programming Languages</h3>
+                            <ul class="space-y-3 text-gray-700 dark:text-gray-300">
+                                <li class="flex items-center"><i class="fab fa-python mr-2"></i>Python (Advanced)</li>
+                                <li class="flex items-center"><i class="fas fa-code mr-2"></i>C++ (Competitive)</li>
+                                <li class="flex items-center"><i class="fab fa-java mr-2"></i>Java (Intermediate)</li>
+                                <li class="flex items-center"><i class="fab fa-js mr-2"></i>JavaScript (Advanced)</li>
+                            </ul>
+                        </div>
+
+                        <!-- Backend Technologies -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg transform hover:scale-105 transition-transform border border-gray-200 dark:border-gray-700">
+                            <h3 class="text-xl font-semibold mb-4 text-purple-600 dark:text-purple-400">Backend Expertise</h3>
+                            <ul class="space-y-3 text-gray-700 dark:text-gray-300">
+                                <li class="flex items-center"><i class="fas fa-server mr-2"></i>Django & DRF</li>
+                                <li class="flex items-center"><i class="fas fa-bolt mr-2"></i>FastAPI</li>
+                                <li class="flex items-center"><i class="fab fa-telegram mr-2"></i>Aiogram</li>
+                                <li class="flex items-center"><i class="fas fa-desktop mr-2"></i>PyQt5</li>
+                            </ul>
+                        </div>
+
+                        <!-- Frontend Technologies -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg transform hover:scale-105 transition-transform border border-gray-200 dark:border-gray-700">
+                            <h3 class="text-xl font-semibold mb-4 text-purple-600 dark:text-purple-400">Frontend Mastery</h3>
+                            <ul class="space-y-3 text-gray-700 dark:text-gray-300">
+                                <li class="flex items-center"><i class="fab fa-react mr-2"></i>React</li>
+                                <li class="flex items-center"><i class="fab fa-js mr-2"></i>jQuery</li>
+                                <li class="flex items-center"><i class="fab fa-bootstrap mr-2"></i>Bootstrap</li>
+                                <li class="flex items-center"><i class="fab fa-css3 mr-2"></i>Tailwind CSS</li>
+                            </ul>
+                        </div>
+
+                        <!-- Databases -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg transform hover:scale-105 transition-transform border border-gray-200 dark:border-gray-700">
+                            <h3 class="text-xl font-semibold mb-4 text-purple-600 dark:text-purple-400">Database Systems</h3>
+                            <ul class="space-y-3 text-gray-700 dark:text-gray-300">
+                                <li class="flex items-center"><i class="fas fa-database mr-2"></i>PostgreSQL</li>
+                                <li class="flex items-center"><i class="fas fa-database mr-2"></i>MySQL</li>
+                                <li class="flex items-center"><i class="fas fa-database mr-2"></i>SQLite</li>
+                            </ul>
+                        </div>
+
+                        <!-- Development Tools -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg transform hover:scale-105 transition-transform border border-gray-200 dark:border-gray-700">
+                            <h3 class="text-xl font-semibold mb-4 text-purple-600 dark:text-purple-400">Development Tools</h3>
+                            <ul class="space-y-3 text-gray-700 dark:text-gray-300">
+                                <li class="flex items-center"><i class="fab fa-git-alt mr-2"></i>Git & GitHub</li>
+                                <li class="flex items-center"><i class="fas fa-terminal mr-2"></i>Command Line</li>
+                                <li class="flex items-center"><i class="fas fa-code-branch mr-2"></i>Version Control</li>
+                            </ul>
+                        </div>
+
+                        <!-- Problem Solving -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg transform hover:scale-105 transition-transform border border-gray-200 dark:border-gray-700">
+                            <h3 class="text-xl font-semibold mb-4 text-purple-600 dark:text-purple-400">Problem Solving</h3>
+                            <ul class="space-y-3 text-gray-700 dark:text-gray-300">
+                                <li class="flex items-center"><i class="fas fa-brain mr-2"></i>Algorithms</li>
+                                <li class="flex items-center"><i class="fas fa-chart-bar mr-2"></i>Data Structures</li>
+                                <li class="flex items-center"><i class="fas fa-puzzle-piece mr-2"></i>Competitive Programming</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Projects Section -->
+               
+                <!-- Contact Section -->
+                <section class="relative">
+                    <h2 class="text-3xl font-bold mb-6 text-gray-800 dark:text-white flex items-center">
+                        <span class="mr-3">Let's Connect</span>
+                        <div class="h-1 flex-grow bg-gradient-to-r from-purple-600 to-blue-600 rounded"></div>
+                    </h2>
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-xl border border-gray-200 dark:border-gray-700 backdrop-blur-lg">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="space-y-4">
+                                <h3 class="text-2xl font-semibold text-purple-600 dark:text-purple-400">Get in Touch</h3>
+                                <p class="text-gray-700 dark:text-gray-300">Feel free to reach out for collaborations or just a friendly hello</p>
+                                <div class="flex flex-wrap gap-4">
+                                    <a href="https://github.com/Matnazar-Matnazarov" target="_blank" class="flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                                        <i class="fab fa-github mr-2 text-xl"></i>GitHub Profile
+                                    </a>
+                                    <a href="https://linkedin.com/in/matnazar-matnazarov" target="_blank" class="flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-400 text-white rounded-lg hover:from-blue-700 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                                        <i class="fab fa-linkedin mr-2 text-xl"></i>LinkedIn
+                                    </a>
+                                    <a href="mailto:matnazar@example.com" class="flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-green-400 text-white rounded-lg hover:from-green-700 hover:to-green-500 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                                        <i class="fas fa-envelope mr-2 text-xl"></i>Email Me
+                                    </a>
+                                    <a href="https://t.me/matnazar" target="_blank" class="flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-lg hover:from-blue-600 hover:to-cyan-500 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                                        <i class="fab fa-telegram mr-2 text-xl"></i>Telegram
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="relative overflow-hidden rounded-xl h-full min-h-[200px] bg-gradient-to-r from-purple-600/20 to-blue-600/20 p-6 backdrop-blur-sm">
+                                    <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+                                    <div class="relative z-10">
+                                        <h4 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Quick Contact</h4>
+                                        <div class="space-y-3">
+                                            <p class="flex items-center text-gray-700 dark:text-gray-300">
+                                                <i class="fas fa-map-marker-alt w-6"></i>
+                                                Xorazm, Uzbekistan
+                                            </p>
+                                            <p class="flex items-center text-gray-700 dark:text-gray-300">
+                                                <i class="fas fa-phone w-6"></i>
+                                                +998 99 999 99 99
+                                            </p>
+                                            <p class="flex items-center text-gray-700 dark:text-gray-300">
+                                                <i class="fas fa-envelope w-6"></i>
+                                                matnazar@example.com
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <script src="../static/js/devoloper.js"></script>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

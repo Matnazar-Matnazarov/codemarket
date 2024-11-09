@@ -1,73 +1,81 @@
 JAZZMIN_SETTINGS = {
-    "site_title": "Django Admin",
-    "site_header": "Management System",
-    "site_brand": "Django Admin",
-    # "login_logo": "img/login_logo.png",
-    # "login_logo_dark": "img/login_logo_dark.png",
+    # Site Configuration
+    "site_title": "CodeMarket Admin",
+    "site_header": "CodeMarket Management System",
+    "site_brand": "CodeMarket",
     "site_logo_classes": "img-circle",
-    # "site_icon": "img/favicon.ico",
-    "welcome_sign": "Welcome to the Library Admin Panel",
-    "copyright": "Acme Library Ltd",
+    "welcome_sign": "Welcome to CodeMarket Admin Panel",
+    "copyright": "CodeMarket © 2024",
     "user_avatar": "profile_picture",
-    # Top Menu
+    # Navigation Configuration
     "topmenu_links": [
-        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Dashboard", "url": "admin:index", "permissions": ["auth.view_user"]},
         {"model": "accounts.customuser"},
-        {"model": "app1.Genre"},
-        {"model": "app1.Author"},
-        {"model": "app1.Music_file"},
-        {"model": "app1.Music"},
-        {"model": "app1.UserComment"},
-        {"model": "app1.TelegramUser"},
+        {"model": "projects.project"},
+        {"model": "projects.comment"},
+        {"model": "projects.projectbase"},
+        {"model": "projects.projectimage"},
+        {"model": "projects.projectlanguage"},
     ],
-    # User Menu
+    # User Menu Configuration
     "usermenu_links": [
-        {"name": "Support", "url": "https://support.example.com", "new_window": True},
+        {
+            "name": "Documentation",
+            "url": "https://docs.codemarket.com",
+            "new_window": True,
+        },
+        {
+            "name": "Support",
+            "url": "https://support.codemarket.com",
+            "new_window": True,
+        },
     ],
-    # Side Menu
+    # Sidebar Configuration
     "show_sidebar": True,
     "navigation_expanded": True,
-    # "hide_apps": ['hitcount'],
     "hide_models": [],
-    "order_with_respect_to": ["auth", "app1", "accounts", "customuser"],
-    # Icons
+    "order_with_respect_to": ["auth", "accounts", "projects"],
+    # Icons Configuration
     "icons": {
-        "auth": "fas fa-users-cog",
-        # "auth.user": "fas fa-user",
+        # Authentication & Users
+        "auth": "fas fa-shield-alt",
         "accounts.customuser": "fas fa-user",
         "auth.Group": "fas fa-users",
-        "app1.Genre": "fas fa-tag",
-        "app1.Author": "fas fa-user-edit",
-        "app1.Music_file": "fas fa-file-audio",
-        "app1.Music": "fas fa-music",
-        "app1.user_comment": "fas fa-comments",
-        "app1.telegram_user": "fas fa-people-carry",
+        # Projects
+        "projects.project": "fas fa-project-diagram",
+        "blog.comment": "fas fa-comments",
+        "projects.projectbase": "fas fa-database",
+        "projects.projectimage": "fas fa-image",
+        "blog.post": "fas fa-pencil-alt",
+        "projects.modelprojectcomment": "fas fa-check-circle",
+        "projects.projectlanguage": "fas fa-code",
+        # Security & Monitoring
+        "admin_honeypot.LoginAttempt": "fas fa-user-shield",
+        "token_blacklist.BlacklistedToken": "fas fa-ban",
+        "token_blacklist.OutstandingToken": "fas fa-history",
+        # Analytics
         "hitcount.hitcount": "fas fa-chart-line",
-        "hitcount.blacklistip": "fas fa-ban",  # Icon for Blacklisted IPs
-        "hitcount.blacklistuseragent": "fas fa-user-secret",  # Icon for Blacklisted User Agents
-        "hitcount.hit": "fas fa-crown",
-        "easyaudit.LoginEvent": "fas fa-file-alt",  # Requests audit uchun
-        "easyaudit.ModelChangeEvent": "fas fa-history",  # Model changes audit
-        "easyaudit.CRUDEvent": "fas fa-tasks",  # CRUD event audit
-        # CRUD uchun alohida iconlar
-        "easyaudit.CRUDEvent.CREATE": "fas fa-plus-circle",  # Create uchun
-        "easyaudit.CRUDEvent.UPDATE": "fas fa-edit",  # Update uchun
-        "easyaudit.CRUDEvent.DELETE": "fas fa-trash",  # Delete uchun
+        "hitcount.blacklistip": "fas fa-user-slash",
+        "hitcount.blacklistuseragent": "fas fa-user-secret",
+        "hitcount.hit": "fas fa-chart-bar",
     },
-    "default_icon_parents": "fas fa-chevron-circle-right",
-    "default_icon_children": "fas fa-circle",
-    # Related Modal
+    # Default Icons
+    "default_icon_parents": "fas fa-folder",
+    "default_icon_children": "fas fa-file",
+    # UI Configuration
     "related_modal_active": False,
-    # UI Tweaks
-    "custom_css": "css/custom_admin.css",
-    "custom_js": "js/custom_admin.js",
+    "custom_css": "css/admin/custom.css",
+    "custom_js": "js/admin/custom.js",
     "use_google_fonts_cdn": True,
     "show_ui_builder": True,
-    # Change view
+    # Form Display Configuration
     "changeform_format": "horizontal_tabs",
     "changeform_format_overrides": {
         "auth.user": "collapsible",
         "auth.group": "vertical_tabs",
     },
+    # Additional Features
     "language_chooser": True,
+    "search_model": "accounts.customuser",
+    "show_ui_builder": True,
 }

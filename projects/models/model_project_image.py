@@ -25,7 +25,7 @@ class ProjectImage(ModelBase):
         ]
 
     def __str__(self):
-        return self.image
+        return str(self.image)
 
     def save(self, *args, **kwargs):
         if not self.slug:

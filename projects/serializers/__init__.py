@@ -1,4 +1,4 @@
 from .serializer_language import ProjectLanguageSerializer
 from .serializer_image import ProjectImageSerializer
 from .serializer_database import ProjectBaseSerializer
-from .serializer_project import Project
+from .serializer_project import ProjectSerializer

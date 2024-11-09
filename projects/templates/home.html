@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main class="pt-20 pb-12">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12">
+        <!-- Hero Section -->
+        <div class="text-center space-y-4 sm:space-y-6 mb-8 sm:mb-12 mt-8 sm:mt-16">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold px-4">
+                <span class="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Welcome to CodeMarket</span>
+            </h1>
+            <p class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto px-4">Discover high-quality code resources, tutorials, and digital products for developers</p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 pt-4 px-4">
+                <a href="#" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:from-purple-700 hover:to-blue-700 transform hover:scale-105 transition-all duration-300">
+                    <i class="fas fa-shopping-cart mr-2"></i>
+                    Browse Products
+                </a>
+                <a href="#" class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full border-2 border-purple-600 text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-gray-800 transform hover:scale-105 transition-all duration-300">
+                    <i class="fas fa-book-open mr-2"></i>
+                    Read Blog
+                </a>
+            </div>
+        </div>
+
+        <!-- Analytics Section -->
+        <div class="mt-8 sm:mt-16">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 border border-gray-100 dark:border-gray-700">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
+                    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Market Analytics</h2>
+                    <div class="flex flex-wrap w-full sm:w-auto gap-2">
+                        <button class="flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg bg-purple-50 dark:bg-gray-700 text-purple-600 dark:text-purple-400 hover:bg-purple-100 transition-colors text-sm sm:text-base" data-filter="week">Weekly</button>
+                        <button class="flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400 hover:bg-blue-100 transition-colors text-sm sm:text-base" data-filter="month">Monthly</button>
+                        <button class="flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg bg-green-50 dark:bg-gray-700 text-green-600 dark:text-green-400 hover:bg-green-100 transition-colors text-sm sm:text-base" data-filter="year">Yearly</button>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                    <div class="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-700 dark:to-gray-600 p-4 sm:p-6 rounded-xl">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-base sm:text-lg font-semibold text-gray-800 dark:text-white">Total Sales</h3>
+                            <i class="fas fa-chart-line text-purple-600 dark:text-purple-400 text-lg sm:text-xl"></i>
+                        </div>
+                        <p class="text-2xl sm:text-3xl font-bold text-purple-600 dark:text-purple-400 mt-2">${{ summary_stats.total_sales|floatformat:2 }}</p>
+                        <span class="text-sm flex items-center mt-2 text-green-500">
+                            <i class="fas fa-arrow-up mr-1"></i> +15.3%
+                        </span>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-700 dark:to-gray-600 p-4 sm:p-6 rounded-xl">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-base sm:text-lg font-semibold text-gray-800 dark:text-white">Active Users</h3>
+                            <i class="fas fa-users text-blue-600 dark:text-blue-400 text-lg sm:text-xl"></i>
+                        </div>
+                        <p class="text-2xl sm:text-3xl font-bold text-blue-600 dark:text-blue-400 mt-2">{{ summary_stats.active_users }}</p>
+                        <span class="text-sm flex items-center mt-2 text-green-500">
+                            <i class="fas fa-arrow-up mr-1"></i> +22.4%
+                        </span>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-700 dark:to-gray-600 p-4 sm:p-6 rounded-xl">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-base sm:text-lg font-semibold text-gray-800 dark:text-white">Conversion Rate</h3>
+                            <i class="fas fa-percentage text-green-600 dark:text-green-400 text-lg sm:text-xl"></i>
+                        </div>
+                        <p class="text-2xl sm:text-3xl font-bold text-green-600 dark:text-green-400 mt-2">{{ summary_stats.conversion_rate }}%</p>
+                        <span class="text-sm flex items-center mt-2 text-green-500">
+                            <i class="fas fa-arrow-up mr-1"></i> +5.2%
+                        </span>
+                    </div>
+                </div>
+
+                <section class="w-full">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 border border-gray-100 dark:border-gray-700">
+                        <h2 class="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-4 sm:mb-6">Sales Analytics</h2>
+                        
+                        <div class="w-full h-[300px] sm:h-[400px]" id="salesChart"></div>
+    
+                        <div class="mt-6 sm:mt-8 -mx-4 sm:mx-0 overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead>
+                                    <tr>
+                                        <th class="px-4 sm:px-6 py-2 sm:py-3 bg-gray-50 dark:bg-gray-700 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Project</th>
+                                        <th class="px-4 sm:px-6 py-2 sm:py-3 bg-gray-50 dark:bg-gray-700 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Month</th>
+                                        <th class="px-4 sm:px-6 py-2 sm:py-3 bg-gray-50 dark:bg-gray-700 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Sales</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700" id="salesTable">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="{% static 'js/chart_analytics.js' %}"></script>
+
+</main>
+
+{% endblock %}

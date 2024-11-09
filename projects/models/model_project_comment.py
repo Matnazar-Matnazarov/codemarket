@@ -1,6 +1,6 @@
 from django.db import models
 from accounts.models import CustomUser
-from .model_comment import ModelComment
+from blog.models.model_comment import ModelComment
 from .model_project import Project
 
 
