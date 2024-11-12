@@ -9,7 +9,7 @@ class ProjectBase(ModelBase):
         upload_to="project_base/",
         null=True,
         blank=True,
-        validators=[FileExtensionValidator(allowed_extensions=["png", "jpg", 'webp'])],
+        validators=[FileExtensionValidator(allowed_extensions=["png", "jpg", "webp"])],
     )
 
     class Meta:

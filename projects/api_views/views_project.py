@@ -23,10 +23,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
     Combines list and detail views into a single class.
     """
 
-    queryset = (
-        Project.objects.prefetch_related("database", "technology", "images", "star")
-        .all()
-    )
+    queryset = Project.objects.prefetch_related(
+        "database", "technology", "images", "star"
+    ).all()
     serializer_class = ProjectSerializer
     pagination_class = ProjectPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -53,7 +52,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
-        response.data = self.get_response_data(serializer_data=response.data, response=response)
+        response.data = self.get_response_data(
+            serializer_data=response.data, response=response
+        )
         return response
 
     def retrieve(self, request, *args, **kwargs):

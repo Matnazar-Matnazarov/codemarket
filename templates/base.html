@@ -5,15 +5,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="CodeMarket - Your marketplace for code" />
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/mobil.css' %}" />
     <script src="{% static 'js/tailwinds.js' %}"></script>
+    
     <script>
         tailwind.config = {
             darkMode: "class"
         };
     </script>
 
-    <link rel="stylesheet" href="{% static 'css/mobile.css' %}" />
     <script src="{% static 'js/dark_tool.js' %}"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -27,21 +29,21 @@
             document.documentElement.classList.add("dark");
         }
     </script>
-
     <title>CodeMarket - Home</title>
 </head>
 
+
 <body class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/50 z-40 lg:hidden mobile-menu-overlay"></div>
+    <div id="mobile-menu-overlay" class="fixed inset-0 z-40 bg-black/50 lg:hidden mobile-menu-overlay"></div>
 
     <div class="flex min-h-screen">
         <!-- Sidebar for mobile -->
         <div id="mobile-menu"
-            class="lg:hidden fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-900 transform -translate-x-full transition-transform duration-300 ease-in-out z-50">
+            class="fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out transform -translate-x-full bg-white lg:hidden dark:bg-gray-900">
             <div class="p-4 border-b dark:border-gray-700">
                 <div class="flex items-center justify-between">
                     <a href="#"
-                        class="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">CodeMarket</a>
+                        class="text-xl font-bold text-transparent bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text">CodeMarket</a>
                     <button onclick="toggleMobileMenu()"
                         class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
                         <i class="fas fa-times"></i>
@@ -49,37 +51,37 @@
                 </div>
             </div>
             <nav class="flex-1 p-4 space-y-2">
-                <a href="#"
-                    class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
-                    <i class="fas fa-home mr-3"></i>
+                <a href="{%url 'homeview' %}"
+                    class="flex items-center px-4 py-2 text-gray-700 rounded-lg dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800">
+                    <i class="mr-3 fas fa-home"></i>
                     Home
                 </a>
-                <a href="#"
-                    class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
-                    <i class="fas fa-store mr-3"></i>
+                <a href="{% url 'products' %}"
+                    class="flex items-center px-4 py-2 text-gray-700 rounded-lg dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800">
+                    <i class="mr-3 fas fa-store"></i>
                     Products
                 </a>
                 <a href="#"
-                    class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
-                    <i class="fas fa-shopping-cart mr-3"></i>
+                    class="flex items-center px-4 py-2 text-gray-700 rounded-lg dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800">
+                    <i class="mr-3 fas fa-shopping-cart"></i>
                     Cart
                 </a>
                 <a href="#"
-                    class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
-                    <i class="fas fa-info-circle mr-3"></i>
+                    class="flex items-center px-4 py-2 text-gray-700 rounded-lg dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800">
+                    <i class="mr-3 fas fa-info-circle"></i>
                     About
                 </a>
             </nav>
             <div class="p-4 border-t dark:border-gray-700">
                 <button onclick="toggleDarkMode()"
-                    class="w-full flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg mb-2">
-                    <i class="fas fa-moon dark:hidden mr-3"></i>
-                    <i class="fas fa-sun hidden dark:block mr-3"></i>
+                    class="flex items-center w-full px-4 py-2 mb-2 text-gray-700 rounded-lg dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800">
+                    <i class="mr-3 fas fa-moon dark:hidden"></i>
+                    <i class="hidden mr-3 fas fa-sun dark:block"></i>
                     Toggle Dark Mode
                 </button>
                 <a href="#"
-                    class="w-full flex items-center px-4 py-2 text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 rounded-lg">
-                    <i class="fas fa-sign-in-alt mr-3"></i>
+                    class="flex items-center w-full px-4 py-2 text-white rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+                    <i class="mr-3 fas fa-sign-in-alt"></i>
                     Login
                 </a>
             </div>
@@ -87,58 +89,58 @@
 
         <!-- Main content -->
         <div class="flex-1">
-            <header class="fixed top-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-sm z-30">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between items-center h-16">
+            <header class="fixed top-0 left-0 right-0 z-30 shadow-sm bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm">
+                <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between h-16">
                         <div class="flex-shrink-0">
                             <a href="#"
-                                class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent hover:from-purple-700 hover:to-blue-700 transition-all">CodeMarket</a>
+                                class="text-2xl font-bold text-transparent transition-all bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text hover:from-purple-700 hover:to-blue-700">CodeMarket</a>
                         </div>
 
                         <button type="button"
-                            class="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-purple-600 hover:bg-purple-50 dark:hover:bg-gray-800 focus:outline-none"
+                            class="inline-flex items-center justify-center p-2 text-gray-700 rounded-md lg:hidden dark:text-gray-300 hover:text-purple-600 hover:bg-purple-50 dark:hover:bg-gray-800 focus:outline-none"
                             onclick="toggleMobileMenu()">
                             <span class="sr-only">Open main menu</span>
-                            <i class="fas fa-bars text-xl"></i>
+                            <i class="text-xl fas fa-bars"></i>
                         </button>
 
                         <!-- Desktop Navigation -->
                         <nav class="hidden lg:flex lg:items-center lg:space-x-8">
-                            <a href="#"
+                            <a href="{% url 'homeview' %}"
                                 class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
-                                <i class="fas fa-home mr-2"></i>
+                                <i class="mr-2 fas fa-home"></i>
                                 Home
                             </a>
-                            <a href="#"
+                            <a href="{% url 'products' %}"
                                 class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
-                                <i class="fas fa-store mr-2"></i>
+                                <i class="mr-2 fas fa-store"></i>
                                 Products
                             </a>
                             <a href="#"
                                 class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
-                                <i class="fas fa-shopping-cart mr-2"></i>
+                                <i class="mr-2 fas fa-shopping-cart"></i>
                                 Cart
                             </a>
                             <a href="#"
                                 class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
-                                <i class="fas fa-info-circle mr-2"></i>
+                                <i class="mr-2 fas fa-info-circle"></i>
                                 About
                             </a>
                             <button onclick="toggleDarkMode()"
                                 class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
                                 <i class="fas fa-moon dark:hidden"></i>
-                                <i class="fas fa-sun hidden dark:block"></i>
+                                <i class="hidden fas fa-sun dark:block"></i>
                             </button>
                             {% if user.is_authenticated %}
                             <a href="../templates/profile.html"
                                 class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
-                                <i class="fas fa-user mr-2"></i>
+                                <i class="mr-2 fas fa-user"></i>
                                 Profile
                             </a>
                             {% else %}
                             <a href="#"
-                                class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300">
-                                <i class="fas fa-sign-in-alt mr-2"></i>
+                                class="px-4 py-2 text-white transition-all duration-300 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+                                <i class="mr-2 fas fa-sign-in-alt"></i>
                                 Login
                             </a>
                             {% endif %}
@@ -147,69 +149,76 @@
                 </div>
             </header>
             {% block content %} {% endblock content %}
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
             <!-- Footer -->
             <footer
-                class="bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border-t border-gray-200 dark:border-gray-800">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                class="border-t border-gray-200 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 dark:border-gray-800">
+                <div class="px-4 py-16 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 gap-12 md:grid-cols-4">
                         <!-- Brand Section -->
-                        <div class="col-span-1 md:col-span-2 space-y-8">
+                        <div class="col-span-1 space-y-8 md:col-span-2">
                             <div>
                                 <a href="#" class="inline-block">
                                     <span
-                                        class="text-3xl font-extrabold bg-gradient-to-r from-purple-600 via-blue-500 to-blue-600 bg-clip-text text-transparent">CodeMarket</span>
+                                        class="text-3xl font-extrabold text-transparent bg-gradient-to-r from-purple-600 via-blue-500 to-blue-600 bg-clip-text">CodeMarket</span>
                                 </a>
-                                <p class="mt-4 text-base text-gray-600 dark:text-gray-400 leading-relaxed">
+                                <p class="mt-4 text-base leading-relaxed text-gray-600 dark:text-gray-400">
                                     Empowering developers with premium code resources and
                                     innovative digital solutions. Join our community of creators
                                     and builders.
                                 </p>
                             </div>
                             <div class="flex items-center space-x-6">
-                                <a href="#" class="transform hover:scale-110 transition-transform duration-300">
+                                <a href="#" class="transition-transform duration-300 transform hover:scale-110">
                                     <span class="sr-only">GitHub</span>
                                     <i
-                                        class="fab fa-github text-2xl text-gray-600 hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400"></i>
+                                        class="text-2xl text-gray-600 fab fa-github hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400"></i>
                                 </a>
-                                <a href="#" class="transform hover:scale-110 transition-transform duration-300">
+                                <a href="#" class="transition-transform duration-300 transform hover:scale-110">
                                     <span class="sr-only">Telegram</span>
                                     <i
-                                        class="fab fa-telegram text-2xl text-gray-600 hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400"></i>
+                                        class="text-2xl text-gray-600 fab fa-telegram hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400"></i>
                                 </a>
-                                <a href="#" class="transform hover:scale-110 transition-transform duration-300">
+                                <a href="#" class="transition-transform duration-300 transform hover:scale-110">
                                     <span class="sr-only">LinkedIn</span>
                                     <i
-                                        class="fab fa-linkedin text-2xl text-gray-600 hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400"></i>
+                                        class="text-2xl text-gray-600 fab fa-linkedin hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400"></i>
                                 </a>
                             </div>
                         </div>
 
                         <!-- Quick Links -->
                         <div class="space-y-6">
-                            <h3 class="text-lg font-bold text-gray-900 dark:text-white tracking-wide uppercase">
+                            <h3 class="text-lg font-bold tracking-wide text-gray-900 uppercase dark:text-white">
                                 Resources
                             </h3>
                             <ul class="space-y-4">
                                 <li>
                                     <a href="#"
-                                        class="group flex items-center text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-300">
-                                        <i class="fas fa-code mr-3 text-purple-500 group-hover:text-purple-600"></i>
+                                        class="flex items-center text-gray-600 transition-colors duration-300 group dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400">
+                                        <i class="mr-3 text-purple-500 fas fa-code group-hover:text-purple-600"></i>
                                         <span>Developer Community</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                        class="group flex items-center text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-300">
+                                        class="flex items-center text-gray-600 transition-colors duration-300 group dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400">
                                         <i
-                                            class="fas fa-book-open mr-3 text-purple-500 group-hover:text-purple-600"></i>
+                                            class="mr-3 text-purple-500 fas fa-book-open group-hover:text-purple-600"></i>
                                         <span>Documentation</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#"
-                                        class="group flex items-center text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-300">
+                                        class="flex items-center text-gray-600 transition-colors duration-300 group dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400">
                                         <i
-                                            class="fas fa-graduation-cap mr-3 text-purple-500 group-hover:text-purple-600"></i>
+                                            class="mr-3 text-purple-500 fas fa-graduation-cap group-hover:text-purple-600"></i>
                                         <span>Tutorials</span>
                                     </a>
                                 </li>
@@ -218,20 +227,20 @@
 
                         <!-- Contact Info -->
                         <div class="space-y-6">
-                            <h3 class="text-lg font-bold text-gray-900 dark:text-white tracking-wide uppercase">
+                            <h3 class="text-lg font-bold tracking-wide text-gray-900 uppercase dark:text-white">
                                 Contact
                             </h3>
                             <ul class="space-y-4">
                                 <li class="flex items-start space-x-3 text-gray-600 dark:text-gray-400">
-                                    <i class="fas fa-map-marker-alt mt-1 text-purple-500"></i>
+                                    <i class="mt-1 text-purple-500 fas fa-map-marker-alt"></i>
                                     <span>Innovation Center, Tashkent, Uzbekistan</span>
                                 </li>
                                 <li class="flex items-center space-x-3 text-gray-600 dark:text-gray-400">
-                                    <i class="fas fa-phone text-purple-500"></i>
+                                    <i class="text-purple-500 fas fa-phone"></i>
                                     <span>+998 99 999 99 99</span>
                                 </li>
                                 <li class="flex items-center space-x-3 text-gray-600 dark:text-gray-400">
-                                    <i class="fas fa-envelope text-purple-500"></i>
+                                    <i class="text-purple-500 fas fa-envelope"></i>
                                     <span>support@codemarket.uz</span>
                                 </li>
                             </ul>
@@ -239,8 +248,8 @@
                     </div>
 
                     <!-- Bottom Bar -->
-                    <div class="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
-                        <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                    <div class="pt-8 mt-16 border-t border-gray-200 dark:border-gray-700">
+                        <div class="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
                             <div class="flex items-center space-x-2">
                                 <span class="text-gray-600 dark:text-gray-400">&copy; 2024</span>
                                 <span class="font-medium text-purple-600 dark:text-purple-400">CodeMarket</span>
@@ -248,13 +257,13 @@
                             </div>
                             <div class="flex items-center space-x-8">
                                 <a href="#"
-                                    class="text-sm text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-300">Terms
+                                    class="text-sm text-gray-600 transition-colors duration-300 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400">Terms
                                     of Service</a>
                                 <a href="#"
-                                    class="text-sm text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-300">Privacy
+                                    class="text-sm text-gray-600 transition-colors duration-300 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400">Privacy
                                     Policy</a>
                                 <a href="#"
-                                    class="text-sm text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-300">Security</a>
+                                    class="text-sm text-gray-600 transition-colors duration-300 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400">Security</a>
                             </div>
                         </div>
                     </div>

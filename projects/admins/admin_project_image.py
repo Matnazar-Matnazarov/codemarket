@@ -7,7 +7,7 @@ from simple_history.admin import SimpleHistoryAdmin
 @admin.register(ProjectImage)
 class ProjectImageAdmin(SimpleHistoryAdmin):
     """ProjectImage modelining admin interfeysi."""
-    
+
     list_display = ("name", "image_preview", "created_at", "is_active", "is_deleted")
     list_filter = ("is_active", "is_deleted", "created_at", "updated_at")
     search_fields = ("name", "slug")
@@ -19,15 +19,7 @@ class ProjectImageAdmin(SimpleHistoryAdmin):
     fieldsets = (
         (
             "Asosiy ma'lumotlar",
-            {
-                "fields": (
-                    "name",
-                    "slug", 
-                    "image",
-                    "is_active",
-                    "is_deleted"
-                )
-            }
+            {"fields": ("name", "slug", "image", "is_active", "is_deleted")},
         ),
         (
             "Qo'shimcha ma'lumotlar",
@@ -74,6 +66,6 @@ class ProjectImageAdmin(SimpleHistoryAdmin):
         self.message_user(request, "Tanlangan rasmlar qayta tiklandi.")
 
     mark_active.short_description = "Tanlangan rasmlarni faollashtirish"
-    mark_inactive.short_description = "Tanlangan rasmlarni nofaollashtirish" 
+    mark_inactive.short_description = "Tanlangan rasmlarni nofaollashtirish"
     mark_deleted.short_description = "Tanlangan rasmlarni o'chirish"
     mark_undeleted.short_description = "Tanlangan rasmlarni qayta tiklash"

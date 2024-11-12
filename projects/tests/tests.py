@@ -1,6 +1,8 @@
 from django.test import TestCase
 from ..views.home import ProjectAnalysisView
 from django.urls import reverse
+
+
 # Create your tests here.
 # 0288D1
 class TestProjectAnalysisView(TestCase):

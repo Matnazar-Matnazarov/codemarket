@@ -4,15 +4,15 @@ from accounts.models import CustomUser
 
 
 class PostForm(forms.ModelForm):
-    name = forms.CharField(
-        max_length=50,
+    title = forms.CharField(
+        max_length=100,
         required=True,
         widget=forms.TextInput(
             attrs={"class": "form-control", "placeholder": "Enter post title"}
         ),
     )
     body = forms.CharField(
-        max_length=500,
+        max_length=1000,
         required=True,
         widget=forms.Textarea(
             attrs={
@@ -22,7 +22,7 @@ class PostForm(forms.ModelForm):
             }
         ),
     )
-    user = forms.ModelChoiceField(
+    author = forms.ModelChoiceField(
         queryset=CustomUser.objects.filter(is_active=True),
         required=True,
         widget=forms.Select(attrs={"class": "form-control"}),
@@ -30,16 +30,15 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ["name", "body", "user", "slug"]
+        fields = ["title", "body", "author"]
 
     def clean(self):
         cleaned_data = super().clean()
-        name = cleaned_data.get("name")
+        title = cleaned_data.get("title")
         body = cleaned_data.get("body")
-        user = cleaned_data.get("user")
-        slug = cleaned_data.get("slug")
+        author = cleaned_data.get("author")
 
-        if not name:
+        if not title:
             raise forms.ValidationError("Post title is required")
         if not body:
             raise forms.ValidationError("Post content is required")

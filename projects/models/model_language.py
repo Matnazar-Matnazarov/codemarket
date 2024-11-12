@@ -18,13 +18,13 @@ class ProjectLanguage(ModelBase):
         upload_to="project_language/",
         null=True,
         blank=True,
-        validators=[FileExtensionValidator(allowed_extensions=["png", "jpg", 'webp'])],
+        validators=[FileExtensionValidator(allowed_extensions=["png", "jpg", "webp"])],
     )
     technology_image = models.ImageField(
         upload_to="project_technology/",
         null=True,
         blank=True,
-        validators=[FileExtensionValidator(allowed_extensions=["png", "jpg", 'webp'])],
+        validators=[FileExtensionValidator(allowed_extensions=["png", "jpg", "webp"])],
     )
 
     class Meta:

@@ -6,6 +6,15 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    /* Qo'shilgan blur effekti - overlay uchun */
+    backdrop-filter: blur(12px);
+    /* Eski brauzerlar uchun webkit prefix */
+    -webkit-backdrop-filter: blur(24px);
+    /* 
+    Blur miqdorini o'zgartirish uchun:
+    - Kuchliroq blur: blur(12px) yoki undan yuqori
+    - Kuchsizroq blur: blur(4px) yoki undan past
+    */
 }
 
 .mobile-menu-overlay.active {

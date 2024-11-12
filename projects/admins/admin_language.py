@@ -3,6 +3,7 @@ from projects.models.model_language import ProjectLanguage
 from simple_history.admin import SimpleHistoryAdmin
 from .admin_project import ProjectTechnologyInline
 
+
 @admin.register(ProjectLanguage)
 class ProjectLanguageAdmin(SimpleHistoryAdmin):
     list_display = ("name", "technology", "language", "created_at", "is_active")

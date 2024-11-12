@@ -1,0 +1,25 @@
+.mobile-menu-open {
+    overflow: hidden;
+}
+
+.mobile-menu-overlay {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+#mobile-menu {
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-open #mobile-menu {
+    transform: translateX(0);
+}

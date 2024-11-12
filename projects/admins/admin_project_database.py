@@ -11,7 +11,7 @@ class ProjectBaseAdmin(SimpleHistoryAdmin):
     """
 
     list_display = ("name", "slug", "image", "created_at", "is_active", "is_deleted")
-    list_filter = ("is_active", "is_deleted", "created_at", "updated_at") 
+    list_filter = ("is_active", "is_deleted", "created_at", "updated_at")
     search_fields = ("name", "slug", "image")
     prepopulated_fields = {"slug": ("name",)}
     ordering = ("-created_at",)

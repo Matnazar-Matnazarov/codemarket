@@ -6,7 +6,7 @@ from simple_history.admin import SimpleHistoryAdmin
 @admin.register(Comment)
 class CommentAdmin(SimpleHistoryAdmin):
     list_display = (
-        "name",
+        "comment",
         "post",
         "user",
         "created_at",
@@ -14,7 +14,7 @@ class CommentAdmin(SimpleHistoryAdmin):
         "is_active",
     )
     list_filter = ("post", "user__email", "is_active", "created_at")
-    search_fields = ("name", "user__email", "comment")
+    search_fields = ("comment", "user__email")
     ordering = ("-created_at",)
     readonly_fields = (
         "created_at",
@@ -28,11 +28,9 @@ class CommentAdmin(SimpleHistoryAdmin):
             None,
             {
                 "fields": (
-                    "name",
-                    "slug",
+                    "comment",
                     "user",
                     "post",
-                    "comment",
                     "is_active",
                     "is_deleted",
                 )
@@ -51,5 +49,4 @@ class CommentAdmin(SimpleHistoryAdmin):
         ),
     )
 
-    prepopulated_fields = {"slug": ("name",)}
     history_list_display = ["status"]

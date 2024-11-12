@@ -1,13 +1,14 @@
-const images = [
-    "../images/Screenshot from 2024-11-02 12-44-42.png",
-    "../images/Komp2.png", 
-    "../images/Komp3.png",
-    "../images/Komp4.png"
-  ];
-  
+const images = [];
+const thumbnailContainer = document.getElementById('thumbnailContainer');
+if (thumbnailContainer) {
+    const thumbnails = thumbnailContainer.querySelectorAll('[data-image-url]');
+    thumbnails.forEach(thumbnail => {
+        images.push(thumbnail.dataset.imageUrl);
+    });
+}
   let currentImageIndex = 0;
   let autoplayInterval;
-
+console.log(images);
   function updateMainImage(index) {
     currentImageIndex = index;
     document.getElementById('mainImage').src = images[index];

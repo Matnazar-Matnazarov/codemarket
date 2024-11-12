@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<main class="pt-20 pb-12">
+    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="p-6 transition-all duration-300 border border-gray-100 shadow-xl bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-2xl sm:p-8 hover:shadow-2xl dark:border-gray-700">
+            <!-- Post Title and Content -->
+            <h1 class="mb-4 text-2xl font-bold text-transparent sm:text-3xl bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text">{{ blog_post.name }}</h1>
+            <div class="prose dark:prose-invert max-w-none">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-1">
+                            <i class="text-gray-500 far fa-eye"></i>
+                            <span class="text-gray-500">{{ blog_post.hit_count_generic.hits }}</span>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <i class="text-gray-500 far fa-comment"></i>
+                            <span class="text-gray-500">{{ blog_post.comments.count }}</span>
+                        </div>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                        By {{ blog_post.user.username }}
+                    </div>
+                </div>
+
+                {% if blog_post.image %}
+                <img src="{{ blog_post.image.url }}" alt="{{ blog_post.name }}" class="object-cover w-full h-64 mb-6 rounded-xl">
+                {% endif %}
+
+                <p class="mb-4 leading-relaxed text-gray-700 dark:text-gray-300">
+                    {{ blog_post.body }}
+                </p>
+
+                <div class="flex flex-wrap gap-2 mt-6">
+                    {% for tag in blog_post.tags.all %}
+                    <span class="px-3 py-1.5 rounded-full bg-purple-50 dark:bg-gray-700 text-purple-600 dark:text-purple-400 text-sm border border-purple-100 dark:border-gray-600">#{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="mt-10">
+                <h2 class="mb-6 text-xl font-semibold text-transparent bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text">Discussion ({{ blog_post.comments.count }})</h2>
+                
+                <!-- Comment Form -->
+                <form class="mb-8" method="post">
+                    {% csrf_token %}
+                    <div class="flex items-start space-x-4">
+                        <img src="{% static 'images/avatar-placeholder.jpg' %}" alt="Your Avatar" class="w-12 h-12 border-2 border-purple-500 rounded-full">
+                        <div class="flex-1">
+                            <textarea 
+                                name="comment"
+                                class="w-full px-4 py-3 text-gray-800 transition-all duration-300 bg-white border border-gray-200 rounded-xl dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-transparent" 
+                                rows="3" 
+                                placeholder="Share your thoughts or ask a question..."
+                            ></textarea>
+                            <div class="flex justify-end mt-3">
+                                <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                                    <i class="mr-2 fas fa-paper-plane"></i>Post Comment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                
+                <!-- Comments List -->
+                <div class="space-y-6">
+                    {% for comment in blog_post.comments.all %}
+                    <div class="p-5 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+                        <div class="flex items-center mb-3">
+                            <img src="{% static 'images/avatar-placeholder.jpg' %}" alt="{{ comment.user.username }}" class="w-12 h-12 border-2 border-gray-300 rounded-full">
+                            <div class="ml-4">
+                                <h3 class="font-semibold text-gray-800 dark:text-gray-200">{{ comment.user.username }}</h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">{{ comment.created_at|timesince }} ago</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 dark:text-gray-300">{{ comment.comment }}</p>
+                    </div>
+                    {% empty %}
+                    <div class="py-8 text-center">
+                        <p class="text-gray-500 dark:text-gray-400">No comments yet. Be the first to comment!</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

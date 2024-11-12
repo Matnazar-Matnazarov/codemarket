@@ -10,6 +10,7 @@ from pathlib import Path
 from datetime import timedelta
 from decouple import config
 from .jazzmin import JAZZMIN_SETTINGS
+
 # from .log_settings import LOG_FILE_PATH, LOGGING
 
 # Core Settings
@@ -98,13 +99,17 @@ TEMPLATES = [
 
 # Database Configuration
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("DB_NAME", "CodeMarket"),
-        "USER": os.environ.get("DB_USER", "postgres"),
-        "PASSWORD": os.environ.get("DB_PASSWORD", "password"),
-        "HOST": os.environ.get("DB_HOST", "localhost"),
-        "PORT": os.environ.get("DB_PORT", "5432"),
+    # "default": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     "NAME": os.environ.get("DB_NAME", "CodeMarket"),
+    #     "USER": os.environ.get("DB_USER", "postgres"),
+    #     "PASSWORD": os.environ.get("DB_PASSWORD", "password"),
+    #     "HOST": os.environ.get("DB_HOST", "localhost"),
+    #     "PORT": os.environ.get("DB_PORT", "5432"),
+    # }
+     "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -132,10 +137,10 @@ LANGUAGES = [
 
 # Static Files Configuration
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static/"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Default Primary Key Field
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -247,3 +252,5 @@ GOOGLE_OAUTH2_CLIENT_SECRET = config("GOOGLE_OAUTH2_CLIENT_SECRET")
 
 # Frontend URL for email verification
 # FRONTEND_URL = config("FRONTEND_URL", default="http://localhost:3000")
+
+

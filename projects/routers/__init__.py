@@ -1,3 +1,3 @@
-from .router_project import urlpatterns
+from .api import *
 
-__all__ = ["urlpatterns"]
+__all__ = ["project_router"]

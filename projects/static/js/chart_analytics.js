@@ -13,7 +13,7 @@ let filterValue = '';
 // Ma'lumotlarni olish
 async function fetchData() {
     try {
-        const response = await fetch('/projects/project-analysis/');
+        const response = await fetch('/project-analysis/');
         
         if (!response.ok) {
             throw new Error('Ma\'lumotlarni olishda xatolik yuz berdi');
@@ -42,7 +42,7 @@ async function fetchData() {
         projectSelector.appendChild(allProjectsBtn);
         salesData.projects.forEach(project => {
             const btn = document.createElement('button');
-            btn.className = 'w-full sm:w-auto px-3 sm:px-4 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-purple-100 dark:hover:bg-purple-900 transition-all text-sm sm:text-base';
+            btn.className = 'w-full px-3 py-2 text-sm font-medium text-gray-700 transition-all bg-gray-200 sm:w-auto sm:px-4 rounded-xl dark:bg-gray-700 dark:text-gray-300 hover:bg-purple-100 dark:hover:bg-purple-900 sm:text-base';
             btn.textContent = project.name;
             btn.onclick = () => {
                 selectedProject = project.name;
@@ -75,7 +75,7 @@ async function fetchData() {
 
 // Create filter and controls section first
 const filterControls = document.createElement('div');
-filterControls.className = 'flex flex-col sm:flex-row flex-wrap gap-4 items-center p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 mb-4 sm:mb-6';
+filterControls.className = 'flex flex-col flex-wrap items-center gap-4 p-4 mb-4 bg-white border border-gray-100 shadow-lg sm:flex-row sm:p-6 dark:bg-gray-800 rounded-xl dark:border-gray-700 sm:mb-6';
 
 // Year selector
 const yearSelector = document.createElement('select');
@@ -101,10 +101,10 @@ filterControls.appendChild(toggleButton);
 
 // Project selector section
 const projectSelector = document.createElement('div');
-projectSelector.className = 'flex flex-wrap gap-2 sm:gap-4 p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 mb-4 sm:mb-6';
+projectSelector.className = 'flex flex-wrap gap-2 p-4 mb-4 bg-white border border-gray-100 shadow-lg sm:gap-4 sm:p-6 dark:bg-gray-800 rounded-xl dark:border-gray-700 sm:mb-6';
 
 const allProjectsBtn = document.createElement('button');
-allProjectsBtn.className = 'w-full sm:w-auto px-3 sm:px-4 py-2 rounded-xl bg-purple-600 text-white font-medium hover:bg-purple-700 transition-all text-sm sm:text-base';
+allProjectsBtn.className = 'w-full px-3 py-2 text-sm font-medium text-white transition-all bg-purple-600 sm:w-auto sm:px-4 rounded-xl hover:bg-purple-700 sm:text-base';
 allProjectsBtn.textContent = 'All Projects';
 allProjectsBtn.onclick = () => {
     selectedProject = 'all';
@@ -122,9 +122,9 @@ function updateButtonStates() {
     projectSelector.querySelectorAll('button').forEach(btn => {
         if ((btn.textContent === 'All Projects' && selectedProject === 'all') ||
             btn.textContent === selectedProject) {
-            btn.className = 'w-full sm:w-auto px-3 sm:px-4 py-2 rounded-xl bg-purple-600 text-white font-medium hover:bg-purple-700 transition-all text-sm sm:text-base';
+            btn.className = 'w-full px-3 py-2 text-sm font-medium text-white transition-all bg-purple-600 sm:w-auto sm:px-4 rounded-xl hover:bg-purple-700 sm:text-base';
         } else {
-            btn.className = 'w-full sm:w-auto px-3 sm:px-4 py-2 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-purple-100 dark:hover:bg-purple-900 transition-all text-sm sm:text-base';
+            btn.className = 'w-full px-3 py-2 text-sm font-medium text-gray-700 transition-all bg-gray-200 sm:w-auto sm:px-4 rounded-xl dark:bg-gray-700 dark:text-gray-300 hover:bg-purple-100 dark:hover:bg-purple-900 sm:text-base';
         }
     });
 }
@@ -287,7 +287,7 @@ function createTableRow(project, monthIndex, year) {
     if (!project || !project.sales || !project.sales[year]) return null;
     
     const row = document.createElement('tr');
-    row.className = 'opacity-0 transform translate-y-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300';
+    row.className = 'transition-all duration-300 transform translate-y-4 opacity-0 hover:bg-gray-50 dark:hover:bg-gray-700';
     row.innerHTML = `
         <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
             <div class="flex items-center">
@@ -312,7 +312,7 @@ function updateTable() {
     
     if (!salesData.projects.length) return;
 
-    const monthsToShow = currentYear === '2024' ? 6 : 12;
+    const monthsToShow = currentYear === '2024' ? 11 : 12;
     let projectsToShow = selectedProject === 'all' ? 
         salesData.projects : 
         [salesData.projects.find(p => p.name === selectedProject)].filter(Boolean);

@@ -10,7 +10,7 @@ from hitcount.models import HitCount
 from django.contrib.contenttypes.fields import GenericRelation
 from .model_stars import Stars
 import uuid
-
+from django.db.models import Avg
 
 class Project(ModelBase):
     title = models.CharField(max_length=50, null=True, blank=True, db_index=True)
@@ -40,7 +40,9 @@ class Project(ModelBase):
         upload_to="projects/",
         null=True,
         blank=True,
-        validators=[FileExtensionValidator(allowed_extensions=["zip", "rar", "7zip",'webp'])],
+        validators=[
+            FileExtensionValidator(allowed_extensions=["zip", "rar", "7zip", "webp"])
+        ],
     )
     guid = models.UUIDField(
         primary_key=True,
@@ -55,8 +57,7 @@ class Project(ModelBase):
         object_id_field="object_pk",
         related_query_name="hit_count_generic_relation",
     )
-
-    class Meta:
+    class Mata:
         verbose_name = "Project"
         verbose_name_plural = "Projects"
         db_table = "projects"
@@ -70,18 +71,22 @@ class Project(ModelBase):
 
     def __str__(self):
         return self.name
-
+    
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(f"{self.name}-{str(self.guid)[:8]}-{self.url}")
+        try:
+            self.slug = slugify(f"{self.name}-{self.title}-{self.guid}")
+        except:
+            self.slug = slugify(f"{self.name}-{self.guid}")
         super().save(*args, **kwargs)
 
     @property
-    def main_image(self):
-        if self.images.exists():
-            return self.images.first()
+    def main_image(self) -> str | None:
+        image = self.images.first()
+        if image:
+            return str(image.image)
         return None
 
-    @property
-    def all_comments(self):
-        return self.modelprojectcomment_set.select_related("projects").all()
+  
+    # @property
+    # def average_stars(self):
+    #     return self.star.aggregate(Avg("stars"))["stars__avg"] or 0

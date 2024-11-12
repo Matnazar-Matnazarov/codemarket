@@ -39,45 +39,69 @@ class ProjectAdmin(SimpleHistoryAdmin):
     Admin interface for managing Project instances.
     Provides comprehensive project management functionality with advanced features.
     """
-    list_display = ('title', 'name', 'price', 'url', 'created_at', 'updated_at', 'is_active', 'is_deleted', 'star_count','display_technologies', 'display_databases')
-    list_filter = ('is_active', 'is_deleted', 'created_at', 'updated_at', 'technology', 'database')
-    search_fields = ('title', 'name', 'about', 'url', 'guid')
-    readonly_fields = ('guid', 'created_at', 'updated_at', )
+
+    list_display = (
+        "name",
+        "title",
+        "price",
+        "url",
+        "created_at",
+        "updated_at",
+        "is_active",
+        "is_deleted",
+        "star_count",
+        "display_technologies",
+        "display_databases",
+    )
+    list_filter = (
+        "is_active",
+        "is_deleted",
+        "created_at",
+        "updated_at",
+        "technology",
+        "database",
+    )
+    search_fields = ("title", "name", "about", "url", "guid")
+    readonly_fields = (
+        "guid",
+        "created_at",
+        "updated_at",
+    )
     inlines = [
         ProjectTechnologyInline,
         ProjectDatabaseInline,
         ProjectImageInline,
-        ProjectStarInline
+        ProjectStarInline,
     ]
-    exclude = ('technology', 'database', 'images', 'star')
-    
+    exclude = ("technology", "database", "images", "star")
+
     fieldsets = (
-        ('Basic Information', {
-            'fields': ('title', 'name', 'about', 'price', 'url', 'slug')
-        }),
-        ('Media', {
-            'fields': ('zip_file',)
-        }),
-        ('Status', {
-            'fields': ('is_active', 'is_deleted')
-        }),
-        ('System Fields', {
-            'classes': ('collapse',),
-            'fields': ('guid', 'created_at', 'updated_at')
-        })
+        (
+            "Basic Information",
+            {"fields": ("title", "name", "about", "price", "url", "slug")},
+        ),
+        ("Media", {"fields": ("zip_file",)}),
+        ("Status", {"fields": ("is_active", "is_deleted")}),
+        (
+            "System Fields",
+            {"classes": ("collapse",), "fields": ("guid", "created_at", "updated_at")},
+        ),
     )
 
     def display_technologies(self, obj) -> str:
-        return ", ".join([f'{tech.technology} - {tech.language}' for tech in obj.technology.all()])
-    display_technologies.short_description = 'Technologies'
+        return ", ".join([tech.technology for tech in obj.technology.all()])
+
+    display_technologies.short_description = "Technologies"
 
     def display_databases(self, obj) -> str:
         return ", ".join([db.name for db in obj.database.all()])
-    display_databases.short_description = 'Databases'
+
+    display_databases.short_description = "Databases"
 
     def star_count(self, obj):
         return obj.star.count()
-    star_count.short_description = 'Stars'
+
+    star_count.short_description = "Stars"
 
     def save_model(self, request, obj, form, change):
         if not obj.slug:
@@ -85,5 +109,5 @@ class ProjectAdmin(SimpleHistoryAdmin):
         super().save_model(request, obj, form, change)
 
     list_per_page = 25
-    date_hierarchy = 'created_at'
-    ordering = ('-created_at',)
+    date_hierarchy = "created_at"
+    ordering = ("-created_at",)

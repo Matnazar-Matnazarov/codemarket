@@ -1,63 +1,116 @@
 from django.views import View
 from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, JsonResponse
-from django.db.models import Sum, Count, Q, Prefetch, Avg, F, Aggregate
+from django.http import JsonResponse
+from django.db.models import (
+    Sum,
+    Count,
+    Prefetch,
+    F,
+    Case,
+    When,
+    FloatField,
+)
 from ..models.model_project import Project
 from ..models.model_database import ProjectBase
 from ..models.model_language import ProjectLanguage
-from ..models.model_project_buy import ModelProjectBuy
-
-
-class ProjectAllView(View):
+from django.utils import timezone
+from datetime import timedelta
+from ..models.model_project_image import ProjectImage
+from hitcount.models import HitCountMixin, HitCount
+from django.contrib import messages
+from ..models.model_stars import Stars
+from rest_framework import status
+from django.db import DataError
+from ..utils.project_detail import ProjectDetailFunc
+class ProjectView(View):
     def get(self, request):
+        technologies = (
+            ProjectLanguage.objects.filter(technology__isnull=False)
+            .order_by("created_at")
+            .values_list("technology", flat=True)
+            .distinct()
+        )
+        print(technologies)
+        return render(request, "product.html", {"technologies": technologies})
+
+
+class ProjectJsonView(View):
+    def get(self, request):
+        # Yangi loyiha deb hisoblanadigan sanani o'rnatish
+        cutoff_date = timezone.now() - timedelta(days=7)
+
+        # Loyihalarni oldindan yuklash va agregatsiya qilish
         projects = (
-            Project.objects.select_related("user")
-            .prefetch_related("images", "technology", "database", "main_image", "stars")
-            .annotate(average_stars=Avg("stars__stars"))
-        ).filter(is_active=True)
-        technologies = ProjectLanguage.objects.all()
-        databases = ProjectBase.objects.all()
-        context = {
-            "projects": projects,
-            "technologies": technologies,
-            "databases": databases,
-        }
-        return render(request, "project.html", context)
+            Project.objects.prefetch_related(
+                Prefetch("images", queryset=ProjectImage.objects.only("image")),
+                Prefetch(
+                    "technology", queryset=ProjectLanguage.objects.only("technology")
+                ),
+                Prefetch("database", queryset=ProjectBase.objects.only("name")),
+                Prefetch("star", queryset=Stars.objects.only("stars")),
+            )
+            .filter(is_active=True)
+            .annotate(
+                total_stars=Sum("star__stars", default=0),
+                total_users=Count("star"),
+                rating=Case(
+                    When(total_users=0, then=0.0),
+                    default=F("total_stars") * 1.0 / F("total_users"),
+                    output_field=FloatField(),
+                ),
+                is_new=Case(
+                    When(created_at__gte=cutoff_date, then=True),
+                    default=False,
+                    output_field=FloatField(),
+                ),
+            )
+            .only("slug", "title", "about", "price", "created_at")
+        )
+
+        # Ma'lumotlarni JSON formatiga o‘zgartirish
+        project_list = []
+        for project in projects:
+            all_technologies = [
+                tech.technology for tech in project.technology.all()
+            ] + [db.name for db in project.database.all()]
+            main_image_url = project.images.first()
+
+            project_dict = {
+                "slug": str(project.slug),
+                "title": project.title,
+                "description": project.about,
+                "image": str(main_image_url.image) if main_image_url else None,
+                "price": float(project.price) if project.price else 0.0,
+                "rating": round(project.rating or 0, 1),
+                "category": "new" if project.is_new else "popular",
+                "technologies": all_technologies,
+                "uploadDate": (
+                    project.created_at.strftime("%Y-%m-%d")
+                    if project.created_at
+                    else None
+                ),
+                "badge": "New" if project.is_new else "Popular",
+            }
+            project_list.append(project_dict)
+
+        return JsonResponse({"products": project_list}, safe=False, status=status.HTTP_200_OK)
 
 
 class ProjectDetailView(View):
     def get(self, request, slug):
-        project = Project.objects.prefetch_related("images", "technology", "database", "main_image", "stars").filter(slug=slug).first()
+        project = ProjectDetailFunc(slug=slug)
         if not project:
-            return redirect(
-                reverse("projects:project_all") + "?error=project_not_found"
-            )
-        context = {"project": project}
+            messages.error(request, "Project not found")
+            return redirect("products")
+        # Cache the hit count
+        try:
+            hit_count = HitCount.objects.get_for_object(project)
+            HitCountMixin.hit_count(request, hit_count)
+        except (HitCount.DoesNotExist, ValueError, DataError):
+            hit_count = None
+        context = {
+            "project":project,
+            "hit_count": hit_count,
+        }
         return render(request, "project_detail.html", context)
 
-    def post(self, request, slug):
-        if request.user.is_authenticated:
-            project = Project.objects.filter(slug=slug).first()
-            if not project:
-                return redirect(
-                    reverse("projects:project_all") + "?error=project_not_found"
-                )
-            check = ModelProjectBuy.objects.create(project=project, user=request.user)
-            if check:
-                return redirect(
-                    reverse("projects:project_detail", kwargs={"slug": slug})
-                    + "?success=project_bought"
-                )
-            else:
-                return redirect(
-                    reverse("projects:project_detail", kwargs={"slug": slug})
-                    + "?error=project_already_bought"
-                )
-        else:
-            return redirect(
-                reverse("accounts:login")
-                + "?next="
-                + reverse("projects:project_detail", kwargs={"slug": slug})
-            )

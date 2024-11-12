@@ -6,22 +6,11 @@ from accounts.models import CustomUser
 
 
 class CommentForm(forms.ModelForm):
-    name = forms.CharField(
-        max_length=50,
-        required=True,
-        widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "Enter comment title"}
-        ),
-    )
-    body = forms.CharField(
+    comment = forms.CharField(
         max_length=500,
         required=True,
-        widget=forms.Textarea(
-            attrs={
-                "class": "form-control",
-                "placeholder": "Write your comment here",
-                "rows": 3,
-            }
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "Enter comment"}
         ),
     )
     user = forms.ModelChoiceField(
@@ -37,19 +26,16 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ["name", "body", "user", "post"]
+        fields = ["comment", "user", "post"]
 
     def clean(self):
         cleaned_data = super().clean()
-        name = cleaned_data.get("name")
-        body = cleaned_data.get("body")
+        comment = cleaned_data.get("comment")
         user = cleaned_data.get("user")
         post = cleaned_data.get("post")
 
-        if not name:
-            raise ValidationError("Comment title is required")
-        if not body:
-            raise ValidationError("Comment content is required")
+        if not comment:
+            raise ValidationError("Comment is required")
         if not user:
             raise ValidationError("User is required")
         if not post:

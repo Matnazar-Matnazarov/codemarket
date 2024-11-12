@@ -1,0 +1,95 @@
+/* Base styles */
+.login-container {
+  @apply max-w-md mx-auto px-4 sm:px-0;
+}
+
+.login-card {
+  @apply bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-6 sm:p-8 space-y-6 
+         border border-gray-100 transition-all duration-300
+         hover:-translate-y-1 hover:shadow-2xl;
+}
+
+/* Form elements */
+.form-group {
+  @apply relative space-y-1;
+}
+
+.form-input {
+  @apply w-full pl-10 pr-4 py-2.5 
+         border-2 border-gray-200 rounded-lg
+         bg-white/80
+         text-sm md:text-base
+         transition-all duration-300
+         focus:ring-2 focus:ring-purple-600/20 focus:border-purple-600;
+}
+
+.form-input-icon {
+  @apply absolute left-3 top-1/2 -translate-y-1/2 
+         text-gray-400 transition-colors duration-300
+         group-focus-within:text-purple-600;
+}
+
+/* Password visibility toggle */
+.password-toggle {
+  @apply absolute right-3 top-1/2 -translate-y-1/2
+         text-gray-400 hover:text-purple-600 
+         transition-colors duration-300
+         focus:outline-none focus:ring-2 focus:ring-purple-600/20 rounded-lg p-1;
+}
+
+/* Remember me checkbox */
+.remember-checkbox {
+  @apply w-4 h-4 rounded border-gray-300 
+         text-purple-600 
+         transition-colors duration-300
+         focus:ring-purple-500/20;
+}
+
+/* Submit button */
+.submit-button {
+  @apply w-full py-2.5 px-4
+         bg-gradient-to-r from-purple-600 to-blue-600
+         hover:from-purple-700 hover:to-blue-700
+         text-white font-medium rounded-lg
+         transition-all duration-300
+         transform hover:-translate-y-0.5
+         focus:ring-2 focus:ring-purple-600/20;
+}
+
+/* Responsive text */
+@media (max-width: 640px) {
+  .heading-text {
+    @apply text-xl;
+  }
+  
+  .body-text {
+    @apply text-sm;
+  }
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .form-layout {
+    @apply flex-col space-y-4;
+  }
+  
+  .form-group {
+    @apply w-full;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { 
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}

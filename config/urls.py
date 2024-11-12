@@ -14,6 +14,7 @@ from rest_framework_simplejwt.views import (
     TokenBlacklistView,
 )
 from django.views.generic import RedirectView
+from django.http import HttpResponse
 
 # API documentation schema configuration
 schema_view = get_schema_view(
@@ -50,6 +51,8 @@ urlpatterns = [
     path("silk/", include("silk.urls", namespace="silk")),  # Performance profiling
     # Internationalization
     path("i18n/", set_language, name="set_language"),
+    # Application URLs
+    path("", include("projects.urls")),
     # Authentication URLs
     path("accounts/", include("django.contrib.auth.urls")),
     path("api/v1/drf-auth/", include("rest_framework.urls")),
@@ -72,8 +75,6 @@ urlpatterns = [
         RedirectView.as_view(url="/swagger/", permanent=True),
         name="api-docs",
     ),
-    # Application URLs
-    path("projects/", include("projects.urls")),
+    path("blog/", include("blog.urls")),
     # Default redirect
-    path("", RedirectView.as_view(url="/api-docs/", permanent=True), name="index"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

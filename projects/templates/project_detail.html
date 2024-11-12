@@ -1,154 +1,7 @@
-<!DOCTYPE html>
-<html lang="en" class="light">
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="CodeMarket - Project Details" />
-  <link rel="stylesheet" href="../static/css/style.css" />
-  <script src="../static/js/tailwinds.js"></script>
-  <link rel="stylesheet" href="../static/css/mobil.css" />
-  <script src="../static/js/dark_tool.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <title>CodeMarket - Project Details</title>
-  <script>
-    tailwind.config = {
-      darkMode: 'class'
-    }
-  </script>
-  <script>
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        document.documentElement.className = savedTheme;
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.documentElement.classList.add('dark');
-    }
-</script>
-</head>
-
-<body class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen">
-  <header class="fixed top-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-sm z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <div class="flex-shrink-0">
-          <a href="../templates/home.html"
-            class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent hover:from-purple-700 hover:to-blue-700 transition-all"
-            aria-label="CodeMarket Home">CodeMarket</a>
-        </div>
-
-        <!-- Mobile menu button -->
-        <button type="button"
-          class="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-purple-600 hover:bg-purple-50 dark:hover:bg-gray-800 focus:outline-none"
-          aria-controls="mobile-menu" aria-expanded="false" onclick="toggleMobileMenu()">
-          <span class="sr-only">Open main menu</span>
-          <i class="fas fa-bars text-2xl"></i>
-        </button>
-
-        <!-- Desktop navigation -->
-        <nav aria-label="Main navigation" class="hidden lg:block">
-          <ul class="flex space-x-8 items-center">
-            <li>
-              <a href="../templates/home.html"
-                class="flex items-center text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-gray-800 px-3 py-2 rounded-lg transition-all"
-                aria-current="page">
-                <i class="fas fa-home mr-2" aria-hidden="true"></i>
-                <span>Home</span>
-              </a>
-            </li>
-            <li>
-              <a href="../templates/product.html"
-                class="flex items-center text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-gray-800 px-3 py-2 rounded-lg transition-all">
-                <i class="fas fa-store mr-2" aria-hidden="true"></i>
-                <span>Products</span>
-              </a>
-            </li>
-            <li>
-              <a href="../templates/product_purchases.html"
-                class="flex items-center text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-gray-800 px-3 py-2 rounded-lg transition-all">
-                <i class="fas fa-shopping-cart mr-2" aria-hidden="true"></i>
-                <span>Cart</span>
-              </a>
-            </li>
-            <li>
-              <a href="#"
-                class="flex items-center text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-gray-800 px-3 py-2 rounded-lg transition-all">
-                <i class="fas fa-info-circle mr-2" aria-hidden="true"></i>
-                <span>About</span>
-              </a>
-            </li>
-            <li>
-              <button onclick="toggleDarkMode()"
-                class="flex items-center text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-gray-800 px-3 py-2 rounded-lg transition-all"
-                aria-label="Toggle dark mode">
-                <i class="fas fa-moon dark:hidden" aria-hidden="true"></i>
-                <i class="fas fa-sun hidden dark:block" aria-hidden="true"></i>
-              </button>
-            </li>
-            <li>
-              <a href="../templates/login.html"
-                class="flex items-center text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 font-medium px-4 py-2 rounded-lg transition-all">
-                <i class="fas fa-sign-in-alt mr-2" aria-hidden="true"></i>
-                <span>Login</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </header>
-
-  <!-- Mobile menu -->
-  <div id="mobile-menu"
-    class="lg:hidden fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-900 transform -translate-x-full transition-transform duration-300 ease-in-out z-50">
-    <div class="p-4 border-b dark:border-gray-700">
-      <div class="flex items-center justify-between">
-        <a href="../templates/home.html"
-          class="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">CodeMarket</a>
-        <button onclick="toggleMobileMenu()"
-          class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-    </div>
-    <nav class="flex-1 p-4 space-y-2">
-      <a href="../templates/home.html"
-        class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
-        <i class="fas fa-home mr-3"></i>
-        Home
-      </a>
-      <a href="../templates/product.html"
-        class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
-        <i class="fas fa-store mr-3"></i>
-        Products
-      </a>
-      <a href="../templates/product_purchases.html"
-        class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
-        <i class="fas fa-shopping-cart mr-3"></i>
-        Cart
-      </a>
-      <a href="#"
-        class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
-        <i class="fas fa-info-circle mr-3"></i>
-        About
-      </a>
-    </nav>
-    <div class="p-4 border-t dark:border-gray-700">
-      <button onclick="toggleDarkMode()"
-        class="w-full flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg mb-2">
-        <i class="fas fa-moon dark:hidden mr-3"></i>
-        <i class="fas fa-sun hidden dark:block mr-3"></i>
-        Toggle Dark Mode
-      </button>
-      <a href="../templates/login.html"
-        class="w-full flex items-center px-4 py-2 text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 rounded-lg">
-        <i class="fas fa-sign-in-alt mr-3"></i>
-        Login
-      </a>
-    </div>
-  </div>
+{% block content %}
 
   <main class="min-h-screen pt-24 pb-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -172,7 +25,13 @@
 
             <!-- Main Image Preview -->
             <div class="bg-gradient-to-br from-purple-50 to-blue-50 p-8 rounded-xl transform hover:scale-105 transition-all duration-300 relative group cursor-pointer" onclick="openModal(0)">
-              <img id="mainImage" src="../images/Screenshot from 2024-11-02 12-44-42.png" alt="Computer Lab Management System" class="w-full h-auto object-contain rounded-lg shadow-lg">
+              {% if project.images.first %}
+                <img id="mainImage" src="{{ project.images.first.image.url }}" alt="{{ project.title }}" class="w-full h-auto object-contain rounded-lg shadow-lg">
+              {% else %}
+                <div class="w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center">
+                  <i class="fas fa-image text-gray-400 text-4xl"></i>
+                </div>
+              {% endif %}
               <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-xl"></div>
               <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <i class="fas fa-expand text-white text-3xl"></i>
@@ -181,102 +40,99 @@
 
             <!-- Thumbnail Navigation -->
             <div class="grid grid-cols-4 gap-4" id="thumbnailContainer">
-              <div class="bg-gradient-to-br from-purple-50 to-blue-50 p-2 rounded-lg cursor-pointer hover:ring-2 hover:ring-purple-400 transform hover:scale-105 transition-all duration-300" onclick="updateMainImage(0)">
-                <img src="../images/Screenshot from 2024-11-02 12-44-42.png" alt="Dashboard View" class="w-full h-auto object-cover rounded">
-              </div>
-              <div class="bg-gradient-to-br from-purple-50 to-blue-50 p-2 rounded-lg cursor-pointer hover:ring-2 hover:ring-purple-400 transform hover:scale-105 transition-all duration-300" onclick="updateMainImage(1)">
-                <img src="../images/Komp2.png" alt="Computer Management" class="w-full h-auto object-cover rounded">
-              </div>
-              <div class="bg-gradient-to-br from-purple-50 to-blue-50 p-2 rounded-lg cursor-pointer hover:ring-2 hover:ring-purple-400 transform hover:scale-105 transition-all duration-300" onclick="updateMainImage(2)">
-                <img src="../images/Komp3.png" alt="User Interface" class="w-full h-auto object-cover rounded">
-              </div>
-              <div class="bg-gradient-to-br from-purple-50 to-blue-50 p-2 rounded-lg cursor-pointer hover:ring-2 hover:ring-purple-400 transform hover:scale-105 transition-all duration-300" onclick="updateMainImage(3)">
-                <img src="../images/Komp4.png" alt="Reports Section" class="w-full h-auto object-cover rounded">
-              </div>
+              {% for image in project.images.all %}
+                <div class="bg-gradient-to-br from-purple-50 to-blue-50 p-2 rounded-lg cursor-pointer hover:ring-2 hover:ring-purple-400 transform hover:scale-105 transition-all duration-300" 
+                     onclick="updateMainImage({{ forloop.counter0 }});"
+                     data-image-url="{{ image.image.url }}">
+                  <img src="{{ image.image.url }}" 
+                       alt="{{ project.title }} - Image {{ forloop.counter }}" 
+                       class="w-full h-auto object-cover rounded" loading="lazy">
+                </div>
+              {% endfor %}
             </div>
 
-            <script src="../static/js/product_detail_image.js"></script>
+            <script src="{% static 'js/product_detail_image.js' %}"></script>
           </div>
 
           <!-- Project Details Section -->
           <div class="space-y-6">
             <div>
               <h1 class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                Computer Laboratory Management System</h1>
-              <p class="mt-2 text-gray-600">A comprehensive web-based system for managing computer laboratory resources
-                and activities</p>
+                {{ project.title|default:"Untitled Project" }}</h1>
+              <p class="mt-2 text-gray-600">{{ project.about|linebreaks }}</p>
             </div>
 
             <div class="space-y-4">
               <div class="flex items-center space-x-2">
                 <span class="text-gray-600">Project Rating:</span>
                 <div class="flex text-yellow-400">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star-half-alt"></i>
+                  {% with ''|center:5 as range %}
+                    {% for _ in range %}
+                      {% if forloop.counter <= project.rating %}
+                        <i class="fas fa-star"></i>
+                      {% elif forloop.counter <= project.rating|add:0.5 %}
+                        <i class="fas fa-star-half-alt"></i>
+                      {% else %}
+                        <i class="far fa-star"></i>
+                      {% endif %}
+                    {% endfor %}
+                  {% endwith %}
                 </div>
-                <span class="text-gray-600">(4.5/5)</span>
+                <span class="text-gray-600">({{ project.rating|floatformat:1 }}/5)</span>
               </div>
 
               <div class="flex items-center space-x-2">
-                <span class="text-gray-600">Downloads:</span>
-                <span class="font-semibold">1,234</span>
+                <span class="text-gray-600">Views:</span>
+                <span class="font-semibold">{{ hit_count.hits|default:"0" }}</span>
               </div>
 
               <div class="flex items-center space-x-2">
                 <span class="text-gray-600">Last Updated:</span>
-                <span>February 2024</span>
+                <span>{{ project.updated_at|date:"F j, Y" }}</span>
               </div>
             </div>
 
             <div class="space-y-4">
-              <h2 class="text-xl font-semibold text-gray-800">Project Features</h2>
-              <ul class="space-y-3">
-                <li
-                  class="flex items-center space-x-3 bg-gradient-to-r from-purple-50 to-blue-50 p-3 rounded-lg transform hover:scale-105 transition-all duration-300">
-                  <i class="fas fa-laptop-code text-purple-500"></i>
-                  <span>Built with Django, JavaScript, HTML5 & CSS3</span>
-                </li>
-                <li
-                  class="flex items-center space-x-3 bg-gradient-to-r from-purple-50 to-blue-50 p-3 rounded-lg transform hover:scale-105 transition-all duration-300">
-                  <i class="fas fa-database text-purple-500 text-xl"></i>
-                  <span>Real-time Database Management</span>
-                </li>
-                <li
-                  class="flex items-center space-x-3 bg-gradient-to-r from-purple-50 to-blue-50 p-3 rounded-lg transform hover:scale-105 transition-all duration-300">
-                  <i class="fas fa-shield-alt text-purple-500 text-xl"></i>
-                  <span>Enterprise-grade Security Features</span>
-                </li>
-                <li
-                  class="flex items-center space-x-3 bg-gradient-to-r from-purple-50 to-blue-50 p-3 rounded-lg transform hover:scale-105 transition-all duration-300">
-                  <i class="fas fa-chart-line text-purple-500 text-xl"></i>
-                  <span >Advanced Analytics Dashboard</span>
-                </li>
-                <li
-                  class="flex items-center space-x-3 bg-gradient-to-r from-purple-50 to-blue-50 p-3 rounded-lg transform hover:scale-105 transition-all duration-300">
-                  <i class="fas fa-users text-purple-500 text-xl"></i>
-                  <span> Multi-user Role Management</span>
-                </li>
-              </ul>
+              <h2 class="text-xl font-semibold text-gray-800">Technologies & Tools</h2>
+              <div class="grid grid-cols-2 gap-3">
+                {% for tech in project.technology.all %}
+                  <div class="flex items-center space-x-3 bg-gradient-to-r from-purple-50 to-blue-50 p-3 rounded-lg transform hover:scale-105 transition-all duration-300">
+                    <i class="fas fa-code text-purple-500"></i>
+                    <span class="text-sm font-medium">{{ tech.technology }}</span>
+                  </div>
+                {% endfor %}
+                {% for db in project.database.all %}
+                  <div class="flex items-center space-x-3 bg-gradient-to-r from-purple-50 to-blue-50 p-3 rounded-lg transform hover:scale-105 transition-all duration-300">
+                    <i class="fas fa-database text-purple-500"></i>
+                    <span class="text-sm font-medium">{{ db.name }}</span>
+                  </div>
+                {% endfor %}
+              </div>
             </div>
 
             <div class="space-y-4">
-              <div
-                class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                $299.99</div>
+              {% if project.price %}
+                <div class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                  ${{ project.price|floatformat:2 }}
+                </div>
+              {% endif %}
               <div class="flex space-x-4">
-                <button
-                  class="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                  <i class="fas fa-shopping-cart text-xl"></i>
-                  <span class="text-lg">Buy Now</span>
-                </button>
-                <button
-                  class="flex-1 border-2 border-purple-600 text-purple-600 hover:bg-purple-50 font-medium py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                  <i class="fas fa-eye text-xl"></i>
-                  <span class="text-lg">Live Preview</span>
-                </button>
+                {% if project.zip_file %}
+                  <a href="{{ project.zip_file.url }}" 
+                     class="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                    <i class="fas fa-download text-xl"></i>
+                    <span class="text-lg">Download Project</span>
+                  </a>
+                {% endif %}
+                {% if project.url %}
+                  <a href="{{ project.url }}" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     class="flex-1 border-2 border-purple-600 text-purple-600 hover:bg-purple-50 font-medium py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                    <i class="fas fa-eye text-xl"></i>
+                    <span class="text-lg">Live Demo</span>
+                  </a>
+                {% endif %}
               </div>
             </div>
           </div>
@@ -284,7 +140,5 @@
       </div>
     </div>
   </main>
-
-</body>
-
-</html>
+<script src="{% static 'js/product_detail_image.js' %}"></script>
+{% endblock %}
