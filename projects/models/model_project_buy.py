@@ -5,12 +5,16 @@ from .model_project import Project
 from blog.models.model_blog_base import ModelBlogBase
 from accounts.models import CustomUser
 
+
 class ModelProjectBuy(ModelBlogBase):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     done = models.BooleanField(default=False)
-    token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    token = models.UUIDField(
+        default=uuid.uuid4, editable=False, unique=True, db_index=True, primary_key=True
+    )
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     comment = models.TextField(max_length=500, null=True, blank=True)
+
     class Meta:
         db_table = "model_project_buy"
         indexes = [

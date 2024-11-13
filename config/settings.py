@@ -107,7 +107,7 @@ DATABASES = {
     #     "HOST": os.environ.get("DB_HOST", "localhost"),
     #     "PORT": os.environ.get("DB_PORT", "5432"),
     # }
-     "default": {
+    "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
@@ -252,5 +252,3 @@ GOOGLE_OAUTH2_CLIENT_SECRET = config("GOOGLE_OAUTH2_CLIENT_SECRET")
 
 # Frontend URL for email verification
 # FRONTEND_URL = config("FRONTEND_URL", default="http://localhost:3000")
-
-

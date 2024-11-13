@@ -6,11 +6,13 @@ from .model_project_image import ProjectImage
 from .model_database import ProjectBase
 from accounts.models import CustomUser
 from .model_base import ModelBase
-from hitcount.models import HitCount
+from hitcount.models import HitCount, HitCountMixin
 from django.contrib.contenttypes.fields import GenericRelation
 from .model_stars import Stars
-import uuid
 from django.db.models import Avg
+from ..utils.generator_id import generate_id
+import uuid
+
 
 class Project(ModelBase):
     title = models.CharField(max_length=50, null=True, blank=True, db_index=True)
@@ -45,18 +47,16 @@ class Project(ModelBase):
         ],
     )
     guid = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-        unique=True,
-        db_index=True,
-        blank=True,
+        default=uuid.uuid4, null=True, blank=True, unique=True, db_index=True
     )
+
+    # guid = models.CharField(null=True, blank=True, unique=True, db_index=True, max_length=250)
     hit_count_generic = GenericRelation(
         HitCount,
         object_id_field="object_pk",
         related_query_name="hit_count_generic_relation",
     )
+
     class Mata:
         verbose_name = "Project"
         verbose_name_plural = "Projects"
@@ -71,12 +71,17 @@ class Project(ModelBase):
 
     def __str__(self):
         return self.name
-    
+
     def save(self, *args, **kwargs):
         try:
-            self.slug = slugify(f"{self.name}-{self.title}-{self.guid}")
+            # self.guid = generate_id(20, False,False)
+            self.slug = slugify(
+                f"{'-'.join(map(str, list(self.name.strip())[:2]))}-{'-'.join(map(str, list(self.title.strip())[:2]))}-{self.guid}"[
+                    :100
+                ]
+            )
         except:
-            self.slug = slugify(f"{self.name}-{self.guid}")
+            self.slug = slugify(f"{self.name}-{self.guid}"[:100])
         super().save(*args, **kwargs)
 
     @property
@@ -86,7 +91,6 @@ class Project(ModelBase):
             return str(image.image)
         return None
 
-  
     # @property
     # def average_stars(self):
     #     return self.star.aggregate(Avg("stars"))["stars__avg"] or 0

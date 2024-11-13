@@ -4,19 +4,19 @@
 <main class="pt-20 pb-12">
     <section class="px-4 mx-auto space-y-8 max-w-7xl sm:px-6 lg:px-8">
         {% for blog_post in blog_posts %}
-        <a href="{% url 'blog_post' slug=blog_post.slug %}" class="block group">
+        <a href="{% url 'blog_post' title=blog_post.title %}" class="block group">
             <div class="p-4 transition-all duration-300 transform bg-white border border-gray-100 shadow-xl dark:bg-gray-800 backdrop-blur-sm rounded-2xl sm:p-6 md:p-8 hover:shadow-2xl dark:border-gray-700 group-hover:-translate-y-1">
                 <div class="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:gap-8">
                     <div class="flex-shrink-0 w-full p-4 sm:w-auto bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-700 dark:to-gray-600 sm:p-6 rounded-xl">
                         {% if blog_post.image %}
-                            <img src="{{ blog_post.image.url }}" alt="{{ blog_post.name }}" class="object-contain w-20 h-20 mx-auto sm:w-24 sm:h-24 filter dark:brightness-90"/>
+                            <img src="{{ blog_post.image.url }}" alt="{{ blog_post.title }}" class="object-contain w-20 h-20 mx-auto sm:w-24 sm:h-24 filter dark:brightness-90"/>
                         {% else %}
                             <img src="{% static 'images/default-post.png' %}" alt="Default" class="object-contain w-20 h-20 mx-auto sm:w-24 sm:h-24 filter dark:brightness-90"/>
                         {% endif %}
                         <div class="flex items-center justify-center mt-3 space-x-1">
                             <span class="w-2 h-2 bg-green-500 rounded-full"></span>
                             <h3 class="text-sm font-semibold text-purple-600 dark:text-purple-400 sm:text-base">
-                                {{ blog_post.name|default:"General" }}
+                                {{ blog_post.icon_name|default:"General" }}
                             </h3>
                         </div>
                     </div>
@@ -24,7 +24,7 @@
                     <div class="flex-1 space-y-4 text-center sm:space-y-6 sm:text-left">
                         <div>
                             <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-                                <h1 class="text-2xl font-bold text-transparent sm:text-3xl bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text">{{ blog_post.comment }}</h1>
+                                <h1 class="text-2xl font-bold text-transparent sm:text-3xl bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text">{{ blog_post.title }}</h1>
                                 <div class="flex items-center justify-center space-x-2 text-sm text-gray-500 sm:justify-start dark:text-gray-400">
                                     <i class="fas fa-clock"></i>
                                     <span>{{ blog_post.created_at|timesince }} ago</span>
@@ -33,9 +33,9 @@
                             <p class="mt-2 text-base leading-relaxed text-gray-600 dark:text-gray-300 sm:text-lg">{{ blog_post.body|truncatewords:30 }}</p>
                         </div>
 
-                        <div class="flex flex-wrap justify-center gap-2 sm:justify-start">
+                        <div class="flex flex-wrap justify-center sm:justify-start gap-2">
                             {% for tag in blog_post.tags.all %}
-                            <span class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-purple-50 dark:bg-gray-700 text-purple-600 dark:text-purple-400 text-sm sm:text-base border border-purple-100 dark:border-gray-600">#{{ tag.name }}</span>
+                            <span class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-purple-50 dark:bg-gray-700 text-purple-600 dark:text-purple-400 text-sm sm:text-base border border-purple-100 dark:border-gray-600">{{ tag.name }}</span>
                             {% endfor %}
                         </div>
                         
@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                             <div class="text-sm text-gray-500">
-                                By {{ blog_post.user.username }}
+                                By {{ blog_post.author.email }}
                             </div>
                         </div>
                     </div>

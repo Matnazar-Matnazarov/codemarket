@@ -3,6 +3,7 @@ from .routers import *
 from .views.home import ProjectAnalysisView, HomeView
 from .views.project import ProjectView, ProjectJsonView, ProjectDetailView
 from .utils.check_post_tags import check_post_tags
+
 # app_name = "api-projects"
 
 urlpatterns = [

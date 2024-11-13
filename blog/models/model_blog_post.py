@@ -14,9 +14,11 @@ class Tags(models.Model):
     slug = models.SlugField(max_length=300, null=True, blank=True)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
+    content_object = GenericForeignKey("content_type", "object_id")
+
     def __str__(self):
         return self.name
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
@@ -30,10 +32,18 @@ class Post(ModelBlogBase):
         object_id_field="object_pk",
         related_query_name="hit_count_generic_relation",
     )
-    image = models.ImageField(upload_to="blog/", null=True, blank=True, validators=[validate_image_file_extension])
+    image = models.ImageField(
+        upload_to="blog/",
+        null=True,
+        blank=True,
+        validators=[validate_image_file_extension],
+    )
     objects = PostManager()
     tags = GenericRelation(Tags)
-    icon_name = models.CharField(max_length=100, null=True, blank=True, default="Python")
+    icon_name = models.CharField(
+        max_length=100, null=True, blank=True, default="Python"
+    )
+
     class Meta:
         verbose_name = "Post"
         verbose_name_plural = "Posts"
@@ -46,5 +56,6 @@ class Post(ModelBlogBase):
 
     def __str__(self):
         return self.title
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

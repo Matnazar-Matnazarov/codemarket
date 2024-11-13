@@ -10,6 +10,7 @@ class ModelProjectComment(ModelBlogBase):
         CustomUser, related_name="model_project_comment_likes", blank=True
     )
     comment = models.TextField(max_length=500, null=True, blank=True)
+
     class Meta:
         verbose_name = "Model Project Comment"
         verbose_name_plural = "Model Project Comments"

@@ -8,16 +8,15 @@ from .serializer_blog_post import BlogPostSerializer
 class CommentSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer(read_only=True)
     post = BlogPostSerializer(read_only=True)
+    comment = serializers.CharField(required=False, allow_blank=True)
 
     class Meta:
         model = Comment
         fields = [
-            "name",
             "user",
             "post",
             "comment",
             "created_at",
             "updated_at",
-            "slug",
             "is_active",
         ]

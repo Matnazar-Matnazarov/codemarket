@@ -16,12 +16,18 @@ from ..models.model_language import ProjectLanguage
 from django.utils import timezone
 from datetime import timedelta
 from ..models.model_project_image import ProjectImage
-from hitcount.models import HitCountMixin, HitCount
+from hitcount.models import HitCount
+from hitcount.views import (
+    HitCountMixin,
+)  # Import HitCountMixin to use its functionality
 from django.contrib import messages
 from ..models.model_stars import Stars
 from rest_framework import status
 from django.db import DataError
 from ..utils.project_detail import ProjectDetailFunc
+from hitcount.utils import get_hitcount_model
+
+
 class ProjectView(View):
     def get(self, request):
         technologies = (
@@ -93,24 +99,61 @@ class ProjectJsonView(View):
             }
             project_list.append(project_dict)
 
-        return JsonResponse({"products": project_list}, safe=False, status=status.HTTP_200_OK)
+        return JsonResponse(
+            {"products": project_list}, safe=False, status=status.HTTP_200_OK
+        )
 
 
+#
+# class ProjectDetailView(View):
+#     def get(self, request, slug):
+#         project = ProjectDetailFunc(slug=slug)
+#         if not project:
+#             messages.error(request, "Project not found")
+#             return redirect("products")
+#         # Cache the hit count
+#         context = {}
+#         hitcount = get_hitcount_model().objects.get_for_object(project)
+#         hits = hitcount.hits
+#         hitcontext = context['hitcount'] = {'pk':hitcount.pk}
+#         hitcount_response = HitCountMixin.hit_count(request,hitcount)
+#         if hitcount_response.hit_counted:
+#             hits = hits+1
+#             hitcontext['hit_counted'] = hitcount_response.hit_counted
+#             hitcontext['hit_messages'] = hitcount_response.hit_messages
+#             hitcontext['total_hits'] = hits
+#         return render(request, "project_detail.html",{
+#             "project":project
+#         } )
+#
 class ProjectDetailView(View):
     def get(self, request, slug):
+        # Initialize the context dictionary at the start
+        context = {}
+
         project = ProjectDetailFunc(slug=slug)
         if not project:
             messages.error(request, "Project not found")
             return redirect("products")
-        # Cache the hit count
-        try:
-            hit_count = HitCount.objects.get_for_object(project)
-            HitCountMixin.hit_count(request, hit_count)
-        except (HitCount.DoesNotExist, ValueError, DataError):
-            hit_count = None
-        context = {
-            "project":project,
-            "hit_count": hit_count,
-        }
-        return render(request, "project_detail.html", context)
 
+        # Add project and main_image to the context
+        context["project"] = project
+        context["main_image"] = (
+            project.images or None
+        )  # Access main_image as an attribute
+
+        # Cache the hit count
+        hitcount = HitCount.objects.get_for_object(project)
+        hits = hitcount.hits
+        context["hitcount"] = {"pk": hitcount.pk}
+
+        # Use an instance of HitCountMixin to count the hits
+        hitcount_mixin = HitCountMixin()
+        hitcount_response = hitcount_mixin.hit_count(request, hitcount)
+        if hitcount_response.hit_counted:
+            hits += 1  # Increment hits only if it was counted
+            context["hitcount"].update(
+                {"hit_counted": hitcount_response.hit_counted, "total_hits": hits}
+            )
+
+        return render(request, "project_detail.html", context)

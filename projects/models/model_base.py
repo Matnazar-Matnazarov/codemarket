@@ -9,7 +9,7 @@ class ModelBase(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     slug = models.SlugField(
-        max_length=120, null=True, blank=True, unique=True, db_index=True
+        max_length=250, null=True, blank=True, unique=True, db_index=True
     )
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)

@@ -1,4 +1,12 @@
-from django.db.models import (Sum,Count,Prefetch,F,Case,When,FloatField,)
+from django.db.models import (
+    Sum,
+    Count,
+    Prefetch,
+    F,
+    Case,
+    When,
+    FloatField,
+)
 from ..models.model_project import Project
 from ..models.model_database import ProjectBase
 from ..models.model_language import ProjectLanguage
@@ -11,9 +19,7 @@ def ProjectDetailFunc(slug):
     project = (
         Project.objects.prefetch_related(
             Prefetch("images", queryset=ProjectImage.objects.only("image")),
-            Prefetch(
-                "technology", queryset=ProjectLanguage.objects.only("technology")
-            ),
+            Prefetch("technology", queryset=ProjectLanguage.objects.only("technology")),
             Prefetch("database", queryset=ProjectBase.objects.only("name")),
             Prefetch("star", queryset=Stars.objects.only("stars")),
         )

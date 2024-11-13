@@ -4,14 +4,24 @@ from simple_history.admin import SimpleHistoryAdmin
 from django.utils.safestring import mark_safe
 from django.contrib.contenttypes.admin import GenericTabularInline
 
+
 class TagsInline(GenericTabularInline):
     model = Tags
     extra = 1
 
+
 @admin.register(Post)
 class PostAdmin(SimpleHistoryAdmin):
     # List view customization
-    list_display = ("title", "created_at", "is_active", "is_deleted", "image", "icon_name", "get_tags")
+    list_display = (
+        "title",
+        "created_at",
+        "is_active",
+        "is_deleted",
+        "image",
+        "icon_name",
+        "get_tags",
+    )
     list_filter = ("is_active", "is_deleted", "created_at")
     search_fields = ("title", "body", "icon_name")
     ordering = ("-created_at",)
@@ -24,6 +34,7 @@ class PostAdmin(SimpleHistoryAdmin):
 
     def get_tags(self, obj):
         return ", ".join(o.name for o in obj.tags.all())
+
     # Detail view customization
     fieldsets = (
         (
@@ -32,7 +43,7 @@ class PostAdmin(SimpleHistoryAdmin):
                 "fields": (
                     "author",
                     "title",
-                    "body", 
+                    "body",
                     "is_active",
                     "is_deleted",
                     "image",
@@ -55,7 +66,7 @@ class PostAdmin(SimpleHistoryAdmin):
 
     # Pagination in admin view
     list_per_page = 25
-    
+
 
 @admin.register(Tags)
 class TagsAdmin(admin.ModelAdmin):
