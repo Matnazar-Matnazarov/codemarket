@@ -19,13 +19,11 @@ from ..models.model_project_image import ProjectImage
 from hitcount.models import HitCount
 from hitcount.views import (
     HitCountMixin,
-)  # Import HitCountMixin to use its functionality
+)
 from django.contrib import messages
 from ..models.model_stars import Stars
 from rest_framework import status
-from django.db import DataError
 from ..utils.project_detail import ProjectDetailFunc
-from hitcount.utils import get_hitcount_model
 
 
 class ProjectView(View):
@@ -104,28 +102,6 @@ class ProjectJsonView(View):
         )
 
 
-#
-# class ProjectDetailView(View):
-#     def get(self, request, slug):
-#         project = ProjectDetailFunc(slug=slug)
-#         if not project:
-#             messages.error(request, "Project not found")
-#             return redirect("products")
-#         # Cache the hit count
-#         context = {}
-#         hitcount = get_hitcount_model().objects.get_for_object(project)
-#         hits = hitcount.hits
-#         hitcontext = context['hitcount'] = {'pk':hitcount.pk}
-#         hitcount_response = HitCountMixin.hit_count(request,hitcount)
-#         if hitcount_response.hit_counted:
-#             hits = hits+1
-#             hitcontext['hit_counted'] = hitcount_response.hit_counted
-#             hitcontext['hit_messages'] = hitcount_response.hit_messages
-#             hitcontext['total_hits'] = hits
-#         return render(request, "project_detail.html",{
-#             "project":project
-#         } )
-#
 class ProjectDetailView(View):
     def get(self, request, slug):
         # Initialize the context dictionary at the start

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load hitcount_tags %}
 {% block content %}
 
   <main class="min-h-screen pt-24 pb-12">
@@ -51,6 +51,11 @@
               {% endfor %}
             </div>
 
+            <div class="space-y-4">
+              <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Project About</h2>
+              <p class="text-gray-500 dark:text-gray-400 text-sm ml-2">{{ project.about}}</p>
+            </div>
+
             <script src="{% static 'js/product_detail_image.js' %}"></script>
           </div>
 
@@ -59,7 +64,6 @@
             <div>
               <h1 class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 {{ project.title|default:"Untitled Project" }}</h1>
-              <p class="mt-2 text-gray-600">{{ project.about|linebreaks }}</p>
             </div>
 
             <div class="space-y-4">
@@ -83,12 +87,12 @@
 
               <div class="flex items-center space-x-2">
                 <span class="text-gray-600">Views:</span>
-{#                <span class="font-semibold">{{ hit_count.hits|default:"0" }}</span>#}
+                <span class="text-gray-600">{% get_hit_count for project %}</span>
               </div>
 
               <div class="flex items-center space-x-2">
                 <span class="text-gray-600">Last Updated:</span>
-                <span>{{ project.updated_at|date:"F j, Y" }}</span>
+                <span class="text-gray-600">{{ project.updated_at|date:"F j, Y" }}</span>
               </div>
             </div>
 

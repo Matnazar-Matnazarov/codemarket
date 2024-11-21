@@ -151,7 +151,7 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 # REST Framework Settings
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        # 'rest_framework.authentication.TokenAuthentication',
+        "rest_framework.authentication.TokenAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_RENDERER_CLASSES": [
@@ -252,3 +252,5 @@ GOOGLE_OAUTH2_CLIENT_SECRET = config("GOOGLE_OAUTH2_CLIENT_SECRET")
 
 # Frontend URL for email verification
 # FRONTEND_URL = config("FRONTEND_URL", default="http://localhost:3000")
+
+# APPEND_SLASH=False

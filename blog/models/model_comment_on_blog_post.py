@@ -20,7 +20,7 @@ class Comment(ModelBlogBase):
         ]
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.comment}"
 
     def get_queryset(self):
         return super().get_queryset().select_related("user", "post")

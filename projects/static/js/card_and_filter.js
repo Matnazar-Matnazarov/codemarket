@@ -30,6 +30,11 @@ function createProductCard(product) {
     .toString()
     .padStart(2, "0")}/${date.getFullYear()}`;
 
+  // Truncate description to 100 characters and add ellipsis if needed
+  const truncatedDescription = product.description.length > 100 
+    ? product.description.substring(0, 100) + '...'
+    : product.description;
+
   return `
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-4 border border-gray-100 dark:border-gray-700 transform hover:-translate-y-1">
             <div class="relative group">
@@ -44,7 +49,7 @@ function createProductCard(product) {
                 </div>
             </div>
             <h3 class="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-2">${product.title}</h3>
-            <p class="text-gray-600 dark:text-gray-400 mb-2 text-sm sm:text-base">${product.description}</p>
+            <p class="text-gray-600 dark:text-gray-400 mb-2 text-sm sm:text-base line-clamp-2">${truncatedDescription}</p>
             <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">Upload date: ${uploadDate}</p>
             <div class="flex justify-between items-center">
                 <div class="space-y-1">

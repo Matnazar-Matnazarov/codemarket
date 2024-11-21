@@ -13,7 +13,6 @@ class HomeView(View):
     def get(self, request):
         current_date = timezone.now()
 
-        # Optimize query with prefetch_related for better performance and related data
         project_stats = (
             Project.objects.prefetch_related("technology", "database", "images", "star")
             .filter(
@@ -24,10 +23,8 @@ class HomeView(View):
             .aggregate(total_sales=Sum("price"), total_projects=Count("pk"))
         )
 
-        # Get active users count in single query
         active_users = CustomUser.objects.filter(is_active=True).count()
 
-        # Calculate conversion rate
         total_sales = project_stats["total_sales"] or 0
         total_projects = project_stats["total_projects"]
         conversion_rate = (
