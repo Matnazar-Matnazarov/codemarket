@@ -10,6 +10,7 @@ from pathlib import Path
 from datetime import timedelta
 from decouple import config
 from .jazzmin import JAZZMIN_SETTINGS
+from .ckeditor_settings import CKEDITOR_5_CONFIGS, CKEDITOR_5_CUSTOM_CSS, CKEDITOR_5_FILE_STORAGE
 
 # from .log_settings import LOG_FILE_PATH, LOGGING
 
@@ -51,6 +52,7 @@ THIRD_PARTY_APPS = [
     "django_filters",
     "silk",
     "rest_framework.authtoken",
+    'django_ckeditor_5',
 ]
 
 LOCAL_APPS = [
@@ -254,3 +256,4 @@ GOOGLE_OAUTH2_CLIENT_SECRET = config("GOOGLE_OAUTH2_CLIENT_SECRET")
 # FRONTEND_URL = config("FRONTEND_URL", default="http://localhost:3000")
 
 # APPEND_SLASH=False
+

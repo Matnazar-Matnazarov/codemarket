@@ -1,5 +1,4 @@
 from django.db import models
-from hitcount.models import HitCount
 from .manager_post import PostManager
 from django.core.validators import validate_image_file_extension
 from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
@@ -7,7 +6,8 @@ from django.contrib.contenttypes.models import ContentType
 import uuid
 from .model_blog_base import ModelBlogBase
 from accounts.models import CustomUser
-
+from hitcount.models import HitCount
+from django_ckeditor_5.fields import CKEditor5Field
 
 class Tags(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
@@ -26,7 +26,7 @@ class Tags(models.Model):
 class Post(ModelBlogBase):
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, null=True, blank=True)
-    body = models.TextField(max_length=1000, null=True, blank=True)
+    body = CKEditor5Field(max_length=1000, null=True, blank=True)
     hit_count_generic = GenericRelation(
         HitCount,
         object_id_field="object_pk",
@@ -42,6 +42,11 @@ class Post(ModelBlogBase):
     tags = GenericRelation(Tags)
     icon_name = models.CharField(
         max_length=100, null=True, blank=True, default="Python"
+    )
+    hit_count_generic = GenericRelation(
+        HitCount,
+        object_id_field="object_pk",
+        related_query_name="hit_count_generic_relation",
     )
 
     class Meta:

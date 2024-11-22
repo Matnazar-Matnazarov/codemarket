@@ -4,12 +4,10 @@ from django.utils.text import slugify
 from .model_language import ProjectLanguage
 from .model_project_image import ProjectImage
 from .model_database import ProjectBase
-from accounts.models import CustomUser
 from .model_base import ModelBase
 from hitcount.models import HitCount, HitCountMixin
 from django.contrib.contenttypes.fields import GenericRelation
 from .model_stars import Stars
-from django.db.models import Avg
 from ..utils.generator_id import generate_id
 import uuid
 

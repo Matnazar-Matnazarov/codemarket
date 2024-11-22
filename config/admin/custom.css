@@ -1,0 +1,12 @@
+/* Tugmalarni pastga joylashtirish */
+object-tools {
+    position: absolute;
+    bottom: 10px; /* Tugmalar pastda bo'lishi uchun */
+    right: 10px;
+}
+
+/* Chapdagi navigatsiya panelini to'liq ekran qilish */
+#nav-sidebar {
+    width: 100%; /* To'liq ekran qilish */
+    height: auto; /* Balandlikni o'zgartirish */
+}

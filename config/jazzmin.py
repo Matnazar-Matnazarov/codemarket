@@ -67,7 +67,7 @@ JAZZMIN_SETTINGS = {
     "custom_css": "css/admin/custom.css",
     "custom_js": "js/admin/custom.js",
     "use_google_fonts_cdn": True,
-    "show_ui_builder": True,
+    "show_ui_builder": False,
     # Form Display Configuration
     "changeform_format": "horizontal_tabs",
     "changeform_format_overrides": {
@@ -77,5 +77,4 @@ JAZZMIN_SETTINGS = {
     # Additional Features
     "language_chooser": True,
     "search_model": "accounts.customuser",
-    "show_ui_builder": True,
 }

@@ -15,6 +15,7 @@ from rest_framework_simplejwt.views import (
 )
 from django.views.generic import RedirectView
 from django.http import HttpResponse
+from django_ckeditor_5.views import upload_file
 
 # API documentation schema configuration
 schema_view = get_schema_view(
@@ -51,6 +52,9 @@ urlpatterns = [
     path("silk/", include("silk.urls", namespace="silk")),  # Performance profiling
     # Internationalization
     path("i18n/", set_language, name="set_language"),
+    # CKEditor 5
+    path("ckeditor5/", include('django_ckeditor_5.urls')),
+    path("upload/", upload_file, name="custom_upload_file"),
     # Application URLs
     path("", include("projects.urls")),
     # Authentication URLs

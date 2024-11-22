@@ -3,6 +3,7 @@ from blog.models.model_blog_post import Post, Tags
 from simple_history.admin import SimpleHistoryAdmin
 from django.utils.safestring import mark_safe
 from django.contrib.contenttypes.admin import GenericTabularInline
+from django_ckeditor_5.widgets import CKEditor5Widget
 
 
 class TagsInline(GenericTabularInline):
@@ -15,7 +16,7 @@ class PostAdmin(SimpleHistoryAdmin):
     # List view customization
     list_display = (
         "title",
-        "created_at",
+        "created_at", 
         "is_active",
         "is_deleted",
         "image",
@@ -42,7 +43,7 @@ class PostAdmin(SimpleHistoryAdmin):
             {
                 "fields": (
                     "author",
-                    "title",
+                    "title", 
                     "body",
                     "is_active",
                     "is_deleted",
@@ -66,6 +67,14 @@ class PostAdmin(SimpleHistoryAdmin):
 
     # Pagination in admin view
     list_per_page = 25
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        if db_field.name == 'body':
+            return db_field.formfield(widget=CKEditor5Widget(
+                attrs={'class': 'django_ckeditor_5'}, 
+                config_name='extends'
+            ))
+        return super().formfield_for_dbfield(db_field, **kwargs)
 
 
 @admin.register(Tags)

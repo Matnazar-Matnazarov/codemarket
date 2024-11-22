@@ -148,11 +148,76 @@
             </header>
             {% block content %} {% endblock content %}
             {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                    {% endfor %}
+            <div id="message-container" class="fixed top-24 right-6 z-50 space-y-4 w-[28rem] pointer-events-none">
+                {% for message in messages %}
+                <div class="message-alert opacity-0 transform translate-x-full transition-all duration-700 ease-in-out pointer-events-auto
+                    {% if message.tags == 'success' %}bg-gradient-to-r from-emerald-400 to-green-500 
+                    {% elif message.tags == 'error' %}bg-gradient-to-r from-rose-400 to-red-500
+                    {% elif message.tags == 'warning' %}bg-gradient-to-r from-amber-400 to-yellow-500 
+                    {% else %}bg-gradient-to-r from-blue-400 to-indigo-500{% endif %}
+                    text-white p-5 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] backdrop-blur-sm border border-white/10
+                    hover:shadow-[0_8px_40px_rgb(0,0,0,0.16)] hover:scale-[1.02] 
+                    flex items-center justify-between gap-4 transition-all">
+                    <div class="flex items-center gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-full bg-white/20">
+                            {% if message.tags == 'success' %}
+                                <i class="fas fa-check-circle text-2xl"></i>
+                            {% elif message.tags == 'error' %}
+                                <i class="fas fa-exclamation-circle text-2xl"></i>
+                            {% elif message.tags == 'warning' %}
+                                <i class="fas fa-exclamation-triangle text-2xl"></i>
+                            {% else %}
+                                <i class="fas fa-info-circle text-2xl"></i>
+                            {% endif %}
+                        </div>
+                        <div class="flex flex-col">
+                            <h4 class="font-semibold text-lg">
+                                {% if message.tags == 'success' %}Success!
+                                {% elif message.tags == 'error' %}Error!
+                                {% elif message.tags == 'warning' %}Warning!
+                                {% else %}Info{% endif %}
+                            </h4>
+                            <p class="text-white/90">{{ message }}</p>
+                        </div>
+                    </div>
+                    <button onclick="dismissMessage(this.parentElement)" 
+                            class="h-8 w-8 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors duration-200">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
+                {% endfor %}
+            </div>
+            <script>
+                // Xabarlar uchun vaqt (millisekundlarda)
+                const DISPLAY_DURATION = 8000; // 8 sekund ko'rsatish
+                const ANIMATION_DELAY = 150; // Xabarlar orasidagi vaqt
+                const ANIMATION_DURATION = 700; // Animatsiya davomiyligi
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    const messages = document.querySelectorAll('.message-alert');
+                    
+                    messages.forEach((message, index) => {
+                        // Xabarlarni ketma-ket ko'rsatish
+                        setTimeout(() => {
+                            message.classList.remove('opacity-0', 'translate-x-full');
+                        }, index * ANIMATION_DELAY);
+                        
+                        // Avtomatik yopish
+                        setTimeout(() => {
+                            dismissMessage(message);
+                        }, DISPLAY_DURATION + (index * ANIMATION_DELAY));
+                    });
+                });
+
+                function dismissMessage(element) {
+                    element.classList.add('opacity-0', 'translate-x-full');
+                    setTimeout(() => {
+                        if (element && element.parentNode) {
+                            element.remove();
+                        }
+                    }, ANIMATION_DURATION);
+                }
+            </script>
             {% endif %}
             <!-- Footer -->
             <footer

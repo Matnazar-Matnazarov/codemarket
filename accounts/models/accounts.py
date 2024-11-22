@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .managers import CustomUserManager
 from simple_history.models import HistoricalRecords
+from django.core.validators import validate_image_file_extension
 
 PHONE_REGEX = (
     r"^\+?1?\d{9,15}$|"
@@ -29,7 +30,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
             )
         ],
     )
-    picture = models.ImageField(upload_to="profile_pics/", blank=True, null=True)
+    picture = models.ImageField(
+        upload_to="profile_pics/",
+        blank=True,
+        null=True,
+        validators=[validate_image_file_extension],
+    )
     objects = CustomUserManager()
     history = HistoricalRecords()
 

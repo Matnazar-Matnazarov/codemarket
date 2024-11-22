@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load hitcount_tags %}
 {% block content %}
 <main class="pt-20 pb-12">
     <section class="px-4 mx-auto space-y-8 max-w-7xl sm:px-6 lg:px-8">
@@ -30,7 +31,7 @@
                                     <span>{{ blog_post.created_at|timesince }} ago</span>
                                 </div>
                             </div>
-                            <p class="mt-2 text-base leading-relaxed text-gray-600 dark:text-gray-300 sm:text-lg">{{ blog_post.body|truncatewords:30 }}</p>
+                            <p class="mt-2 text-base leading-relaxed text-gray-600 dark:text-gray-300 sm:text-lg"></p>
                         </div>
 
                         <div class="flex flex-wrap justify-center sm:justify-start gap-2">
@@ -51,11 +52,11 @@
                             <div class="flex items-center space-x-4">
                                 <div class="flex items-center space-x-1">
                                     <i class="text-gray-500 far fa-eye"></i>
-                                    <span class="text-gray-500">{{ blog_post.hit_count_generic.hits }}</span>
+                                    <span class="text-gray-500">{% get_hit_count for blog_post %}</span>
                                 </div>
                                 <div class="flex items-center space-x-1">
                                     <i class="text-gray-500 far fa-comment"></i>
-                                    <span class="text-gray-500">{{ blog_post.comments.count }}</span>
+                                    <span class="text-gray-500">{{ blog_post.comment_count }}</span>
                                 </div>
                             </div>
                             <div class="text-sm text-gray-500">
