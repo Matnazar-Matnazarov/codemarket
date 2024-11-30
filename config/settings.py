@@ -10,7 +10,11 @@ from pathlib import Path
 from datetime import timedelta
 from decouple import config
 from .jazzmin import JAZZMIN_SETTINGS
-from .ckeditor_settings import CKEDITOR_5_CONFIGS, CKEDITOR_5_CUSTOM_CSS, CKEDITOR_5_FILE_STORAGE
+from .ckeditor_settings import (
+    CKEDITOR_5_CONFIGS,
+    CKEDITOR_5_CUSTOM_CSS,
+    CKEDITOR_5_FILE_STORAGE,
+)
 
 # from .log_settings import LOG_FILE_PATH, LOGGING
 
@@ -52,7 +56,7 @@ THIRD_PARTY_APPS = [
     "django_filters",
     "silk",
     "rest_framework.authtoken",
-    'django_ckeditor_5',
+    "django_ckeditor_5",
 ]
 
 LOCAL_APPS = [
@@ -120,7 +124,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {
+            "min_length": 8,
+        },
+    },
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
@@ -257,3 +266,6 @@ GOOGLE_OAUTH2_CLIENT_SECRET = config("GOOGLE_OAUTH2_CLIENT_SECRET")
 
 # APPEND_SLASH=False
 
+LOGIN_URL = "/accounts/login/"  # Login talab qilinadigan sahifalar uchun yo‘naltirish
+
+LOGOUT_REDIRECT_URL = "/"

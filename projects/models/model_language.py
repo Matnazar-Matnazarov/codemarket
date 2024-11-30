@@ -38,6 +38,8 @@ class ProjectLanguage(ModelBase):
         ]
 
     def __str__(self):
+        if self.technology:
+            return f"{self.technology} - {self.language}"
         return self.language
 
     def save(self, *args, **kwargs):

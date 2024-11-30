@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="min-h-screen pt-28 md:pt-24 pb-12 px-4 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+  <div class="max-w-xl mx-auto">
+    <div class="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 space-y-8 transform transition-all duration-500 hover:shadow-[0_20px_50px_rgba(128,90,213,0.3)] border border-purple-100 dark:border-gray-700">
+      <div class="text-center space-y-4">
+        <h1 class="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-600 bg-clip-text text-transparent">
+          Edit Your Profile</h1>
+        <p class="text-gray-600 dark:text-gray-400 text-base md:text-lg font-medium">Customize your profile information</p>
+      </div>
+
+      <form method="post" class="space-y-6" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="space-y-6">
+          <div class="form-group">
+            <label for="id_picture" class="block text-base font-semibold text-gray-800 dark:text-gray-200 mb-2">Profile Picture</label>
+            {% if form.picture.value %}
+            <div class="mb-3 p-4 bg-purple-50 dark:bg-gray-700 rounded-xl">
+              <div class="flex items-center gap-3 mb-3">
+                <img src="{{ form.picture.value.url }}" alt="Current profile picture" class="w-16 h-16 rounded-full object-cover border-2 border-purple-400">
+                <span class="text-sm text-gray-600 dark:text-gray-400">Current photo</span>
+              </div>
+              <div class="flex items-center">
+                <input type="checkbox" name="picture-clear" id="picture-clear_id" class="w-4 h-4 rounded border-purple-300 text-purple-600 focus:ring-purple-500">
+                <label for="picture-clear_id" class="ml-2 text-sm text-gray-600 dark:text-gray-400">Remove current photo</label>
+              </div>
+            </div>
+            {% endif %}
+            <div class="relative">
+              <input type="file" name="picture" id="id_picture" accept="image/*"
+                class="w-full text-sm text-gray-600 dark:text-gray-400 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-purple-100 dark:file:bg-purple-900/30 file:text-purple-700 dark:file:text-purple-300 hover:file:bg-purple-200 dark:hover:file:bg-purple-900/50 transition-all duration-300 cursor-pointer">
+              <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-500 dark:text-purple-400">
+                <i class="fas fa-camera text-xl"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group relative">
+            <label for="id_first_name" class="block text-base font-semibold text-gray-800 dark:text-gray-200 mb-2">First Name</label>
+            <div class="relative">
+              <input type="text" name="first_name" id="id_first_name" value="{{ form.first_name.value }}" maxlength="30"
+                class="w-full px-5 py-3.5 border-2 border-purple-200 dark:border-purple-900/30 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 dark:bg-gray-700/50 dark:text-white text-base transition-all duration-300"
+                placeholder="Enter your first name">
+              <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-purple-400">
+                <i class="fas fa-user"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group relative">
+            <label for="id_last_name" class="block text-base font-semibold text-gray-800 dark:text-gray-200 mb-2">Last Name</label>
+            <div class="relative">
+              <input type="text" name="last_name" id="id_last_name" value="{{ form.last_name.value }}" maxlength="30"
+                class="w-full px-5 py-3.5 border-2 border-purple-200 dark:border-purple-900/30 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 dark:bg-gray-700/50 dark:text-white text-base transition-all duration-300"
+                placeholder="Enter your last name">
+              <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-purple-400">
+                <i class="fas fa-user"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-4 pt-4">
+          <button type="submit"
+            class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-4 px-6 rounded-xl hover:from-purple-700 hover:to-blue-700 focus:ring-4 focus:ring-purple-500/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg active:translate-y-0 text-base">
+            <i class="fas fa-save mr-2"></i> Save Changes
+          </button>
+
+          <a href="{% url 'profile' %}"
+            class="w-full block text-center bg-gray-100 dark:bg-gray-700/50 text-gray-700 dark:text-gray-300 font-semibold py-4 px-6 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-md active:translate-y-0 text-base">
+            <i class="fas fa-times mr-2"></i> Cancel
+          </a>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</main>
+{% endblock %}

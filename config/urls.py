@@ -53,12 +53,13 @@ urlpatterns = [
     # Internationalization
     path("i18n/", set_language, name="set_language"),
     # CKEditor 5
-    path("ckeditor5/", include('django_ckeditor_5.urls')),
+    path("ckeditor5/", include("django_ckeditor_5.urls")),
     path("upload/", upload_file, name="custom_upload_file"),
     # Application URLs
     path("", include("projects.urls")),
     # Authentication URLs
-    path("accounts/", include("django.contrib.auth.urls")),
+    path("accounts/", include("accounts.urls")),
+    # path("accounts/", include("django.contrib.auth.urls")),
     path("api/v1/drf-auth/", include("rest_framework.urls")),
     # JWT Token Management
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),

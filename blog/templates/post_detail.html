@@ -49,39 +49,38 @@
     };
     document.head.appendChild(script);
 </script>
-<main class="pt-20 pb-16 bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen">
+<main class="pt-20 pb-16 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 min-h-screen">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        <div class="bg-white/90 dark:bg-gray-800/90 border border-gray-200/50 dark:border-gray-700/50 shadow-2xl hover:shadow-3xl transition-all duration-500 rounded-2xl p-8 backdrop-blur-lg transform hover:-translate-y-1">
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl p-8 transform hover:-translate-y-1">
             <!-- Post Header -->
             <div class="flex flex-col md:flex-row md:items-start md:gap-8 mb-8">
                 {% if blog_post.image %}
                 <div class="flex-shrink-0 mb-4 md:mb-0">
-                    <div class="relative w-24 h-24 sm:w-32 sm:h-32 group perspective">
+                    <div class="relative w-24 h-24 sm:w-32 sm:h-32 group perspective hover:z-10">
                         <div class="relative w-full h-full transform transition-transform duration-500 group-hover:rotate-y-180">
                             <img 
                                 src="{{ blog_post.image.url }}" 
                                 alt="{{ blog_post.title }}" 
-                                class="absolute inset-0 w-full h-full object-cover rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 filter dark:brightness-90"
+                                class="absolute inset-0 w-full h-full object-cover rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
                                 loading="lazy"
                             />
-                            <div class="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-blue-600/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         </div>
                     </div>
                 </div>
                 {% endif %}
                 
                 <div class="flex-1 space-y-4">
-                    <h1 class="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-600 bg-clip-text text-transparent animate-gradient">
+                    <h1 class="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent animate-gradient">
                         {{ blog_post.title }}
                     </h1>
                     <div class="flex flex-wrap justify-between items-center gap-4">
                         <div class="flex flex-wrap gap-6">
-                            <div class="flex items-center space-x-2 group">
-                                <i class="far fa-eye text-purple-500 group-hover:animate-pulse"></i>
+                            <div class="flex items-center space-x-2 group hover:scale-105 transition-transform duration-300">
+                                <i class="far fa-eye text-purple-500"></i>
                                 <span class="text-gray-600 dark:text-gray-300 font-medium">{% get_hit_count for blog_post %} views</span>
                             </div>
-                            <div class="flex items-center space-x-2 group">
-                                <i class="far fa-comment text-purple-500 group-hover:animate-bounce"></i>
+                            <div class="flex items-center space-x-2 group hover:scale-105 transition-transform duration-300">
+                                <i class="far fa-comment text-purple-500"></i>
                                 <span class="text-gray-600 dark:text-gray-300 font-medium" id="comment-count">{{ comment_count}} comments</span>
                             </div>
                         </div>
@@ -90,7 +89,7 @@
                                 <img src="{{ blog_post.author.picture.url }}" alt="{{ blog_post.author.username }}" 
                                      class="w-10 h-10 rounded-full ring-2 ring-purple-500 object-cover">
                             {% else %}
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold">
                                     {{ blog_post.author.username|make_list|first|upper }}
                                 </div>
                             {% endif %}
@@ -106,7 +105,7 @@
             <!-- Post Content -->
             <div class="prose dark:prose-invert max-w-none">
                 <article class="text-gray-700 dark:text-gray-300 leading-relaxed space-y-6">
-                    <div class="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-8 shadow-inner hover:shadow-lg transition-all duration-300">
+                    <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 shadow-md hover:shadow-lg transition-all duration-300">
                         {{ blog_post.body|safe }}
                     </div>
                 </article>
@@ -114,17 +113,17 @@
                 <!-- Tags -->
                 <div class="flex flex-wrap gap-3 mt-8">
                     {% for tag in blog_post.tags.all %}
-                    <span class="px-4 py-2 text-sm rounded-full bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/30 dark:to-blue-900/30 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-700 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer">#{{ tag.name }}</span>
+                    <span class="px-4 py-2 text-sm rounded-full bg-purple-50 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-700 hover:shadow-md hover:scale-105 transition-all duration-300 cursor-pointer">#{{ tag.name }}</span>
                     {% endfor %}
                 </div>
             </div>
 
             <!-- Comments Section -->
             <div class="mt-16">
-                <h2 class="text-3xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-600 bg-clip-text text-transparent mb-8 flex items-center">
-                    <i class="fas fa-comments mr-3 animate-bounce"></i>
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-8 flex items-center">
+                    <i class="fas fa-comments mr-3"></i>
                     Discussion 
-                    <span class="ml-2 px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 rounded-full">
+                    <span class="ml-2 px-3 py-1 text-sm bg-purple-50 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 rounded-full">
                         <span id="comments-count">{{ comment_count}}</span> comments
                     </span>
                 </h2>
@@ -133,40 +132,37 @@
                 <!-- Comment Form -->
                 <div class="mb-12">
                     <form id="comment-form" action="{% url 'comments' title=blog_post.title %}" method="post" 
-                          class="transform transition-all duration-500 hover:scale-[1.01]">
+                          class="transform transition-all duration-300 hover:scale-[1.01]">
                         {% csrf_token %}
                         <div class="flex items-start space-x-4">
-                            <div class="relative group">
+                            <div class="relative">
                                 {% if user.picture %}
                                     <img src="{{ user.picture.url }}" alt="{{ user.email }}" 
-                                         class="w-16 h-16 rounded-full shadow-lg ring-2 ring-purple-500 group-hover:ring-4 transition-all duration-300 object-cover">
+                                         class="w-16 h-16 rounded-full shadow-md ring-2 ring-purple-500 object-cover">
                                 {% else %}
                                     <div id="avatar-placeholder" 
-                                         class="w-16 h-16 rounded-full shadow-lg ring-2 ring-purple-500 group-hover:ring-4 transition-all duration-300 bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-xl">
+                                         class="w-16 h-16 rounded-full shadow-md ring-2 ring-purple-500 bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center text-white font-bold text-xl">
                                     </div>
                                 {% endif %}
-                                <div class="absolute -bottom-1 -right-1 bg-green-500 w-4 h-4 rounded-full border-2 border-white dark:border-gray-800 animate-pulse"></div>
+                                <div class="absolute -bottom-1 -right-1 bg-green-500 w-4 h-4 rounded-full border-2 border-white dark:border-gray-800"></div>
                             </div>
                             <div class="flex-1">
-                                <div class="relative group">
+                                <div class="relative">
                                     <textarea name="comment" id="id_comment" rows="4" 
-                                        class="w-full px-6 py-4 bg-white dark:bg-gray-800/90 border-2 border-purple-200 dark:border-purple-700 rounded-xl focus:ring-4 focus:ring-purple-500/50 focus:border-transparent transition-all duration-300 resize-none placeholder-gray-400 dark:placeholder-gray-300 text-gray-800 dark:text-gray-100 shadow-inner hover:shadow-lg backdrop-blur-sm"
+                                        class="w-full px-6 py-4 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 resize-none text-gray-800 dark:text-gray-100"
                                         placeholder="Share your thoughts..."
                                         maxlength="500"
                                         oninput="updateCharCount(this)"
                                         required></textarea>
-                                    <div class="absolute inset-0 bg-gradient-to-r from-purple-50/30 via-pink-50/30 to-blue-50/30 dark:from-purple-600/10 dark:via-pink-500/10 dark:to-blue-600/10 rounded-xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                     <div class="absolute bottom-3 right-3 flex items-center gap-2">
-                                        <div id="char-limit-warning" class="hidden text-sm text-red-500 dark:text-red-400 font-medium animate-pulse">
+                                        <div id="char-limit-warning" class="hidden text-sm text-red-500 dark:text-red-400 font-medium">
                                             Character limit reached!
                                         </div>
                                         <div class="text-sm font-medium">
-                                            <span id="char-count" class="text-purple-600 dark:text-purple-400 transition-all duration-300">0</span>
+                                            <span id="char-count" class="text-purple-600 dark:text-purple-400">0</span>
                                             <span class="text-gray-400 dark:text-gray-500">/500</span>
                                         </div>
                                     </div>
-                                    <div class="absolute -top-2 -left-2 w-3 h-3 bg-purple-500 rounded-full animate-ping"></div>
-                                    <div class="absolute -bottom-2 -right-2 w-3 h-3 bg-blue-500 rounded-full animate-ping animation-delay-500"></div>
                                 </div>
                                 <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4">
                                     <p class="text-sm text-gray-500 dark:text-gray-400 flex items-center">
@@ -174,8 +170,8 @@
                                         Maximum 500 characters
                                     </p>
                                     <button type="submit" 
-                                            class="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-xl shadow-lg hover:shadow-purple-500/30 dark:hover:shadow-purple-800/30 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-3 text-base font-medium group">
-                                        <i class="fas fa-paper-plane group-hover:rotate-45 transition-transform duration-300"></i>
+                                            class="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-3 text-base font-medium">
+                                        <i class="fas fa-paper-plane"></i>
                                         <span>Post Comment</span>
                                     </button>
                                 </div>
@@ -186,26 +182,25 @@
                 {% endif %}
            
                 <!-- Comments List -->
-                <div id="comments-container" class="space-y-8">
+                <div id="comments-container" class="space-y-6">
                     {% for comment in comments %}
-                    <div class="p-6 bg-white dark:bg-gray-800/50 rounded-xl shadow-sm border border-purple-100 dark:border-purple-900/50 overflow-hidden">
+                    <div class="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700">
                         <div class="flex items-start gap-4">
                             <div class="relative">
                                 {% if comment.user.picture %}
                                     <img src="{{ comment.user.picture.url }}" alt="{{ comment.user.email }}" 
-                                         class="w-14 h-14 rounded-full shadow-md ring-2 ring-purple-300 dark:ring-purple-700 object-cover">
+                                         class="w-14 h-14 rounded-full shadow-md ring-2 ring-purple-500 object-cover">
                                 {% else %}
-                                    <div class="user-avatar w-14 h-14 rounded-full shadow-md ring-2 ring-purple-300 dark:ring-purple-700 flex items-center justify-center text-white font-semibold text-xl" 
+                                    <div class="user-avatar w-14 h-14 rounded-full shadow-md ring-2 ring-purple-500 flex items-center justify-center text-white font-semibold text-xl bg-gradient-to-r from-purple-500 to-blue-500" 
                                          data-username="{{ comment.user.email }}"></div>
                                 {% endif %}
-                                <div class="absolute -bottom-1 -right-1 bg-purple-500 w-3 h-3 rounded-full border-2 border-white dark:border-gray-800"></div>
                             </div>
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center justify-between mb-2">
                                     <h3 class="font-semibold text-gray-800 dark:text-gray-200 text-lg flex items-center gap-2 truncate">
                                         {{ comment.user.email }}
                                         {% if comment.user == blog_post.author %}
-                                        <span class="px-3 py-1 text-xs bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 rounded-full">Author</span>
+                                        <span class="px-3 py-1 text-xs bg-purple-50 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 rounded-full">Author</span>
                                         {% endif %}
                                     </h3>
                                     <p class="text-sm text-gray-500 dark:text-gray-400 flex items-center shrink-0">
@@ -213,19 +208,15 @@
                                         {{ comment.created_at|timesince }} ago
                                     </p>
                                 </div>
-                                <div class="comment-content relative">
-                                    <p class="text-gray-700 dark:text-gray-300 text-lg leading-relaxed 
-                                       break-words whitespace-pre-line max-h-[300px] overflow-y-auto
-                                       scrollbar-thin scrollbar-thumb-purple-500/50 hover:scrollbar-thumb-purple-500
-                                       scrollbar-track-transparent scrollbar-track-rounded-full
-                                       pr-2 transition-colors duration-200">{{ comment.comment }}</p>
+                                <div class="comment-content">
+                                    <p class="text-gray-700 dark:text-gray-300 text-lg leading-relaxed break-words whitespace-pre-line">{{ comment.comment }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     {% empty %}
                     <div class="py-16 text-center">
-                        <div class="inline-flex items-center justify-center w-20 h-20 mb-6 bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900/30 dark:to-blue-900/30 rounded-full animate-pulse">
+                        <div class="inline-flex items-center justify-center w-20 h-20 mb-6 bg-purple-50 dark:bg-purple-900/50 rounded-full">
                             <i class="fas fa-comments text-3xl text-purple-500 dark:text-purple-400"></i>
                         </div>
                         <p class="text-gray-500 dark:text-gray-400 text-xl font-medium">No comments yet. Be the first to share your thoughts!</p>
@@ -237,7 +228,7 @@
     </div>
 
     <!-- Toast Notification -->
-    <div id="response-message" class="fixed bottom-8 right-8 transition-all duration-500 transform translate-y-full opacity-0 z-50"></div>
+    <div id="response-message" class="fixed bottom-8 right-8 transition-all duration-300 transform translate-y-full opacity-0 z-50"></div>
 </main>
 
 <!-- Scripts -->
@@ -253,7 +244,7 @@
     }
     .animate-gradient {
         background-size: 200% auto;
-        animation: gradient 4s linear infinite;
+        animation: gradient 3s ease infinite;
     }
 </style>
 {% endblock %}

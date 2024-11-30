@@ -41,7 +41,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
-    #
-    # @property
-    # def __str__(self):
-    #     return f"{self.email}"
+
+    def __str__(self) -> str:
+        return f"{self.email}"

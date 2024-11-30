@@ -16,6 +16,8 @@ class ModelProjectBuy(ModelBlogBase):
     comment = models.TextField(max_length=500, null=True, blank=True)
 
     class Meta:
+        verbose_name = "Project Buy"
+        verbose_name_plural = "Project Buys"
         db_table = "model_project_buy"
         indexes = [
             models.Index(fields=["user", "project"]),

@@ -9,6 +9,7 @@ from accounts.models import CustomUser
 from hitcount.models import HitCount
 from django_ckeditor_5.fields import CKEditor5Field
 
+
 class Tags(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
     slug = models.SlugField(max_length=300, null=True, blank=True)

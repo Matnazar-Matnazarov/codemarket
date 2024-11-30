@@ -16,6 +16,7 @@ JAZZMIN_SETTINGS = {
         {"model": "projects.projectbase"},
         {"model": "projects.projectimage"},
         {"model": "projects.projectlanguage"},
+        {"model": "projects.modelprojectbuy"},
     ],
     # User Menu Configuration
     "usermenu_links": [
@@ -49,10 +50,15 @@ JAZZMIN_SETTINGS = {
         "blog.post": "fas fa-pencil-alt",
         "projects.modelprojectcomment": "fas fa-check-circle",
         "projects.projectlanguage": "fas fa-code",
+        "projects.modelprojectbuy": "fas fa-shopping-cart",
+        "blog.tags": "fas fa-tags",
         # Security & Monitoring
         "admin_honeypot.LoginAttempt": "fas fa-user-shield",
         "token_blacklist.BlacklistedToken": "fas fa-ban",
         "token_blacklist.OutstandingToken": "fas fa-history",
+        # auth tokens
+        "token_blacklist.AccessToken": "fas fa-key",
+        "token_blacklist.RefreshToken": "fas fa-key",
         # Analytics
         "hitcount.hitcount": "fas fa-chart-line",
         "hitcount.blacklistip": "fas fa-user-slash",

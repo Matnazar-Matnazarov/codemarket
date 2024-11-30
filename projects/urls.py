@@ -4,6 +4,7 @@ from .views.home import ProjectAnalysisView, HomeView
 from .views.project import ProjectView, ProjectJsonView, ProjectDetailView
 from .utils.check_post_tags import check_post_tags
 from .api_views.views_json_project import ProjectJsonAPIView
+from .views.product_basket import ProductBasketView
 
 # app_name = "api-projects"
 
@@ -15,9 +16,10 @@ urlpatterns = [
     path(
         "products/detail/<slug:slug>/",
         ProjectDetailView.as_view(),
-        name="project-detail",
+        name="project_detail",
     ),
     path("check-post-tags/", check_post_tags, name="check-post-tags"),
     path("project-api/", include(project_router.urls)),  # Project related endpoints
     path("project-json/", ProjectJsonAPIView.as_view(), name="project-json"),
+    path("product-purchases/", ProductBasketView.as_view(), name="product_basket"),
 ]

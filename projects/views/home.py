@@ -7,6 +7,7 @@ from django.utils import timezone
 from accounts.models import CustomUser
 from rest_framework import status
 from django.db.models import F
+from ..models.model_project_buy import ModelProjectBuy
 
 
 class HomeView(View):
@@ -14,13 +15,13 @@ class HomeView(View):
         current_date = timezone.now()
 
         project_stats = (
-            Project.objects.prefetch_related("technology", "database", "images", "star")
+            ModelProjectBuy.objects.prefetch_related("project")
             .filter(
                 is_active=True,
                 created_at__year=current_date.year,
                 created_at__month=current_date.month,
             )
-            .aggregate(total_sales=Sum("price"), total_projects=Count("pk"))
+            .aggregate(total_sales=Sum("project__price"), total_projects=Count("pk"))
         )
 
         active_users = CustomUser.objects.filter(is_active=True).count()
@@ -63,16 +64,16 @@ class ProjectAnalysisView(View):
 
         # Single optimized query to get all required data
         sales_data = (
-            Project.objects.filter(is_active=True)
+            ModelProjectBuy.objects.filter(is_active=True, done=True)
             .annotate(year=F("created_at__year"), month=F("created_at__month"))
-            .values("name", "year", "month")
-            .annotate(total_sales=Sum("price"))
-            .order_by("name", "year", "month")
+            .values("project__name", "year", "month")
+            .annotate(total_sales=Sum("project__price"))
+            .order_by("project__name", "year", "month")
         )
         # Process data efficiently
         projects_data = {}
         for record in sales_data:
-            name = record["name"]
+            name = record["project__name"]
             year = str(record["year"])
             month = record["month"] - 1  # Convert to 0-based index
             sales = record["total_sales"] or 0

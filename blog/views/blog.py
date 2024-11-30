@@ -13,6 +13,7 @@ from hitcount.views import (
 from django.contrib import messages
 from django.db.models import Count
 
+
 class BlogView(View):
     def get(self, request):
         blog_posts = (
@@ -20,8 +21,14 @@ class BlogView(View):
             .prefetch_related("tags", "comments_post_model")
             .annotate(comment_count=Count("comments_post_model"))
             .only(
-                "title", "created_at", "body", "image", "icon_name",
-                "author__email", "author__picture", "tags__name"
+                "title",
+                "created_at",
+                "body",
+                "image",
+                "icon_name",
+                "author__email",
+                "author__picture",
+                "tags__name",
             )
             .all()
         )
@@ -34,15 +41,32 @@ class BlogPostView(View):
         blog_post = (
             Post.objects.select_related("author")
             .prefetch_related("tags")
-            .only("title", "created_at", "author__email", "author__picture", "icon_name", "image", "body")
+            .only(
+                "title",
+                "created_at",
+                "author__email",
+                "author__picture",
+                "icon_name",
+                "image",
+                "body",
+            )
             .filter(title=title)
             .first()
         )
         if blog_post:
             context = {}
-            comments = Comment.objects.select_related("user").filter(post=blog_post).order_by("-created_at")
+            comments = (
+                Comment.objects.select_related("user")
+                .filter(post=blog_post)
+                .order_by("-created_at")
+            )
             form = CommentForm() if request.user.is_authenticated else None
-            context = {"blog_post": blog_post, "comments": comments, "form": form, "comment_count":comments.count()}
+            context = {
+                "blog_post": blog_post,
+                "comments": comments,
+                "form": form,
+                "comment_count": comments.count(),
+            }
 
             # Cache the hit count
             hitcount = HitCount.objects.get_for_object(blog_post)
@@ -82,7 +106,9 @@ class BlogCommentView(View):
                     "comment": comment.comment,
                     "username": comment.user.email,
                     "created_at": comment.created_at.isoformat(),
-                    "picture": comment.user.picture.url if comment.user.picture else None,
+                    "picture": (
+                        comment.user.picture.url if comment.user.picture else None
+                    ),
                     "message": "Comment added successfully",
                 },
                 status=201,

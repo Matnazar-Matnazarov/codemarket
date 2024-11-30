@@ -16,7 +16,7 @@ class PostAdmin(SimpleHistoryAdmin):
     # List view customization
     list_display = (
         "title",
-        "created_at", 
+        "created_at",
         "is_active",
         "is_deleted",
         "image",
@@ -43,7 +43,7 @@ class PostAdmin(SimpleHistoryAdmin):
             {
                 "fields": (
                     "author",
-                    "title", 
+                    "title",
                     "body",
                     "is_active",
                     "is_deleted",
@@ -69,11 +69,12 @@ class PostAdmin(SimpleHistoryAdmin):
     list_per_page = 25
 
     def formfield_for_dbfield(self, db_field, **kwargs):
-        if db_field.name == 'body':
-            return db_field.formfield(widget=CKEditor5Widget(
-                attrs={'class': 'django_ckeditor_5'}, 
-                config_name='extends'
-            ))
+        if db_field.name == "body":
+            return db_field.formfield(
+                widget=CKEditor5Widget(
+                    attrs={"class": "django_ckeditor_5"}, config_name="extends"
+                )
+            )
         return super().formfield_for_dbfield(db_field, **kwargs)
 
 

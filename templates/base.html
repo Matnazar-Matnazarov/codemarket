@@ -40,7 +40,7 @@
             class="fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out transform -translate-x-full bg-white lg:hidden dark:bg-gray-900">
             <div class="p-4 border-b dark:border-gray-700">
                 <div class="flex items-center justify-between">
-                    <a href="#"
+                    <a href="{% url 'homeview' %}"
                         class="text-xl font-bold text-transparent bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text">CodeMarket</a>
                     <button onclick="toggleMobileMenu()"
                         class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
@@ -59,10 +59,10 @@
                     <i class="mr-3 fas fa-store"></i>
                     Products
                 </a>
-                <a href="#"
+                <a href="{% url 'product_basket' %}"
                     class="flex items-center px-4 py-2 text-gray-700 rounded-lg dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800">
                     <i class="mr-3 fas fa-shopping-cart"></i>
-                    Cart
+                    Basket
                 </a>
                 <a href="#"
                     class="flex items-center px-4 py-2 text-gray-700 rounded-lg dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800">
@@ -77,11 +77,19 @@
                     <i class="hidden mr-3 fas fa-sun dark:block"></i>
                     Toggle Dark Mode
                 </button>
-                <a href="#"
+                {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}"
+                    class="flex items-center w-full px-4 py-2 text-white rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition duration-300 transform hover:-translate-y-0.5">
+                    <i class="mr-3 fas fa-user"></i>
+                    Profile
+                </a>
+                {% else %}
+                <a href="{% url 'login' %}{% if request.path != '/' %}?next={{ request.path }}{% endif %}"
                     class="flex items-center w-full px-4 py-2 text-white rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
                     <i class="mr-3 fas fa-sign-in-alt"></i>
                     Login
                 </a>
+                {% endif %}
             </div>
         </div>
 
@@ -91,7 +99,7 @@
                 <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div class="flex items-center justify-between h-16">
                         <div class="flex-shrink-0">
-                            <a href="#"
+                            <a href="{% url 'homeview' %}"
                                 class="text-2xl font-bold text-transparent transition-all bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text hover:from-purple-700 hover:to-blue-700">CodeMarket</a>
                         </div>
 
@@ -114,10 +122,10 @@
                                 <i class="mr-2 fas fa-store"></i>
                                 Products
                             </a>
-                            <a href="#"
+                            <a href="{% url 'product_basket' %}"
                                 class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
                                 <i class="mr-2 fas fa-shopping-cart"></i>
-                                Cart
+                                Basket
                             </a>
                             <a href="#"
                                 class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
@@ -130,13 +138,13 @@
                                 <i class="hidden fas fa-sun dark:block"></i>
                             </button>
                             {% if user.is_authenticated %}
-                            <a href="../templates/profile.html"
+                            <a href="{% url 'profile' %}"
                                 class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
                                 <i class="mr-2 fas fa-user"></i>
                                 Profile
                             </a>
                             {% else %}
-                            <a href="#"
+                            <a href="{% url 'login' %}{% if request.path != '/' %}?next={{ request.path }}{% endif %}"
                                 class="px-4 py-2 text-white transition-all duration-300 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
                                 <i class="mr-2 fas fa-sign-in-alt"></i>
                                 Login

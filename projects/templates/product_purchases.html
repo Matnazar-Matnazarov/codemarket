@@ -1,315 +1,111 @@
-<!DOCTYPE html>
-<html lang="en" class="light">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CodeMarket - Your marketplace for code">
-    <link rel="stylesheet" href="../static/css/style.css">
-    <script src="../static/js/tailwinds.js"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class'
-        }
-    </script>
-    
-    <link rel="stylesheet" href="../static/css/mobil.css">
-    <script src="../static/js/dark_tool.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script>
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme) {
-          document.documentElement.className = savedTheme;
-      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.documentElement.classList.add('dark');
-      }
-  </script>
-    <title>CodeMarket - Home</title>
-    
-</head>
-<body class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/50 z-40 lg:hidden mobile-menu-overlay"></div>
-    
-    <div class="flex min-h-screen">
-        <!-- Sidebar for mobile -->
-        <div id="mobile-menu" class="lg:hidden fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-900 transform -translate-x-full transition-transform duration-300 ease-in-out z-50">
-            <div class="p-4 border-b dark:border-gray-700">
-                <div class="flex items-center justify-between">
-                    <a href="../templates/home.html" class="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">CodeMarket</a>
-                    <button onclick="toggleMobileMenu()" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <nav class="flex-1 p-4 space-y-2">
-                <a href="../templates/home.html" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
-                    <i class="fas fa-home mr-3"></i>
-                    Home
-                </a>
-                <a href="../templates/product.html" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
-                    <i class="fas fa-store mr-3"></i>
-                    Products
-                </a>
-                <a href="#" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
-                    <i class="fas fa-shopping-cart mr-3"></i>
-                    Cart
-                </a>
-                <a href="#" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg">
-                    <i class="fas fa-info-circle mr-3"></i>
-                    About
-                </a>
-            </nav>
-            <div class="p-4 border-t dark:border-gray-700">
-                <button onclick="toggleDarkMode()" class="w-full flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-800 rounded-lg mb-2">
-                    <i class="fas fa-moon dark:hidden mr-3"></i>
-                    <i class="fas fa-sun hidden dark:block mr-3"></i>
-                    Toggle Dark Mode
-                </button>
-                <a href="../templates/login.html" class="w-full flex items-center px-4 py-2 text-white bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 rounded-lg">
-                    <i class="fas fa-sign-in-alt mr-3"></i>
-                    Login
-                </a>
-            </div>
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<main class="min-h-screen pt-24 pb-12 bg-gray-50 dark:bg-gray-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Page Title -->
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+        My Purchases</h1>
+      <p class="text-gray-600 dark:text-gray-400 mt-2 text-lg">Manage your purchased products and licenses</p>
+    </div>
+
+    <!-- Purchases Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for product in products %}
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300 border border-gray-100 dark:border-gray-700">
+        <div class="relative">
+          {% if product.project.images.first.image %}
+            <img src="{{ product.project.images.first.image.url }}" alt="{{ product.project.title }}" class="w-full h-52 object-cover">
+          {% else %}
+            <img src="{% static 'images/default-project.png' %}" alt="Default thumbnail" class="w-full h-52 object-cover">
+          {% endif %}
+          <div class="absolute top-4 right-4 {% if product.done %}bg-emerald-500{% else %}bg-amber-500{% endif %} text-white px-4 py-1.5 rounded-full text-sm font-medium shadow-lg">
+            {{ product.done|yesno:"Active,Pending" }}
+          </div>
         </div>
-
-        <!-- Main content -->
-        <div class="flex-1">
-          <header class="fixed top-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-sm z-30">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
-                    <div class="flex-shrink-0">
-                        <a href="../templates/home.html"
-                            class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent hover:from-purple-700 hover:to-blue-700 transition-all">CodeMarket</a>
-                    </div>
-    
-                    <button type="button"
-                        class="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-purple-600 hover:bg-purple-50 dark:hover:bg-gray-800 focus:outline-none"
-                        onclick="toggleMobileMenu()">
-                        <span class="sr-only">Open main menu</span>
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-    
-                    <!-- Desktop Navigation -->
-                    <nav class="hidden lg:flex lg:items-center lg:space-x-8">
-                        <a href="../templates/home.html"
-                            class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
-                            <i class="fas fa-home mr-2"></i>
-                            Home
-                        </a>
-                        <a href="../templates/product.html"
-                            class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
-                            <i class="fas fa-store mr-2"></i>
-                            Products
-                        </a>
-                        <a href="../templates/product_purchases.html"
-                            class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
-                            <i class="fas fa-shopping-cart mr-2"></i>
-                            Cart
-                        </a>
-                        <a href="../templates/product_purchases.html"
-                            class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
-                            <i class="fas fa-info-circle mr-2"></i>
-                            About
-                        </a>
-                        <button onclick="toggleDarkMode()"
-                            class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400">
-                            <i class="fas fa-moon dark:hidden"></i>
-                            <i class="fas fa-sun hidden dark:block"></i>
-                        </button>
-                        <a href="../templates/login.html"
-                            class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300">
-                            <i class="fas fa-sign-in-alt mr-2"></i>
-                            Login
-                        </a>
-                    </nav>
-                </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">{{ product.project.title }}</h3>
+          <div class="flex items-center text-gray-600 dark:text-gray-400 mb-3">
+            <i class="fas fa-calendar-alt mr-2"></i>
+            <span>Purchased: {{ product.created_at|date:"M d, Y" }}</span>
+          </div>
+          <div class="flex items-center text-gray-600 dark:text-gray-400 mb-4">
+            <i class="fas fa-tag mr-2"></i>
+            <span>{{ product.license_type|default:"Standard" }} License</span>
+          </div>
+          <div class="flex justify-between items-center mb-4">
+            <span class="text-2xl font-bold text-purple-600 dark:text-purple-400">${{ product.project.price }}</span>
+            <div class="flex space-x-3">
+              <button class="bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 p-3 rounded-xl hover:bg-purple-200 dark:hover:bg-purple-800 transition-all duration-300 flex items-center">
+                <i class="fas fa-download mr-2"></i>
+                <span>{{ product.project_count }}</span>
+              </button>
+              <button class="{% if product.done %}bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400{% else %}bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400{% endif %} p-3 rounded-xl hover:bg-emerald-200 dark:hover:bg-emerald-800 transition-all duration-300">
+                <i class="fas {% if product.done %}fa-check{% else %}fa-clock{% endif %}"></i>
+              </button>
             </div>
-        </header>
-    
-
-       
-        <main class="min-h-screen pt-24 pb-12 bg-gray-50 dark:bg-gray-900">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-              <!-- Page Title -->
-              <div class="mb-8">
-                <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                  My Purchases</h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-2 text-lg">Manage your purchased products and licenses</p>
-              </div>
-        
-              <!-- Purchases Grid -->
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Purchase Card 1 -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300 border border-gray-100 dark:border-gray-700">
-                  <div class="relative">
-                    <img src="../images/Screenshot from 2024-11-02 12-44-42.png" alt="Project thumbnail" class="w-full h-52 object-cover">
-                    <div class="absolute top-4 right-4 bg-emerald-500 text-white px-4 py-1.5 rounded-full text-sm font-medium shadow-lg">
-                      Active
-                    </div>
-                  </div>
-                  <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">Computer Lab Management System</h3>
-                    <div class="flex items-center text-gray-600 dark:text-gray-400 mb-3">
-                      <i class="fas fa-calendar-alt mr-2"></i>
-                      <span>Purchased: Feb 15, 2024</span>
-                    </div>
-                    <div class="flex items-center text-gray-600 dark:text-gray-400 mb-4">
-                      <i class="fas fa-tag mr-2"></i>
-                      <span>Premium License</span>
-                    </div>
-                    <div class="flex justify-between items-center mb-4">
-                      <span class="text-2xl font-bold text-purple-600 dark:text-purple-400">$299.99</span>
-                      <div class="flex space-x-3">
-                        <button class="bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 p-3 rounded-xl hover:bg-purple-200 dark:hover:bg-purple-800 transition-all duration-300 flex items-center">
-                          <i class="fas fa-download mr-2"></i>
-                          <span>1.2k</span>
-                        </button>
-                        <button class="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 p-3 rounded-xl hover:bg-emerald-200 dark:hover:bg-emerald-800 transition-all duration-300">
-                          <i class="fas fa-check"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                      <a href="../templates/product_detail.html" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-2 px-4 rounded-xl text-center hover:from-purple-700 hover:to-blue-700 transition-all duration-300">
-                        View Details
-                      </a>
-                      <button class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 flex items-center justify-center">
-                        <i class="fas fa-cloud-download-alt mr-2"></i>
-                        Download
-                      </button>
-                    </div>
-                  </div>
-                </div>
-        
-                <!-- Purchase Card 2 -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300 border border-gray-100 dark:border-gray-700">
-                  <div class="relative">
-                    <img src="../images/Screenshot from 2024-11-02 12-44-42.png" alt="Project thumbnail" class="w-full h-52 object-cover">
-                    <div class="absolute top-4 right-4 bg-emerald-500 text-white px-4 py-1.5 rounded-full text-sm font-medium shadow-lg">
-                      Active
-                    </div>
-                  </div>
-                  <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">E-Commerce Platform</h3>
-                    <div class="flex items-center text-gray-600 dark:text-gray-400 mb-3">
-                      <i class="fas fa-calendar-alt mr-2"></i>
-                      <span>Purchased: Jan 20, 2024</span>
-                    </div>
-                    <div class="flex items-center text-gray-600 dark:text-gray-400 mb-4">
-                      <i class="fas fa-tag mr-2"></i>
-                      <span>Standard License</span>
-                    </div>
-                    <div class="flex justify-between items-center mb-4">
-                      <span class="text-2xl font-bold text-purple-600 dark:text-purple-400">$199.99</span>
-                      <div class="flex space-x-3">
-                        <button class="bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 p-3 rounded-xl hover:bg-purple-200 dark:hover:bg-purple-800 transition-all duration-300 flex items-center">
-                          <i class="fas fa-download mr-2"></i>
-                          <span>856</span>
-                        </button>
-                        <button class="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 p-3 rounded-xl hover:bg-emerald-200 dark:hover:bg-emerald-800 transition-all duration-300">
-                          <i class="fas fa-check"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                      <a href="../templates/product_detail.html" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-2 px-4 rounded-xl text-center hover:from-purple-700 hover:to-blue-700 transition-all duration-300">
-                        View Details
-                      </a>
-                      <button class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 flex items-center justify-center">
-                        <i class="fas fa-cloud-download-alt mr-2"></i>
-                        Download
-                      </button>
-                    </div>
-                  </div>
-                </div>
-        
-                <!-- Purchase Card 3 -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform hover:scale-105 transition-all duration-300 border border-gray-100 dark:border-gray-700">
-                  <div class="relative">
-                    <img src="../images/Screenshot from 2024-11-02 12-44-42.png" alt="Project thumbnail" class="w-full h-52 object-cover">
-                    <div class="absolute top-4 right-4 bg-amber-500 text-white px-4 py-1.5 rounded-full text-sm font-medium shadow-lg">
-                      Pending
-                    </div>
-                  </div>
-                  <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-3">CRM System</h3>
-                    <div class="flex items-center text-gray-600 dark:text-gray-400 mb-3">
-                      <i class="fas fa-calendar-alt mr-2"></i>
-                      <span>Purchased: Mar 5, 2024</span>
-                    </div>
-                    <div class="flex items-center text-gray-600 dark:text-gray-400 mb-4">
-                      <i class="fas fa-tag mr-2"></i>
-                      <span>Enterprise License</span>
-                    </div>
-                    <div class="flex justify-between items-center mb-4">
-                      <span class="text-2xl font-bold text-purple-600 dark:text-purple-400">$499.99</span>
-                      <div class="flex space-x-3">
-                        <button class="bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 p-3 rounded-xl hover:bg-purple-200 dark:hover:bg-purple-800 transition-all duration-300 flex items-center">
-                          <i class="fas fa-download mr-2"></i>
-                          <span>2.1k</span>
-                        </button>
-                        <button class="bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 p-3 rounded-xl hover:bg-amber-200 dark:hover:bg-amber-800 transition-all duration-300">
-                          <i class="fas fa-clock"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                      <a href="../templates/product_detail.html" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-2 px-4 rounded-xl text-center hover:from-purple-700 hover:to-blue-700 transition-all duration-300">
-                        View Details
-                      </a>
-                      <button disabled class="bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 py-2 px-4 rounded-xl cursor-not-allowed flex items-center justify-center">
-                        <i class="fas fa-cloud-download-alt mr-2"></i>
-                        Download
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-        
-              <!-- Purchase Statistics -->
-              <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700">
-                  <div class="flex items-center justify-between">
-                    <div>
-                      <p class="text-gray-600 dark:text-gray-400 text-lg">Total Investment</p>
-                      <h4 class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mt-2">$999.97</h4>
-                    </div>
-                    <div class="bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900 dark:to-blue-900 p-4 rounded-2xl">
-                      <i class="fas fa-dollar-sign text-purple-600 dark:text-purple-400 text-2xl"></i>
-                    </div>
-                  </div>
-                </div>
-        
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700">
-                  <div class="flex items-center justify-between">
-                    <div>
-                      <p class="text-gray-600 dark:text-gray-400 text-lg">Active Licenses</p>
-                      <h4 class="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mt-2">3</h4>
-                    </div>
-                    <div class="bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900 dark:to-teal-900 p-4 rounded-2xl">
-                      <i class="fas fa-check-circle text-emerald-600 dark:text-emerald-400 text-2xl"></i>
-                    </div>
-                  </div>
-                </div>
-        
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700">
-                  <div class="flex items-center justify-between">
-                    <div>
-                      <p class="text-gray-600 dark:text-gray-400 text-lg">Total Downloads</p>
-                      <h4 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mt-2">4.2k</h4>
-                    </div>
-                    <div class="bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900 dark:to-cyan-900 p-4 rounded-2xl">
-                      <i class="fas fa-download text-blue-600 dark:text-blue-400 text-2xl"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </main>
-
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <a href="{% url 'project_detail' product.project.slug %}" class="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-2 px-4 rounded-xl text-center hover:from-purple-700 hover:to-blue-700 transition-all duration-300">
+              View Details
+            </a>
+            {% if product.done %}
+            <button class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 flex items-center justify-center">
+              <i class="fas fa-cloud-download-alt mr-2"></i>
+              Download
+            </button>
+            {% else %}
+            <button disabled class="bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 py-2 px-4 rounded-xl cursor-not-allowed flex items-center justify-center">
+              <i class="fas fa-cloud-download-alt mr-2"></i>
+              Download
+            </button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
     </div>
+
+    <!-- Purchase Statistics -->
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-600 dark:text-gray-400 text-lg">Total Investment</p>
+            <h4 class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mt-2">${{ total_investment }}</h4>
+          </div>
+          <div class="bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900 dark:to-blue-900 p-4 rounded-2xl">
+            <i class="fas fa-dollar-sign text-purple-600 dark:text-purple-400 text-2xl"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-600 dark:text-gray-400 text-lg">Active Licenses</p>
+            <h4 class="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mt-2">{{ products|length }}</h4>
+          </div>
+          <div class="bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900 dark:to-teal-900 p-4 rounded-2xl">
+            <i class="fas fa-check-circle text-emerald-600 dark:text-emerald-400 text-2xl"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-600 dark:text-gray-400 text-lg">Total Downloads</p>
+            <h4 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mt-2">{{ total_downloads }}</h4>
+          </div>
+          <div class="bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900 dark:to-cyan-900 p-4 rounded-2xl">
+            <i class="fas fa-download text-blue-600 dark:text-blue-400 text-2xl"></i>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
-</html>
+  </div>
+</main>
+{% endblock %}
