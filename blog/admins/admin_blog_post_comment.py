@@ -1,10 +1,21 @@
 from django.contrib import admin
 from blog.models.model_comment_on_blog_post import Comment
 from simple_history.admin import SimpleHistoryAdmin
+from import_export import resources
+from django.core.exceptions import ValidationError
+from import_export.admin import ImportExportModelAdmin
+
+
+class CommentResource(resources.ModelResource):
+    class Meta:
+        model = Comment
+        fields = "__all__"
 
 
 @admin.register(Comment)
-class CommentAdmin(SimpleHistoryAdmin):
+class CommentAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
+    model = Comment
+    resource_class = CommentResource
     list_display = (
         "comment",
         "post",

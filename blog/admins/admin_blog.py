@@ -4,15 +4,31 @@ from simple_history.admin import SimpleHistoryAdmin
 from django.utils.safestring import mark_safe
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django_ckeditor_5.widgets import CKEditor5Widget
+from import_export import resources
+from django.core.exceptions import ValidationError
+from import_export.admin import ImportExportModelAdmin
+
+
+class TagsResource(resources.ModelResource):
+    class Meta:
+        model = Tags
+        fields = "__all__"
 
 
 class TagsInline(GenericTabularInline):
     model = Tags
     extra = 1
 
+class PostResource(resources.ModelResource):
+    class Meta:
+        model = Post
+        fields = "__all__"
+
 
 @admin.register(Post)
-class PostAdmin(SimpleHistoryAdmin):
+class PostAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
+    model = Post
+    resource_class = PostResource
     # List view customization
     list_display = (
         "title",
@@ -55,7 +71,6 @@ class PostAdmin(SimpleHistoryAdmin):
         (
             "Advanced options",
             {
-                "classes": ("collapse",),
                 "fields": ("created_at", "updated_at"),
             },
         ),
@@ -63,7 +78,6 @@ class PostAdmin(SimpleHistoryAdmin):
     readonly_fields = ("created_at", "updated_at")
 
     # Add history for the model
-    history_list_display = ["status"]
 
     # Pagination in admin view
     list_per_page = 25
@@ -78,8 +92,12 @@ class PostAdmin(SimpleHistoryAdmin):
         return super().formfield_for_dbfield(db_field, **kwargs)
 
 
+
+
 @admin.register(Tags)
-class TagsAdmin(admin.ModelAdmin):
+class TagsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    model = Tags
+    resource_class = TagsResource
     list_display = ("name", "slug", "content_type", "object_id", "content_object")
     search_fields = ("name", "slug")
     list_filter = ("content_type",)

@@ -3,16 +3,26 @@ from .models.accounts import CustomUser
 from django.contrib.auth.admin import UserAdmin
 from simple_history.admin import SimpleHistoryAdmin
 from django.utils.html import format_html
+from import_export import resources
+from import_export.admin import ExportMixin
+from import_export.admin import ImportExportModelAdmin
+
+
+class CustomUserResource(resources.ModelResource):
+    class Meta:
+        model = CustomUser
+        fields = "__all__"
 
 
 @admin.register(CustomUser)
-class CustomUserAdmin(SimpleHistoryAdmin, UserAdmin):
+class CustomUserAdmin(ImportExportModelAdmin, SimpleHistoryAdmin, UserAdmin):
     model = CustomUser
+    resource_class = CustomUserResource
     fieldsets = (
         (None, {"fields": ("email", "password")}),
         (
             "Personal info",
-            {"fields": ("first_name", "last_name", "phone", "picture")},
+            {"fields": ("first_name", "last_name", "phone", "picture", "codecoins")},
         ),
         (
             "Permissions",
@@ -33,13 +43,13 @@ class CustomUserAdmin(SimpleHistoryAdmin, UserAdmin):
             None,
             {
                 "classes": ("wide",),
-                "fields": ("email", "password1", "password2"),
+                "fields": ("email", "password1", "password2", "codecoins"),
             },
         ),
     )
-    list_display = ("email", "first_name", "last_name", "is_staff")
-    list_filter = ("is_staff", "is_superuser", "is_active", "groups")
-    search_fields = ("email", "first_name", "last_name")
+    list_display = ("email", "first_name", "last_name", "is_staff", "codecoins")
+    list_filter = ("is_staff", "is_superuser", "is_active", "groups", "codecoins")
+    search_fields = ("email", "first_name", "last_name", "codecoins")
     ordering = ("email",)
 
     def profile_picture_tag(self, obj):
@@ -50,6 +60,8 @@ class CustomUserAdmin(SimpleHistoryAdmin, UserAdmin):
             )
         return "-"
 
+    def set_coins(self, obj):
+        return obj.codecoins
     profile_picture_tag.short_description = "Profile Picture"
 
     profile_picture_tag.allow_tags = True

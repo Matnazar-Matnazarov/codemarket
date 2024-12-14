@@ -5,7 +5,6 @@ from .views.project import ProjectView, ProjectJsonView, ProjectDetailView
 from .utils.check_post_tags import check_post_tags
 from .api_views.views_json_project import ProjectJsonAPIView
 from .views.product_basket import ProductBasketView
-
 # app_name = "api-projects"
 
 urlpatterns = [

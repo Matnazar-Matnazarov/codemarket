@@ -28,7 +28,7 @@ class ProjectImageViewSet(viewsets.ModelViewSet):
 
     def get_response_data(self, serializer_data=None, message="success", success=True):
         return {
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now().isoformat(),
             "success": success,
             "message": message,
             "data": serializer_data,

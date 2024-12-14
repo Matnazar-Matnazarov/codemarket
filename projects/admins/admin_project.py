@@ -3,6 +3,14 @@ from django.utils.html import mark_safe
 from projects.models.model_project import Project
 from simple_history.admin import SimpleHistoryAdmin
 from django.utils.text import slugify
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
+
+
+class ProjectResource(resources.ModelResource):
+    class Meta:
+        model = Project
+        fields = "__all__"
 
 
 class ProjectTechnologyInline(admin.TabularInline):
@@ -34,11 +42,13 @@ class ProjectStarInline(admin.TabularInline):
 
 
 @admin.register(Project)
-class ProjectAdmin(SimpleHistoryAdmin):
+class ProjectAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
     """
     Admin interface for managing Project instances.
     Provides comprehensive project management functionality with advanced features.
     """
+    model = Project
+    resource_class = ProjectResource
 
     list_display = (
         "name",

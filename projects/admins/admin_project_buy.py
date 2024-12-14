@@ -1,9 +1,19 @@
 from django.contrib import admin
 from ..models.model_project_buy import ModelProjectBuy
+from simple_history.admin import SimpleHistoryAdmin
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
+
+class ModelProjectBuyResource(resources.ModelResource):
+    class Meta:
+        model = ModelProjectBuy
+        fields = "__all__"
 
 
 @admin.register(ModelProjectBuy)
-class AdminProjectBuy(admin.ModelAdmin):
+class AdminProjectBuy(ImportExportModelAdmin, SimpleHistoryAdmin):
+    model = ModelProjectBuy
+    resource_class = ModelProjectBuyResource
     list_display = (
         "project",
         "user",
@@ -12,10 +22,11 @@ class AdminProjectBuy(admin.ModelAdmin):
         "updated_at",
         "comment",
         "project__price",
+        "codecoins",
     )
     list_display_links = ("project", "user")
     search_fields = ("project__name", "user__email", "user__username", "comment")
-    list_filter = ("done", "created_at", "updated_at", "project", "user")
+    list_filter = ("done", "created_at", "updated_at", "project", "user", "codecoins")
     readonly_fields = ("token", "created_at", "updated_at")
     list_per_page = 25
     date_hierarchy = "created_at"
@@ -25,7 +36,7 @@ class AdminProjectBuy(admin.ModelAdmin):
         ("Project Information", {"fields": ("project", "user", "done")}),
         (
             "Additional Information",
-            {"fields": ("comment", "token"), "classes": ("collapse",)},
+            {"fields": ("comment", "token", "codecoins"), "classes": ("collapse",)},
         ),
         (
             "Timestamps",

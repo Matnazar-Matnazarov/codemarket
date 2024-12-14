@@ -14,6 +14,7 @@ class ModelProjectBuy(ModelBlogBase):
     )
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     comment = models.TextField(max_length=500, null=True, blank=True)
+    codecoins = models.IntegerField(default=0, blank=True, null=True)
 
     class Meta:
         verbose_name = "Project Buy"

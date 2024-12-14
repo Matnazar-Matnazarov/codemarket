@@ -9,7 +9,6 @@ from django.http import JsonResponse
 
 class ProductBasketView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        # Get user's purchased products with optimized query
         products = (
             ModelProjectBuy.objects.select_related("project", "user")
             .filter(user=request.user)

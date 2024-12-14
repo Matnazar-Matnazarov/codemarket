@@ -36,6 +36,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         null=True,
         validators=[validate_image_file_extension],
     )
+    codecoins = models.IntegerField(default=0, blank=True, null=True)
     objects = CustomUserManager()
     history = HistoricalRecords()
 

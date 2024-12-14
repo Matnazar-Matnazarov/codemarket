@@ -1,14 +1,25 @@
 from django.contrib import admin
 from projects.models.model_database import ProjectBase
 from simple_history.admin import SimpleHistoryAdmin
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
+
+
+class ProjectBaseResource(resources.ModelResource):
+    class Meta:
+        model = ProjectBase
+        fields = "__all__"
 
 
 @admin.register(ProjectBase)
-class ProjectBaseAdmin(SimpleHistoryAdmin):
+class ProjectBaseAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
     """
     ProjectBase modelining admin interfeysi.
     Ushbu klass ProjectBase admin panelini boshqarish va foydalanish uchun moslashtirilgan.
     """
+
+    model = ProjectBase
+    resource_class = ProjectBaseResource
 
     list_display = ("name", "slug", "image", "created_at", "is_active", "is_deleted")
     list_filter = ("is_active", "is_deleted", "created_at", "updated_at")

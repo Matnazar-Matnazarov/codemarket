@@ -44,8 +44,6 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     "debug_toolbar",
-    "crispy_forms",
-    "crispy_bootstrap5",
     "hitcount",
     "simple_history",
     "admin_honeypot",
@@ -57,6 +55,7 @@ THIRD_PARTY_APPS = [
     "silk",
     "rest_framework.authtoken",
     "django_ckeditor_5",
+    "import_export",
 ]
 
 LOCAL_APPS = [
@@ -228,9 +227,8 @@ SILKY_MAX_RESPONSE_BODY_SIZE = 1024
 SILKY_META = True
 SILKY_PYTHON_PROFILER = False
 
-# Crispy Forms
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = "bootstrap5"
+IMPORT_EXPORT_TMP_STORAGE_CLASS = "import_export.tmp_storages.MediaStorage"
+
 
 # Celery settings
 CELERY_BROKER_URL = config("REDIS_URL", default="redis://localhost:6379/0")

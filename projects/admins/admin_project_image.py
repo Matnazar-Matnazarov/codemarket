@@ -2,11 +2,23 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 from projects.models.model_project_image import ProjectImage
 from simple_history.admin import SimpleHistoryAdmin
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
+
+
+class ProjectImageResource(resources.ModelResource):
+    class Meta:
+        model = ProjectImage
+        fields = "__all__"
+
 
 
 @admin.register(ProjectImage)
-class ProjectImageAdmin(SimpleHistoryAdmin):
+class ProjectImageAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
     """ProjectImage modelining admin interfeysi."""
+
+    model = ProjectImage
+    resource_class = ProjectImageResource
 
     list_display = ("name", "image_preview", "created_at", "is_active", "is_deleted")
     list_filter = ("is_active", "is_deleted", "created_at", "updated_at")
