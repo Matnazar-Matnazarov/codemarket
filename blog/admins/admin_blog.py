@@ -19,6 +19,7 @@ class TagsInline(GenericTabularInline):
     model = Tags
     extra = 1
 
+
 class PostResource(resources.ModelResource):
     class Meta:
         model = Post
@@ -90,8 +91,6 @@ class PostAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
                 )
             )
         return super().formfield_for_dbfield(db_field, **kwargs)
-
-
 
 
 @admin.register(Tags)

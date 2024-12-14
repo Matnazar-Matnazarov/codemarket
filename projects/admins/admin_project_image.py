@@ -12,7 +12,6 @@ class ProjectImageResource(resources.ModelResource):
         fields = "__all__"
 
 
-
 @admin.register(ProjectImage)
 class ProjectImageAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
     """ProjectImage modelining admin interfeysi."""

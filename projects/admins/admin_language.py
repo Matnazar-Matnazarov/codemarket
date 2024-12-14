@@ -5,6 +5,7 @@ from .admin_project import ProjectTechnologyInline
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
+
 class ProjectLanguageResource(resources.ModelResource):
     class Meta:
         model = ProjectLanguage

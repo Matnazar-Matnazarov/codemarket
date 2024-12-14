@@ -4,6 +4,7 @@ from simple_history.admin import SimpleHistoryAdmin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
+
 class ModelProjectBuyResource(resources.ModelResource):
     class Meta:
         model = ModelProjectBuy

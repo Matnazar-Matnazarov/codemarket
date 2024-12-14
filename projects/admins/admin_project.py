@@ -47,6 +47,7 @@ class ProjectAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
     Admin interface for managing Project instances.
     Provides comprehensive project management functionality with advanced features.
     """
+
     model = Project
     resource_class = ProjectResource
 

@@ -62,6 +62,7 @@ class CustomUserAdmin(ImportExportModelAdmin, SimpleHistoryAdmin, UserAdmin):
 
     def set_coins(self, obj):
         return obj.codecoins
+
     profile_picture_tag.short_description = "Profile Picture"
 
     profile_picture_tag.allow_tags = True
