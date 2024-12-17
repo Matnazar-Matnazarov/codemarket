@@ -87,7 +87,7 @@ class EditPasswordView(LoginRequiredMixin, View):
                         validate_password(new_password)
                     except ValidationError as e:
                         try:
-                            s = f'{"\n".join(e)}'
+                            s = "\n".join(e)
                             messages.error(request, s)
                         except Exception as t:
                             messages.error(request, t)
