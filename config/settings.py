@@ -65,7 +65,7 @@ THIRD_PARTY_APPS = [
     "django_ckeditor_5",
     "import_export",
     "compressor",
-    'cloudinary_storage',
+    # 'cloudinary_storage',
 ]
 
 LOCAL_APPS = [
@@ -122,7 +122,9 @@ DATABASES = {
     #     "ENGINE": "django.db.backends.sqlite3",
     #     "NAME": BASE_DIR / "db.sqlite3",
     # }
-    "default": dj_database_url.parse("postgresql://matnazar:2M2pl2fNlOjh7aj5zAG2h95LKbpjiRz8@dpg-ctgj7952ng1s738j8q70-a.oregon-postgres.render.com/codemarket_xj16")
+    "default": dj_database_url.parse(
+        "postgresql://matnazar:zR1xKluz8tFxLNzDGQiSHrLK9diBueMw@dpg-ctgkpql2ng1s738k2q6g-a.oregon-postgres.render.com/codemarket_a9sm"
+        )
 }
 
 # Password Validation
