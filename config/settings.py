@@ -27,7 +27,7 @@ env.read_env()
 BASE_DIR = Path(__file__).resolve().parent.parent
 # load_dotenv()
 
-SECRET_KEY = env.str("SECRET_KEY")
+SECRET_KEY = env.str("SECRET_KEY") or "django-insecure-scy6y3q5p0ha_e=l679pbvd+v@cfzyl44(5zr2#)kmzmt50c8n"
 DEBUG = True#env.bool("DEBUG") or True
 ALLOWED_HOSTS = ["*"]#env.list("ALLOWED_HOSTS", default="*")
 
