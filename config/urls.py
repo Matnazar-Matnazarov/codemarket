@@ -85,3 +85,4 @@ urlpatterns = [
     path("blog/", include("blog.urls")),
     # Default redirect
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

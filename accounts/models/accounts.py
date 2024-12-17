@@ -1,6 +1,6 @@
 from django.core.validators import RegexValidator
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import AbstractUser
 from .managers import CustomUserManager
 from simple_history.models import HistoricalRecords
 from django.core.validators import validate_image_file_extension
@@ -14,7 +14,7 @@ PHONE_REGEX = (
 )
 
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
+class CustomUser(AbstractUser):
     email = models.EmailField(unique=True, db_index=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
@@ -40,8 +40,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
     history = HistoricalRecords()
 
-    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     def __str__(self) -> str:
-        return f"{self.email}"
+        return f"{self.username} - {self.email}"

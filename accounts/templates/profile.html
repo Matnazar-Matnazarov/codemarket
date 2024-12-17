@@ -1,70 +1,81 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load compress static %}
 
 {% block content %}
 <main class="min-h-screen pt-28 md:pt-24 pb-12 px-4 bg-gray-50 dark:bg-gray-900">
   <div class="max-w-4xl mx-auto">
-    <div class="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-2xl shadow-xl p-6 sm:p-8 space-y-8 transform transition-all duration-300 hover:shadow-2xl border border-gray-100 dark:border-gray-700">
+    <div class="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-2xl shadow-xl p-6 sm:p-8 space-y-6 transform transition-all duration-300 hover:shadow-2xl border border-gray-100 dark:border-gray-700">
       
       <!-- Profile Header -->
-      <div class="flex flex-col sm:flex-row items-center gap-6">
+      <div class="flex flex-col sm:flex-row items-center gap-5">
         <div class="relative group cursor-pointer">
-          <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-purple-600 transition-all duration-300 group-hover:border-blue-600">
+          <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-4 border-purple-600 transition-all duration-300 group-hover:border-blue-600">
             {% if user.picture %}
             <img src="{{user.picture.url}}" alt="Profile Picture" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
             {% else %}
             <img src="{% static 'images/default-avatar.png' %}" alt="Profile Picture" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
             {% endif %}
           </div>
-          <button class="absolute bottom-0 right-0 bg-purple-600 text-white p-2 rounded-full hover:bg-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-            <i class="fas fa-camera"></i>
+          <button class="absolute bottom-0 right-0 bg-purple-600 text-white p-1.5 rounded-full hover:bg-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+            <i class="fas fa-camera text-sm"></i>
           </button>
         </div>
         
         <div class="text-center sm:text-left flex-1">
+          <h2 class="text-lg sm:text-xl font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <i class="fas fa-at text-purple-600 mr-1.5"></i>{{ user.username }}
+          </h2>
             {% if user.first_name and user.last_name %}
-                <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
+                <h1 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
                     {{ user.first_name }} {{ user.last_name }}
                 </h1>
             {% elif user.last_name %}
-                <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
+                <h1 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
                     {{ user.last_name }}
                 </h1>
             {% elif user.first_name %}
-                <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
+                <h1 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
                     {{ user.first_name }}
                 </h1>
             {% else %}
                 {% if user.username %}
-                <h1 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
+                <h1 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
                     {{ user.username }}
                 </h1>
                 {% endif %}
             {% endif %}
-          <p class="text-gray-600 dark:text-gray-400 flex items-center gap-2">
+          <p class="text-gray-600 dark:text-gray-400 flex items-center gap-2 text-sm">
             <i class="fas fa-envelope text-purple-600"></i>
             {{ user.email }}
           </p>
           {% if user.date_joined %}
-          <p class="text-sm text-gray-500 dark:text-gray-500 mt-2 flex items-center gap-2">
+          <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-500 mt-1.5 flex items-center gap-2">
             <i class="fas fa-clock text-purple-600"></i>
             Member since {{ user.date_joined|date:"F j, Y" }}
           </p>
           {% endif %}
+          <p class="text-base sm:text-lg font-semibold text-yellow-500 dark:text-yellow-400 mt-2 flex items-center gap-2">
+            <i class="fas fa-coins text-yellow-500 animate-pulse"></i>
+            CodeCoins: {{ user.codecoins|default:"0" }}
+          </p>
         </div>
       </div>
 
       <!-- Edit Profile Form -->
-      <div class="flex flex-col sm:flex-row gap-4">
-        <a href="{% url 'edit_profile' %}" class="flex-1 text-center bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-purple-700 hover:to-blue-700 focus:ring-4 focus:ring-purple-500/50 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 text-sm md:text-base flex items-center justify-center gap-2">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <a href="{% url 'edit_profile' %}" class="text-center bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium py-2 px-3 rounded-lg hover:from-purple-700 hover:to-blue-700 focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 text-xs sm:text-sm flex items-center justify-center gap-1.5">
           <i class="fas fa-user-edit"></i>
           Edit Profile
         </a>
-        <a href="{% url 'edit_password' %}" class="flex-1 text-center border-2 border-purple-600 text-purple-600 dark:text-purple-400 font-semibold py-3 px-6 rounded-lg hover:bg-purple-600 hover:text-white focus:ring-4 focus:ring-purple-500/50 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 text-sm md:text-base flex items-center justify-center gap-2">
+        <a href="{% url 'edit_password' %}" class="text-center border border-purple-600 text-purple-600 dark:text-purple-400 font-medium py-2 px-3 rounded-lg hover:bg-purple-600 hover:text-white focus:ring-2 focus:ring-purple-500/50 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 text-xs sm:text-sm flex items-center justify-center gap-1.5">
           <i class="fas fa-key"></i>
-          Change Password
+          Password
         </a>
-        <a href="{% url 'logout' %}" class="flex-1 text-center bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-purple-700 hover:to-blue-700 focus:ring-4 focus:ring-purple-500/50 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 text-sm md:text-base flex items-center justify-center gap-2">
+        <a href="#" class="text-center bg-gradient-to-r from-yellow-500 to-amber-500 text-white font-medium py-2 px-3 rounded-lg hover:from-yellow-600 hover:to-amber-600 focus:ring-2 focus:ring-yellow-500/50 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 text-xs sm:text-sm flex items-center justify-center gap-1.5">
+          <i class="fas fa-coins"></i>
+          Buy Coins
+        </a>
+        <a href="{% url 'logout' %}" class="text-center bg-gradient-to-r from-red-500 to-rose-600 text-white font-medium py-2 px-3 rounded-lg hover:from-red-600 hover:to-rose-700 focus:ring-2 focus:ring-red-500/50 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 text-xs sm:text-sm flex items-center justify-center gap-1.5">
           <i class="fas fa-sign-out-alt"></i>
           Logout
         </a>

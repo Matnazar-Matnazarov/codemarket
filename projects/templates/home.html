@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
-
+{% load compress static %}
 {% block content %}
 
 <main class="pt-20 pb-12">
@@ -94,14 +93,12 @@
             </div>
         </div>
     </section>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0"></script>
-<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.41.0"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.41.0"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    {% compress js %}
     <script src="{% static 'js/chart_analytics.js' %}"></script>
-
+    {% endcompress %}
 </main>
 
 {% endblock %}

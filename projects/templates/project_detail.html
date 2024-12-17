@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load compress static %}
 {% load hitcount_tags %}
 {% block content %}
 
@@ -144,5 +144,7 @@
       </div>
     </div>
   </main>
-<script src="{% static 'js/product_detail_image.js' %}"></script>
+  {% compress js %}
+  <script src="{% static 'js/product_detail_image.js' %}"></script>
+  {% endcompress %}
 {% endblock %}

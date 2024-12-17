@@ -8,25 +8,33 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
-from decouple import config
+import dj_database_url
+import cloudinary_storage
 from .jazzmin import JAZZMIN_SETTINGS
 from .ckeditor_settings import (
     CKEDITOR_5_CONFIGS,
     CKEDITOR_5_CUSTOM_CSS,
     CKEDITOR_5_FILE_STORAGE,
 )
+from environs import Env
+
+env = Env()
+env.read_env()
 
 # from .log_settings import LOG_FILE_PATH, LOGGING
 
 # Core Settings
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "django-insecure-scy6y3q5p0ha_e=l679pbvd+v@cfzyl44(5zr2#)kmzmt50c8n",
-)
-DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
+# load_dotenv()
 
+SECRET_KEY = env.str("SECRET_KEY")
+DEBUG = True#env.bool("DEBUG") or True
+ALLOWED_HOSTS = ["*"]#env.list("ALLOWED_HOSTS", default="*")
+
+# CSRF_TRUSTED_ORIGINS = [
+#     "http://127.0.0.1:8000",
+#     "https://670a-95-214-211-136.ngrok-free.app/",
+# ]
 # Logging Configuration
 # LOG_FILE_PATH = LOG_FILE_PATH
 # LOGGING = LOGGING
@@ -56,6 +64,8 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "django_ckeditor_5",
     "import_export",
+    "compressor",
+    'cloudinary_storage',
 ]
 
 LOCAL_APPS = [
@@ -64,11 +74,13 @@ LOCAL_APPS = [
     "blog",
 ]
 
+
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 # Middleware Configuration
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # Whitenoise ni qo'shish
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -102,20 +114,15 @@ TEMPLATES = [
     },
 ]
 
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 # Database Configuration
 DATABASES = {
     # "default": {
-    #     "ENGINE": "django.db.backends.postgresql",
-    #     "NAME": os.environ.get("DB_NAME", "CodeMarket"),
-    #     "USER": os.environ.get("DB_USER", "postgres"),
-    #     "PASSWORD": os.environ.get("DB_PASSWORD", "password"),
-    #     "HOST": os.environ.get("DB_HOST", "localhost"),
-    #     "PORT": os.environ.get("DB_PORT", "5432"),
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
     # }
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": dj_database_url.parse("postgresql://matnazar:2M2pl2fNlOjh7aj5zAG2h95LKbpjiRz8@dpg-ctgj7952ng1s738j8q70-a.oregon-postgres.render.com/codemarket_xj16")
 }
 
 # Password Validation
@@ -144,7 +151,12 @@ LANGUAGES = [
     ("uz", "Uzbek"),
     ("ru", "Russian"),
 ]
-
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
+)
 # Static Files Configuration
 STATIC_URL = "static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
@@ -152,6 +164,24 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dvlec29rk',
+    'API_KEY': '955261394436991',
+    'API_SECRET': 'XmyxDdQkmspUzv2s-T58-t69jME'
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+# COMPRESS_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+COMPRESS_ENABLED = True  # Ishlab chiqarish uchun True qiling
+# COMPRESS_OUTPUT_DIR = "CACHE"  # Siqilgan fayllar katalogi
+COMPRESS_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+# COMPRESS_OFFLINE = True  # HTML shablonlarni oldindan siqish
+# # COMPRESS_FILTERS = {
+#     'css': ['compressor.filters.css_default.CssAbsoluteFilter'],
+#     'js': ['compressor.filters.js_default.JSMinFilter'],
+# }
 # Default Primary Key Field
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -214,7 +244,7 @@ JAZZMIN_UI_TWEAKS = {
 }
 
 # Debug Toolbar
-INTERNAL_IPS = ["127.0.0.1"]
+INTERNAL_IPS = ["127.0.0.1","*"]
 DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": lambda request: request.user.is_staff,
 }
@@ -230,34 +260,27 @@ SILKY_PYTHON_PROFILER = False
 IMPORT_EXPORT_TMP_STORAGE_CLASS = "import_export.tmp_storages.MediaStorage"
 
 
-# Celery settings
-CELERY_BROKER_URL = config("REDIS_URL", default="redis://localhost:6379/0")
-CELERY_RESULT_BACKEND = config("REDIS_URL", default="redis://localhost:6379/0")
-CELERY_ACCEPT_CONTENT = ["json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
-CELERY_TIMEZONE = "UTC"
+# # Celery settings
+# CELERY_BROKER_URL = config("REDIS_URL", default="redis://localhost:6379/0")
+# CELERY_RESULT_BACKEND = config("REDIS_URL", default="redis://localhost:6379/0")
+# CELERY_ACCEPT_CONTENT = ["json"]
+# CELERY_TASK_SERIALIZER = "json"
+# CELERY_RESULT_SERIALIZER = "json"
+# CELERY_TIMEZONE = "UTC"
 
-# Redis settings
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-#         "LOCATION": config("REDIS_URL", default="redis://localhost:6379/0"),
-#     }
-# }
 
 # Email settings
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = config("EMAIL_HOST", default="smtp.gmail.com")
-EMAIL_PORT = config("EMAIL_PORT", default=587, cast=int)
-EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=True, cast=bool)
-EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default=EMAIL_HOST_USER)
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = os.environ.get("EMAIL_HOST", default="smtp.gmail.com")
+# EMAIL_PORT = os.environ.get("EMAIL_PORT", default=587, cast=int)
+# EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", default=True, cast=bool)
+# EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+# DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", default=EMAIL_HOST_USER)
 
-# Google OAuth settings
-GOOGLE_OAUTH2_CLIENT_ID = config("GOOGLE_OAUTH2_CLIENT_ID")
-GOOGLE_OAUTH2_CLIENT_SECRET = config("GOOGLE_OAUTH2_CLIENT_SECRET")
+# #Google OAuth settings
+# GOOGLE_OAUTH2_CLIENT_ID = os.environ.get("GOOGLE_OAUTH2_CLIENT_ID")
+# GOOGLE_OAUTH2_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH2_CLIENT_SECRET")
 
 # Frontend URL for email verification
 # FRONTEND_URL = config("FRONTEND_URL", default="http://localhost:3000")

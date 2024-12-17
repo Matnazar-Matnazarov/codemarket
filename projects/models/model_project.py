@@ -10,12 +10,14 @@ from django.contrib.contenttypes.fields import GenericRelation
 from .model_stars import Stars
 from ..utils.generator_id import generate_id
 import uuid
-
+from accounts.models.accounts import CustomUser
+from .managers import ProjectManager
 
 class Project(ModelBase):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     title = models.CharField(max_length=50, null=True, blank=True, db_index=True)
     about = models.TextField(null=True, blank=True)
-    price = models.FloatField(
+    price = models.IntegerField(
         null=True,
         blank=True,
     )
@@ -54,7 +56,8 @@ class Project(ModelBase):
         object_id_field="object_pk",
         related_query_name="hit_count_generic_relation",
     )
-
+    is_check_admin = models.BooleanField(default=False)
+    objects = ProjectManager()
     class Mata:
         verbose_name = "Project"
         verbose_name_plural = "Projects"

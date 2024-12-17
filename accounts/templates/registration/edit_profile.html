@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load compress static %}
 
 {% block content %}
 <main class="min-h-screen pt-28 md:pt-24 pb-12 px-4 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
@@ -38,6 +38,7 @@
             </div>
           </div>
 
+
           <div class="form-group relative">
             <label for="id_first_name" class="block text-base font-semibold text-gray-800 dark:text-gray-200 mb-2">First Name</label>
             <div class="relative">
@@ -61,12 +62,14 @@
               </div>
             </div>
           </div>
+
+          
         </div>
 
         <div class="space-y-4 pt-4">
           <button type="submit"
-            class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-4 px-6 rounded-xl hover:from-purple-700 hover:to-blue-700 focus:ring-4 focus:ring-purple-500/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg active:translate-y-0 text-base">
-            <i class="fas fa-save mr-2"></i> Save Changes
+            class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-4 px-6 rounded-xl hover:from-purple-700 hover:to-blue-700 focus:ring-4 focus:ring-purple-500/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg active:translate-y-0 text-base group">
+            <i class="fas fa-save mr-2 group-hover:animate-bounce"></i> Save Changes
           </button>
 
           <a href="{% url 'profile' %}"

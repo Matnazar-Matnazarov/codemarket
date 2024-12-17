@@ -52,6 +52,7 @@ class ProjectAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
     resource_class = ProjectResource
 
     list_display = (
+        "user",
         "name",
         "title",
         "price",
@@ -63,6 +64,7 @@ class ProjectAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
         "star_count",
         "display_technologies",
         "display_databases",
+        "is_check_admin",
     )
     list_filter = (
         "is_active",
@@ -71,6 +73,7 @@ class ProjectAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
         "updated_at",
         "technology",
         "database",
+        "is_check_admin",
     )
     search_fields = ("title", "name", "about", "url", "guid")
     readonly_fields = (
@@ -89,10 +92,10 @@ class ProjectAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
     fieldsets = (
         (
             "Basic Information",
-            {"fields": ("title", "name", "about", "price", "url", "slug")},
+            {"fields": ("title", "name", "about", "price", "url", "slug", "user")},
         ),
         ("Media", {"fields": ("zip_file",)}),
-        ("Status", {"fields": ("is_active", "is_deleted")}),
+        ("Status", {"fields": ("is_active", "is_deleted", "is_check_admin")}),
         (
             "System Fields",
             {"classes": ("collapse",), "fields": ("guid", "created_at", "updated_at")},

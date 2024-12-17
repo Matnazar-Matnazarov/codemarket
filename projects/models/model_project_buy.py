@@ -4,7 +4,7 @@ from django.db import models
 from .model_project import Project
 from blog.models.model_blog_base import ModelBlogBase
 from accounts.models import CustomUser
-
+from .managers import ProjectBuyManager
 
 class ModelProjectBuy(ModelBlogBase):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -15,7 +15,7 @@ class ModelProjectBuy(ModelBlogBase):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     comment = models.TextField(max_length=500, null=True, blank=True)
     codecoins = models.IntegerField(default=0, blank=True, null=True)
-
+    objects = ProjectBuyManager()
     class Meta:
         verbose_name = "Project Buy"
         verbose_name_plural = "Project Buys"
