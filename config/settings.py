@@ -41,7 +41,7 @@ ALLOWED_HOSTS = ["*"]#env.list("ALLOWED_HOSTS", default="*")
 
 # Application Definition
 DJANGO_APPS = [
-    "jazzmin",  # Admin theme
+    # "jazzmin",  # Admin theme
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
