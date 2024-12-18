@@ -65,7 +65,6 @@ THIRD_PARTY_APPS = [
     "django_ckeditor_5",
     "import_export",
     "compressor",
-    # 'cloudinary_storage',
 ]
 
 LOCAL_APPS = [
@@ -164,17 +163,10 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_URL = "/media/"
-# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dvlec29rk',
-    'API_KEY': '854546919577839',
-    'API_SECRET': 'iNu-s-EYUK03TUM57JD08rDkBUw'
-}
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
-# COMPRESS_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
 
 COMPRESS_ENABLED = True  # Ishlab chiqarish uchun True qiling
 # COMPRESS_OUTPUT_DIR = "CACHE"  # Siqilgan fayllar katalogi
