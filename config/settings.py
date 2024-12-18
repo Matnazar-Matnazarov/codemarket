@@ -9,7 +9,6 @@ import os
 from pathlib import Path
 from datetime import timedelta
 import dj_database_url
-import cloudinary_storage
 from .jazzmin import JAZZMIN_SETTINGS
 from .ckeditor_settings import (
     CKEDITOR_5_CONFIGS,
