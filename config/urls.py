@@ -46,10 +46,9 @@ urlpatterns = [
     path("secret/admin/", admin.site.urls, name="admin"),  # Secure admin interface
     path(
         "admin/", include("admin_honeypot.urls", namespace="admin_honeypot")
-    ),  # Security honeypot
+    ),  # Security honeypot/
     # Development & Debug Tools
     path("__debug__/", include(debug_toolbar.urls)),  # Debug toolbar
-    path("silk/", include("silk.urls", namespace="silk")),  # Performance profiling
     # Internationalization
     path("i18n/", set_language, name="set_language"),
     # CKEditor 5
@@ -59,6 +58,7 @@ urlpatterns = [
     path("", include("projects.urls")),
     # Authentication URLs
     path("accounts/", include("accounts.urls")),
+    path("accounts/", include("allauth.urls")),
     # path("accounts/", include("django.contrib.auth.urls")),
     path("api/v1/drf-auth/", include("rest_framework.urls")),
     # JWT Token Management
@@ -85,4 +85,3 @@ urlpatterns = [
     path("blog/", include("blog.urls")),
     # Default redirect
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

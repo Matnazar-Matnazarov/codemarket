@@ -11,6 +11,9 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
+# from rest_framework.authtoken.models import Token
+# from rest_framework_simplejwt.models import Token
+
 
 class LoginView(View):
     def get(self, request):

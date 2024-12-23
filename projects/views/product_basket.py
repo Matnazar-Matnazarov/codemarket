@@ -7,6 +7,7 @@ from django.views import View
 from django.http import JsonResponse
 from django.contrib import messages
 
+
 class ProductBasketView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         products = None
@@ -22,12 +23,11 @@ class ProductBasketView(LoginRequiredMixin, View):
                 )
             )
 
-
             totals = products.aggregate(
                 total_investment=Sum("project__price", default=0),
                 total_downloads=Count("pk", filter=Q(done=True)),
             )
-        
+
             # print(products.first().project.images.first())
             context = {
                 "products": products,

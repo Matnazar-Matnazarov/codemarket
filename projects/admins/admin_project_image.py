@@ -6,10 +6,10 @@ from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
 
-class ProjectImageResource(resources.ModelResource):
-    class Meta:
-        model = ProjectImage
-        fields = "__all__"
+# class ProjectImageResource(resources.ModelResource):
+#     class Meta:
+#         model = ProjectImage
+#         fields = "__all__"
 
 
 @admin.register(ProjectImage)
@@ -17,7 +17,7 @@ class ProjectImageAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
     """ProjectImage modelining admin interfeysi."""
 
     model = ProjectImage
-    resource_class = ProjectImageResource
+    # resource_class = ProjectImageResource
 
     list_display = ("name", "image_preview", "created_at", "is_active", "is_deleted")
     list_filter = ("is_active", "is_deleted", "created_at", "updated_at")

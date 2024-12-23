@@ -8,18 +8,18 @@ from import_export.admin import ExportMixin
 from import_export.admin import ImportExportModelAdmin
 
 
-class CustomUserResource(resources.ModelResource):
-    class Meta:
-        model = CustomUser
-        fields = "__all__"
+# class CustomUserResource(resources.ModelResource):
+#     class Meta:
+#         model = CustomUser
+#         fields = "__all__"
 
 
 @admin.register(CustomUser)
 class CustomUserAdmin(ImportExportModelAdmin, SimpleHistoryAdmin, UserAdmin):
     model = CustomUser
-    resource_class = CustomUserResource
+    # resource_class = CustomUserResource
     fieldsets = (
-        (None, {"fields": ("username","email", "password")}),
+        (None, {"fields": ("username", "email", "password")}),
         (
             "Personal info",
             {"fields": ("first_name", "last_name", "phone", "picture", "codecoins")},
@@ -33,6 +33,7 @@ class CustomUserAdmin(ImportExportModelAdmin, SimpleHistoryAdmin, UserAdmin):
                     "is_superuser",
                     "groups",
                     "user_permissions",
+                    "role",
                 )
             },
         ),
@@ -47,10 +48,20 @@ class CustomUserAdmin(ImportExportModelAdmin, SimpleHistoryAdmin, UserAdmin):
             },
         ),
     )
-    list_display = ("username","email", "first_name", "last_name", "is_staff", "codecoins")
+    list_display = (
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "is_staff",
+        "codecoins",
+    )
     list_filter = ("is_staff", "is_superuser", "is_active", "groups", "codecoins")
-    search_fields = ("username","email", "first_name", "last_name", "codecoins")
-    ordering = ("username","email",)
+    search_fields = ("username", "email", "first_name", "last_name", "codecoins")
+    ordering = (
+        "username",
+        "email",
+    )
 
     def profile_picture_tag(self, obj):
         if obj.picture:

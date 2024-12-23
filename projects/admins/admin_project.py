@@ -7,10 +7,10 @@ from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
 
-class ProjectResource(resources.ModelResource):
-    class Meta:
-        model = Project
-        fields = "__all__"
+# class ProjectResource(resources.ModelResource):
+#     class Meta:
+#         model = Project
+#         fields = "__all__"
 
 
 class ProjectTechnologyInline(admin.TabularInline):
@@ -49,7 +49,7 @@ class ProjectAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
     """
 
     model = Project
-    resource_class = ProjectResource
+    # resource_class = ProjectResource
 
     list_display = (
         "user",

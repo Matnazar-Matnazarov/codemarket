@@ -17,6 +17,7 @@ from .ckeditor_settings import (
 )
 from environs import Env
 
+
 env = Env()
 env.read_env()
 
@@ -26,9 +27,13 @@ env.read_env()
 BASE_DIR = Path(__file__).resolve().parent.parent
 # load_dotenv()
 
-SECRET_KEY = env.str("SECRET_KEY") or "django-insecure-scy6y3q5p0ha_e=l679pbvd+v@cfzyl44(5zr2#)kmzmt50c8n"
-DEBUG = True#env.bool("DEBUG") or True
-ALLOWED_HOSTS = ["*"]#env.list("ALLOWED_HOSTS", default="*")
+SECRET_KEY = (
+    env.str("SECRET_KEY")
+    or "django-insecure-scy6y3q5p0ha_e=l679pbvd+v@cfzyl44(5zr2#)kmzmt50c8n"
+)
+
+DEBUG = True  # env.bool("DEBUG") or True
+ALLOWED_HOSTS = ["*"]  # env.list("ALLOWED_HOSTS", default="*")
 
 # CSRF_TRUSTED_ORIGINS = [
 #     "http://127.0.0.1:8000",
@@ -40,13 +45,14 @@ ALLOWED_HOSTS = ["*"]#env.list("ALLOWED_HOSTS", default="*")
 
 # Application Definition
 DJANGO_APPS = [
-    # "jazzmin",  # Admin theme
+    "jazzmin",  # Admin theme
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
 ]
 
 THIRD_PARTY_APPS = [
@@ -59,11 +65,15 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "drf_yasg",
     "django_filters",
-    "silk",
     "rest_framework.authtoken",
     "django_ckeditor_5",
     "import_export",
     "compressor",
+    # Allauth
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",  # Google oauth
 ]
 
 LOCAL_APPS = [
@@ -86,9 +96,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",  # Allauth middleware
     "config.middlewares.admin_toolbar.AdminDebugToolbarMiddleware",
-    "simple_history.middleware.HistoryRequestMiddleware",
-    "silk.middleware.SilkyMiddleware",
 ]
 
 # URL Configuration
@@ -99,7 +108,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -112,6 +121,8 @@ TEMPLATES = [
     },
 ]
 
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Database Configuration
@@ -122,8 +133,11 @@ DATABASES = {
     # }
     "default": dj_database_url.parse(
         "postgresql://matnazar:zR1xKluz8tFxLNzDGQiSHrLK9diBueMw@dpg-ctgkpql2ng1s738k2q6g-a.oregon-postgres.render.com/codemarket_a9sm"
-        )
+    )
 }
+
+
+SITE_ID = 1
 
 # Password Validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -140,6 +154,29 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+ACCOUNT_SIGNUP_REDIRECT_URL = "/"
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+        "METHOD": "oauth2",
+        "VERIFIED_EMAIL": True,
+    }
+}
+
+
 # Internationalization
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Tashkent"
@@ -152,10 +189,10 @@ LANGUAGES = [
     ("ru", "Russian"),
 ]
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
     # other finders..
-    'compressor.finders.CompressorFinder',
+    "compressor.finders.CompressorFinder",
 )
 # Static Files Configuration
 STATIC_URL = "static/"
@@ -165,10 +202,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
-
-
 COMPRESS_ENABLED = True  # Ishlab chiqarish uchun True qiling
-# COMPRESS_OUTPUT_DIR = "CACHE"  # Siqilgan fayllar katalogi
 COMPRESS_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 # COMPRESS_OFFLINE = True  # HTML shablonlarni oldindan siqish
 # # COMPRESS_FILTERS = {
@@ -237,18 +271,11 @@ JAZZMIN_UI_TWEAKS = {
 }
 
 # Debug Toolbar
-INTERNAL_IPS = ["127.0.0.1","*"]
+INTERNAL_IPS = ["127.0.0.1", "*"]
 DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": lambda request: request.user.is_staff,
 }
 
-# Silk Profiler Settings
-SILKY_AUTHENTICATION = True
-SILKY_AUTHORISATION = True
-SILKY_MAX_REQUEST_BODY_SIZE = -1
-SILKY_MAX_RESPONSE_BODY_SIZE = 1024
-SILKY_META = True
-SILKY_PYTHON_PROFILER = False
 
 IMPORT_EXPORT_TMP_STORAGE_CLASS = "import_export.tmp_storages.MediaStorage"
 
@@ -262,23 +289,10 @@ IMPORT_EXPORT_TMP_STORAGE_CLASS = "import_export.tmp_storages.MediaStorage"
 # CELERY_TIMEZONE = "UTC"
 
 
-# Email settings
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-# EMAIL_HOST = os.environ.get("EMAIL_HOST", default="smtp.gmail.com")
-# EMAIL_PORT = os.environ.get("EMAIL_PORT", default=587, cast=int)
-# EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", default=True, cast=bool)
-# EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-# EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-# DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", default=EMAIL_HOST_USER)
+# Google OAuth settings
+# GOOGLE_OAUTH2_CLIENT_ID = env.str("GOOGLE_OAUTH2_CLIENT_ID")
+# GOOGLE_OAUTH2_CLIENT_SECRET = env.str("GOOGLE_OAUTH2_CLIENT_SECRET")
 
-# #Google OAuth settings
-# GOOGLE_OAUTH2_CLIENT_ID = os.environ.get("GOOGLE_OAUTH2_CLIENT_ID")
-# GOOGLE_OAUTH2_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH2_CLIENT_SECRET")
-
-# Frontend URL for email verification
-# FRONTEND_URL = config("FRONTEND_URL", default="http://localhost:3000")
-
-# APPEND_SLASH=False
 
 LOGIN_URL = "/accounts/login/"  # Login talab qilinadigan sahifalar uchun yo‘naltirish
 

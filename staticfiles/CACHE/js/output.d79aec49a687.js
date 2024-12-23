@@ -1,0 +1,1 @@
+$(document).ready(function(){$('#id_images').filepond({acceptedFileTypes:['image/*'],maxFiles:5,maxFileSize:'5MB',server:{process:'/upload-image/',revert:'/delete-image/'}});});;

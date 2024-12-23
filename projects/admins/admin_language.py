@@ -6,16 +6,16 @@ from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
 
-class ProjectLanguageResource(resources.ModelResource):
-    class Meta:
-        model = ProjectLanguage
-        fields = "__all__"
+# class ProjectLanguageResource(resources.ModelResource):
+#     class Meta:
+#         model = ProjectLanguage
+#         fields = "__all__"
 
 
 @admin.register(ProjectLanguage)
 class ProjectLanguageAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
     model = ProjectLanguage
-    resource_class = ProjectLanguageResource
+    # resource_class = ProjectLanguageResource
     list_display = ("name", "technology", "language", "created_at", "is_active")
     list_filter = ("technology", "language", "is_active", "created_at")
     search_fields = ("name", "technology", "language")

@@ -57,13 +57,17 @@ JAZZMIN_SETTINGS = {
         "token_blacklist.BlacklistedToken": "fas fa-ban",
         "token_blacklist.OutstandingToken": "fas fa-history",
         # auth tokens
-        "token_blacklist.AccessToken": "fas fa-key",
-        "token_blacklist.RefreshToken": "fas fa-key",
+        "rest_framework.authtoken.Token": "fas fa-key",
         # Analytics
         "hitcount.hitcount": "fas fa-chart-line",
         "hitcount.blacklistip": "fas fa-user-slash",
         "hitcount.blacklistuseragent": "fas fa-user-secret",
         "hitcount.hit": "fas fa-chart-bar",
+        "sites.Site": "fas fa-globe",  # Sites
+        "socialaccount.SocialAccount": "fas fa-user-circle",  # Social Accounts
+        "socialaccount.SocialToken": "fas fa-key",  # Social Application Tokens
+        "socialaccount.SocialApp": "fas fa-cogs",  # Social Applications
+        "account.EmailAddress": "fas fa-envelope",  # Social Applications
     },
     # Default Icons
     "default_icon_parents": "fas fa-folder",

@@ -5,16 +5,16 @@ from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
 
-class ModelProjectCommentResource(resources.ModelResource):
-    class Meta:
-        model = ModelProjectComment
-        fields = "__all__"
+# class ModelProjectCommentResource(resources.ModelResource):
+#     class Meta:
+#         model = ModelProjectComment
+#         fields = "__all__"
 
 
 @admin.register(ModelProjectComment)
 class ModelProjectCommentAdmin(ImportExportModelAdmin, SimpleHistoryAdmin):
     model = ModelProjectComment
-    resource_class = ModelProjectCommentResource
+    # resource_class = ModelProjectCommentResource
     list_filter = ("created_at", "updated_at", "is_active", "is_deleted")
     list_display = (
         "id",

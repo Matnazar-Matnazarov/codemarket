@@ -14,6 +14,13 @@ PHONE_REGEX = (
 )
 
 
+class Role(models.TextChoices):
+    ADMIN = "admin", "Admin"
+    SUPER_ADMIN = "super_admin", "Super Admin"
+    BASIC = "basic", "Basic"
+    PREMIUM = "premium", "Premium"
+
+
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True, db_index=True)
     first_name = models.CharField(max_length=30, blank=True)
@@ -37,6 +44,7 @@ class CustomUser(AbstractUser):
         validators=[validate_image_file_extension],
     )
     codecoins = models.IntegerField(default=0, blank=True, null=True)
+    role = models.CharField(max_length=20, choices=Role.choices, default=Role.BASIC)
     objects = CustomUserManager()
     history = HistoricalRecords()
 

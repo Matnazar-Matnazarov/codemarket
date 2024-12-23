@@ -12,6 +12,8 @@ from ..utils.generator_id import generate_id
 import uuid
 from accounts.models.accounts import CustomUser
 from .managers import ProjectManager
+from ..utils.validators import file_size_validator
+
 
 class Project(ModelBase):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -43,7 +45,7 @@ class Project(ModelBase):
         null=True,
         blank=True,
         validators=[
-            FileExtensionValidator(allowed_extensions=["zip", "rar", "7zip", "webp"])
+            FileExtensionValidator(allowed_extensions=["zip", "rar", "7zip", "webp"]),
         ],
     )
     guid = models.UUIDField(
@@ -58,6 +60,7 @@ class Project(ModelBase):
     )
     is_check_admin = models.BooleanField(default=False)
     objects = ProjectManager()
+
     class Mata:
         verbose_name = "Project"
         verbose_name_plural = "Projects"

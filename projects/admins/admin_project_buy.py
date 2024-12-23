@@ -5,16 +5,16 @@ from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
 
-class ModelProjectBuyResource(resources.ModelResource):
-    class Meta:
-        model = ModelProjectBuy
-        fields = "__all__"
+# class ModelProjectBuyResource(resources.ModelResource):
+#     class Meta:
+#         model = ModelProjectBuy
+#         fields = "__all__"
 
 
 @admin.register(ModelProjectBuy)
 class AdminProjectBuy(ImportExportModelAdmin, SimpleHistoryAdmin):
     model = ModelProjectBuy
-    resource_class = ModelProjectBuyResource
+    # resource_class = ModelProjectBuyResource
     list_display = (
         "project",
         "user",
