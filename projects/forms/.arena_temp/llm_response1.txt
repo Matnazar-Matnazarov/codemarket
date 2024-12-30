@@ -6,7 +6,6 @@ from ..models.model_database import ProjectBase
 from ..models.model_language import ProjectLanguage
 from django import forms
 
-
 # Asosiy form
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -21,28 +20,18 @@ class ProjectForm(forms.ModelForm):
             # "technology",
         ]
 
-
-class ProjectImageForm(forms.ModelForm):
+class ProjectImageForm(forms.ModelForm):    
     class Meta:
         model = ProjectImage
         fields = ["name", "image"]
 
-
-class ProjectLanguageForm(forms.ModelForm):
+class ProjectLanguageForm(forms.ModelForm):    
     class Meta:
         model = ProjectLanguage
         fields = ["technology", "language"]
 
 
-class ProjectBaseForm(forms.ModelForm):
-    class Meta:
-        model = ProjectBase
-        fields = ["name", "title", "about", "price", "url", "zip_file"]
-        widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control"}),
-            "title": forms.TextInput(attrs={"class": "form-control"}),
-            "about": forms.Textarea(attrs={"class": "form-control"}),
-            "price": forms.TextInput(attrs={"class": "form-control"}),
-            "url": forms.TextInput(attrs={"class": "form-control"}),
-            "zip_file": forms.FileInput(attrs={"class": "form-control"}),
-        }
+        fields = [
+            "technology",
+            "language",
+        ]

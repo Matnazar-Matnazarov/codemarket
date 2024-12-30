@@ -47,6 +47,8 @@ urlpatterns = [
     path(
         "admin/", include("admin_honeypot.urls", namespace="admin_honeypot")
     ),  # Security honeypot/
+    # silk
+    # path("silk/", include("silk.urls", namespace="silk")),
     # Development & Debug Tools
     path("__debug__/", include(debug_toolbar.urls)),  # Debug toolbar
     # Internationalization

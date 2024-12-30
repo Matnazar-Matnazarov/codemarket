@@ -1,0 +1,6 @@
+{{ current_site.name }} saytiga ro'yxatdan o'tganingiz uchun tashakkur!
+
+Tasdiqlash uchun quyidagi havolani bosing:
+{{ activate_url }}
+
+Agar bu xabarni siz olgan bo'lsangiz va ro'yxatdan o'tmagan bo'lsangiz, iltimos, uni e'tiborsiz qoldiring.

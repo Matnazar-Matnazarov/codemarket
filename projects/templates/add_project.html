@@ -2,27 +2,176 @@
 {% load compress static %}
 {% block content %}
 
-<div class="container mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-4">Add Project</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Add Project</button>
-    </form>
+<!-- Required CSS -->
+    
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet">
+
+<!-- Required JS -->
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-4 sm:py-8 md:py-16 px-3 sm:px-4 md:px-6 lg:px-8 transition-colors duration-200 mt-16 sm:mt-20 md:mt-24 lg:mt-12 xl:mt-8">
+    <div class="w-full max-w-4xl mx-auto">
+        <!-- Form Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl overflow-hidden transition-colors duration-200">
+            <!-- Header -->
+            <div class="px-4 sm:px-6 py-6 sm:py-8 bg-gradient-to-r from-primary to-primary/80 dark:from-primary/90 dark:to-primary/70">
+                <h2 class="text-2xl sm:text-3xl font-bold text-white">Create New Project</h2>
+                <p class="mt-2 text-sm sm:text-base text-primary-content/80">Share your amazing project with the community</p>
+            </div>
+
+            <!-- Form Content -->
+            <form method="post" enctype="multipart/form-data" class="p-4 sm:p-6 space-y-6 sm:space-y-8">
+                {% csrf_token %}
+                <!-- Name Section -->
+                <div class="form-control">
+                    <label for="id_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
+                        Project Name
+                    </label>
+                    <input type="text" name="name" maxlength="50" id="id_name"
+                        class="input input-bordered w-full bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary transition-colors duration-200 text-base sm:text-lg"
+                        placeholder="Enter project name" required/>
+                </div>
+
+                <!-- Title Section -->
+                <div class="form-control">
+                    <label for="id_title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
+                        Project Title
+                    </label>
+                    <input type="text" name="title" maxlength="50" id="id_title" 
+                        class="input input-bordered w-full bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary transition-colors duration-200 text-base sm:text-lg" 
+                        placeholder="Enter project title" required/>
+                </div>
+
+                <!-- About Section -->
+                <div class="form-control">
+                    <label for="id_about" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
+                        Project Description
+                    </label>
+                    <textarea name="about" rows="4" id="id_about"  maxlength="200"
+                            class="textarea textarea-bordered w-full bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary transition-colors duration-200 text-base sm:text-lg"
+                            placeholder="Describe your project" required></textarea>
+                </div>
+
+                <!-- Price & URL Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                    <div class="form-control">
+                        <label for="id_price" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
+                            Price
+                        </label>
+                        <div class="relative">
+                            <input type="number" name="price" id="id_price" 
+                                class="input input-bordered w-full pl-8 bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary transition-colors duration-200 text-base sm:text-lg"
+                                placeholder="0.00" min="1" max="200" required />
+                        </div>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="id_url" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
+                            Project URL
+                        </label>
+                        <input type="url" name="url" maxlength="200" id="id_url" 
+                            class="input input-bordered w-full bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary transition-colors duration-200 text-base sm:text-lg"
+                            placeholder="https://example.com" required/>
+                    </div>
+                </div>
+
+                <!-- File Upload Section -->
+                <div class="space-y-4 sm:space-y-6">
+                    <div class="form-control">
+                        <label for="id_zip_file" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
+                            Project Files (ZIP)
+                        </label>
+                        <div class="mt-1 flex justify-center px-4 sm:px-6 pt-4 sm:pt-5 pb-4 sm:pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-lg hover:border-primary dark:hover:border-primary transition-colors duration-200">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex flex-col sm:flex-row items-center justify-center text-sm text-gray-600 dark:text-gray-400">
+                                    <label for="id_zip_file" class="relative cursor-pointer rounded-md font-medium text-primary hover:text-primary-focus">
+                                        <span>Upload a file</span>
+                                        <input type="file" name="zip_file" id="id_zip_file" class="sr-only" accept=".zip, .rar, .7z" required/>
+                                    </label>
+                                    <p class="mt-1 sm:mt-0 sm:pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">
+                                    ZIP up to 10MB
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Images -->
+                    <div class="space-y-3 sm:space-y-4">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Project Images
+                        </label>
+                        <div id="image-container" class="space-y-3 sm:space-y-4">
+                            <div class="flex items-center space-x-4">
+                                <input type="file" name="image" accept=".jpg, .png" 
+                                    class="file-input file-input-bordered file-input-primary w-full bg-gray-50 dark:bg-gray-700 images-list text-sm sm:text-base" />
+                            </div>
+                        </div>
+                        <button type="button" id="add-image-btn" onclick="addImageField()"
+                                class="btn btn-outline btn-primary btn-sm sm:btn-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                            </svg>
+                            Add More Images
+                        </button>
+                    </div>
+                </div>
+                <div class="form-control space-y-4">
+                    <label for="id_technology" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Technologies Used
+                    </label>
+                    <select 
+                        id="id_technology" 
+                        name="technology" 
+                        class="select select-bordered select2 tech_select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                        required
+                        multiple>
+                        {% for technology in form_language %}
+                        <option value="{{technology.id}}">{{technology.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <!-- Project Database -->
+                <div>
+                    <label for="id_database" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Project Database
+                    </label>
+                    <select 
+                        id="id_database"
+                        name="database"
+                        class="select select-bordered select2 base_select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                        required
+                        multiple>
+                        {% for base in form_base %}
+                        <option value="{{base.id}}">{{base.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                
+                <!-- Submit Button -->
+                <div class="pt-4 sm:pt-6">
+                    <button type="submit" class="btn btn-primary w-full text-base sm:text-lg h-10 sm:h-12 shadow-lg hover:shadow-xl transition-all duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                        Create Project
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% compress js %}
-<script>
-    $(document).ready(function() {
-        $('#id_images').filepond({
-            acceptedFileTypes: ['image/*'],
-            maxFiles: 5,
-            maxFileSize: '5MB',
-            server: {
-                process: '/upload-image/',
-                revert: '/delete-image/'
-            }
-        });
-    });
-</script>
+<script src="{% static 'js/add_project.js' %}"></script>
 {% endcompress %}
-{% endblock %}
+{% endblock content %}
+

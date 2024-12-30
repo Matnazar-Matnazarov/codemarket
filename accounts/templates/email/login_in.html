@@ -1,0 +1,80 @@
+<!-- templates/email/login_in.html -->
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xush kelibsiz, {{ user.username }}!</title>
+    <style>
+        * {
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #7a00e6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #7a00e6;
+        }
+
+        .card-header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #7a00e6;
+        }
+
+        .card-body {
+            padding-top: 20px;
+        }
+
+        .card-body p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #7a00e6;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding-top: 20px;
+        }
+
+        .card-footer a {
+            background-color: #7a00e6;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .card-footer a:hover {
+            background-color: #6200ea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card-header">
+            <h1>Xush kelibsiz, {{ user.username }}!</h1>
+        </div>
+        <div class="card-body">
+            <p>Sizning hisobingizni aktivlashtirish uchun quyidagi tugmani bosing va saytimizda ro'yxatdan o'tganingizni tasdiqlang:</p>
+        </div>
+        <div class="card-footer">
+            <a href="">Hisobni aktivlashtirish</a>
+        </div>
+    </div>
+</body>
+</html>

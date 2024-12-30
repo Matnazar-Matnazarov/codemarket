@@ -8,4 +8,4 @@ class ProjectManager(models.Manager):
 
 class ProjectBuyManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(done=True)
+        return super().get_queryset()

@@ -74,6 +74,7 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",  # Google oauth
+    # 'silk'
 ]
 
 LOCAL_APPS = [
@@ -98,6 +99,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",  # Allauth middleware
     "config.middlewares.admin_toolbar.AdminDebugToolbarMiddleware",
+    # 'silk.middleware.SilkyMiddleware',
 ]
 
 # URL Configuration
@@ -121,19 +123,16 @@ TEMPLATES = [
     },
 ]
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
-# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Database Configuration
 DATABASES = {
-    # "default": {
-    #     "ENGINE": "django.db.backends.sqlite3",
-    #     "NAME": BASE_DIR / "db.sqlite3",
-    # }
-    "default": dj_database_url.parse(
-        "postgresql://matnazar:zR1xKluz8tFxLNzDGQiSHrLK9diBueMw@dpg-ctgkpql2ng1s738k2q6g-a.oregon-postgres.render.com/codemarket_a9sm"
-    )
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+    # "default": dj_database_url.parse(
+    #     "postgresql://matnazar:zR1xKluz8tFxLNzDGQiSHrLK9diBueMw@dpg-ctgkpql2ng1s738k2q6g-a.oregon-postgres.render.com/codemarket_a9sm"
+    # )
 }
 
 
@@ -176,6 +175,13 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "codemarketcode@gmail.com"
+EMAIL_HOST_PASSWORD = "pnddxszmhusletey"  # App password
 
 # Internationalization
 LANGUAGE_CODE = "en-us"
@@ -280,15 +286,6 @@ DEBUG_TOOLBAR_CONFIG = {
 IMPORT_EXPORT_TMP_STORAGE_CLASS = "import_export.tmp_storages.MediaStorage"
 
 
-# # Celery settings
-# CELERY_BROKER_URL = config("REDIS_URL", default="redis://localhost:6379/0")
-# CELERY_RESULT_BACKEND = config("REDIS_URL", default="redis://localhost:6379/0")
-# CELERY_ACCEPT_CONTENT = ["json"]
-# CELERY_TASK_SERIALIZER = "json"
-# CELERY_RESULT_SERIALIZER = "json"
-# CELERY_TIMEZONE = "UTC"
-
-
 # Google OAuth settings
 # GOOGLE_OAUTH2_CLIENT_ID = env.str("GOOGLE_OAUTH2_CLIENT_ID")
 # GOOGLE_OAUTH2_CLIENT_SECRET = env.str("GOOGLE_OAUTH2_CLIENT_SECRET")
@@ -297,3 +294,13 @@ IMPORT_EXPORT_TMP_STORAGE_CLASS = "import_export.tmp_storages.MediaStorage"
 LOGIN_URL = "/accounts/login/"  # Login talab qilinadigan sahifalar uchun yo‘naltirish
 
 LOGOUT_REDIRECT_URL = "/"
+
+# silk
+
+# SILKY_PYTHON_PROFILER = True
+
+# SILKY_AUTHENTICATION = True
+# SILKY_AUTHORISATION = True
+# SILKY_META = True
+# SILKY_PYTHON_PROFILER_BINARY = True
+# SILKY_PYTHON_PROFILER_RESULT_PATH = os.path.join(BASE_DIR, 'silk_profiles')

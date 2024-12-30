@@ -4,7 +4,15 @@ from ..models.accounts import CustomUser, Role
 from django.core.exceptions import ValidationError
 import requests
 from django.core.files.base import ContentFile
-from allauth.account.signals import user_signed_up
+from allauth.account.signals import user_signed_up, user_logged_in
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.core.mail import send_mass_mail
+import time
+import threading
+import asyncio
+from asgiref.sync import sync_to_async
 
 
 # Foydalanuvchi rejasini yangilash, rekursiyani oldini olish uchun save chaqirishni cheklash
@@ -73,3 +81,159 @@ def save_user_data(request, user, **kwargs):
 
         # Oxirgi ma'lumotlarni saqlash
         user.save()
+        # subject = f'Xush kelibsiz, {user.username}!'
+        # message = render_to_string('emails/welcome_email.html', {'user': user})
+        # send_mail(
+        #     subject,
+        #     '',
+        #     'codemarketcode@gmail.com',
+        #     [user.email],
+        #     html_message=message,
+        #     fail_silently=False,
+        # )
+
+
+@receiver(user_logged_in)
+def send_welcome_email(sender, request, user, **kwargs):
+    """
+    Foydalanuvchi tizimga kirganda, unga xush kelibsiz xabarini yuboradi.
+    """
+    one_user_time_start = time.time()
+    if not user.email:
+        subject = "Xush kelibsiz!"
+        from_email = "codemarketcode@gmail.com"
+        to_email = [user.email]
+
+        # HTML shablonini yuklash
+        html_content = render_to_string("email/login_in.html", {"user": user})
+
+        # Emailni yaratish
+        msg = EmailMultiAlternatives(
+            subject,  # Mavzu
+            "",  # Oddiy matn
+            from_email,  # Kimdan
+            to_email,  # Qayerga
+        )
+
+        # HTML formatidagi emailni qo'shish
+        msg.attach_alternative(html_content, "text/html")
+
+        # Emailni yuborish
+        try:
+            msg.send()
+        except Exception as e:
+            # Xatolikni loglash
+            print(f"Xatolik yuz berdi: {e}")
+    start_time = time.time()
+    send_emails_in_thread()
+    end_time = time.time()
+    print(f"Time: {end_time - start_time}")
+    # send_emails_in_background()
+    # one_user_time_end = time.time()
+    # print(f"User: {user.username}, Time: {one_user_time_end - one_user_time_start}")
+    # all_users_time_start = time.time()
+    # users = CustomUser.objects.exclude(id=1)
+    # email_list = [(subject, html_content, from_email, [user.email]) for user in users if user.email]
+    # send_mass_mail(email_list, fail_silently=False)
+
+
+# def send_bulk_emails(subject,from_email, recipient_list, batch_size=50):
+#     for i in range(0, len(recipient_list), batch_size):
+#         batch = recipient_list[i:i + batch_size]
+#         for user in batch:
+#             to_email = [user.email]
+
+#             # HTML shablonini yuklash
+#             html_content = render_to_string('email/login_in.html', {'user': user})
+
+#             # Emailni yaratish
+#             msg = EmailMultiAlternatives(
+#                 subject,  # Mavzu
+#                 '',  # Oddiy matn
+#                 from_email,  # Kimdan
+#                 to_email  # Qayerga
+#             )
+
+#             # HTML formatidagi emailni qo'shish
+#             msg.attach_alternative(html_content, 'text/html')
+
+#             # Emailni yuborish
+#             try:
+#                 msg.send()
+#             except Exception as e:
+#                 # Xatolikni loglash
+#                 print(f"Xatolik yuz berdi: {e}")
+
+# def send_emails_in_background(subject: str='Xush kelibsiz!', from_email: str='codemarketcode@gmail.com'):
+#     recipient_list = CustomUser.objects.exclude(pk=1)
+#     print(recipient_list)
+#     start_time = time.time()
+#     threading.Thread(
+#         target=send_bulk_emails,
+#         args=(subject, from_email, recipient_list),
+#     ).start()
+#     end_time = time.time()
+#     print(f"Time: {end_time - start_time}")
+
+
+async def send_bulk_emails_async(
+    html_content, subject, from_email, recipient_list, batch_size=50
+):
+    for i in range(0, len(recipient_list), batch_size):
+        batch = recipient_list[i : i + batch_size]
+        tasks = [
+            send_email_async(html_content, subject, from_email, user) for user in batch
+        ]
+        await asyncio.gather(*tasks)
+
+
+async def send_email_async(html_content, subject, from_email, user):
+    to_email = [user.email]
+
+    # Emailni yaratish
+    msg = EmailMultiAlternatives(
+        subject, "", from_email, to_email  # Mavzu  # Oddiy matn  # Kimdan  # Qayerga
+    )
+
+    # HTML formatidagi emailni qo'shish
+    msg.attach_alternative(html_content, "text/html")
+
+    # Emailni yuborish
+    try:
+        await sync_to_async(msg.send)()
+    except Exception as e:
+        print(f"Xatolik yuz berdi: {e}")
+
+
+async def send_emails_in_background_async(
+    html_content, subject="Xush kelibsiz!", from_email="codemarketcode@gmail.com"
+):
+    # Foydalanuvchilarni olish
+    recipient_list = await sync_to_async(list)(CustomUser.objects.exclude(pk=1))
+
+    # Asinxron email yuborishni boshlash
+    await send_bulk_emails_async(html_content, subject, from_email, recipient_list)
+
+
+def send_emails_in_thread(
+    subject="Xush kelibsiz!", from_email="codemarketcode@gmail.com", html_content=""
+):
+    if len(html_content) < 1:
+        html_content = render_to_string(
+            "email/login_in.html", {"user": CustomUser.objects.first()}
+        )
+    # Thread ichida asyncio.loop ni ishga tushirish
+    thread = threading.Thread(
+        target=lambda: asyncio.run(
+            send_emails_in_background_async(html_content, subject, from_email)
+        )
+    )
+    thread.start()
+    return thread
+
+
+"""
+0.0023322105407714844
+17.33945655822754
+0.0004973411560058594
+"""
