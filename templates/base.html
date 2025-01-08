@@ -1,5 +1,6 @@
 <!-- {% load static %} -->
 {% load compress  static %}
+
 <!DOCTYPE html>
 <html lang="en" class="light">
 
@@ -14,20 +15,25 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/mobil.css' %}" />
     {% endcompress %}
 
-    <script src="https://cdn.tailwindcss.com"></script>
 
+    <script src="https://cdn.tailwindcss.com" ></script>
+
+    {% compress js %}
     <script>
         tailwind.config = {
             darkMode: "class"
         };
     </script>
+    {% endcompress %}
+
     {% compress js %}
     <script src="{% static 'js/dark_tool.js' %}"></script>
     {% endcompress %}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    {% compress js %}
     <script>
         const savedTheme = localStorage.getItem("theme");
         if (savedTheme) {
@@ -36,6 +42,7 @@
             document.documentElement.classList.add("dark");
         }
     </script>
+    {% endcompress %}
     <title>CodeMarket - Home</title>
 </head>
 
@@ -185,69 +192,108 @@
             </header>
             {% block content %} {% endblock content %}
             {% if messages %}
-            <div id="message-container" class="fixed top-24 right-6 z-50 space-y-4 w-[28rem] pointer-events-none">
+            <div id="message-container" class="fixed top-16 right-4 z-50 space-y-3 pointer-events-none
+                sm:top-20 sm:right-6 sm:space-y-4 
+                md:top-24 md:right-8">
                 {% for message in messages %}
-                <div class="message-alert opacity-0 transform translate-x-full transition-all duration-700 ease-in-out pointer-events-auto
-                    {% if message.tags == 'success' %}bg-gradient-to-r from-emerald-400 to-green-500 
-                    {% elif message.tags == 'error' %}bg-gradient-to-r from-rose-400 to-red-500
-                    {% elif message.tags == 'warning' %}bg-gradient-to-r from-amber-400 to-yellow-500 
-                    {% else %}bg-gradient-to-r from-blue-400 to-indigo-500{% endif %}
-                    text-white p-5 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] backdrop-blur-sm border border-white/10
-                    hover:shadow-[0_8px_40px_rgb(0,0,0,0.16)] hover:scale-[1.02] 
-                    flex items-center justify-between gap-4 transition-all">
-                    <div class="flex items-center gap-4">
-                        <div class="flex items-center justify-center flex-shrink-0 w-12 h-12 rounded-full bg-white/20">
+                <div class="message-alert opacity-0 transform translate-x-full transition-all duration-700 ease-out pointer-events-auto
+                    w-[calc(100vw-2rem)] sm:w-[26rem] md:w-[28rem]
+                    {% if message.tags == 'success' %}bg-gradient-to-r from-emerald-500/95 to-green-600/95
+                    {% elif message.tags == 'error' %}bg-gradient-to-r from-rose-500/95 to-red-600/95
+                    {% elif message.tags == 'warning' %}bg-gradient-to-r from-amber-500/95 to-yellow-600/95
+                    {% else %}bg-gradient-to-r from-blue-500/95 to-indigo-600/95{% endif %}
+                    p-4 sm:p-5 rounded-xl backdrop-blur-sm border border-white/10
+                    shadow-[0_8px_30px_rgb(0,0,0,0.12)]
+                    hover:shadow-[0_8px_40px_rgb(0,0,0,0.16)] 
+                    hover:scale-[1.02] active:scale-[0.98]
+                    flex items-center justify-between gap-4 transition-all
+                    animate-slide-in">
+
+                    <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+                        <!-- Icon Container -->
+                        <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/20
+                            flex items-center justify-center transform transition-transform duration-500
+                            hover:rotate-12 hover:scale-110">
                             {% if message.tags == 'success' %}
-                                <i class="text-2xl fas fa-check-circle"></i>
+                                <i class="text-xl sm:text-2xl fas fa-check-circle animate-bounce"></i>
                             {% elif message.tags == 'error' %}
-                                <i class="text-2xl fas fa-exclamation-circle"></i>
+                                <i class="text-xl sm:text-2xl fas fa-exclamation-circle animate-pulse"></i>
                             {% elif message.tags == 'warning' %}
-                                <i class="text-2xl fas fa-exclamation-triangle"></i>
+                                <i class="text-xl sm:text-2xl fas fa-exclamation-triangle animate-pulse"></i>
                             {% else %}
-                                <i class="text-2xl fas fa-info-circle"></i>
+                                <i class="text-xl sm:text-2xl fas fa-info-circle animate-pulse"></i>
                             {% endif %}
                         </div>
-                        <div class="flex flex-col">
-                            <h4 class="text-lg font-semibold">
+
+                        <!-- Message Content -->
+                        <div class="flex flex-col min-w-0">
+                            <h4 class="text-base sm:text-lg font-semibold text-white truncate">
                                 {% if message.tags == 'success' %}Success!
                                 {% elif message.tags == 'error' %}Error!
                                 {% elif message.tags == 'warning' %}Warning!
                                 {% else %}Info{% endif %}
                             </h4>
-                            <p class="text-white/90">{{ message }}</p>
+                            <p class="text-sm sm:text-base text-white/90 line-clamp-2">{{ message }}</p>
                         </div>
                     </div>
+
+                    <!-- Close Button -->
                     <button onclick="dismissMessage(this.parentElement)" 
-                            class="flex items-center justify-center w-8 h-8 transition-colors duration-200 rounded-full hover:bg-white/20">
-                        <i class="fas fa-times"></i>
+                            class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full
+                            transition-all duration-200 
+                            hover:bg-white/20 active:bg-white/30
+                            focus:outline-none focus:ring-2 focus:ring-white/50
+                            group">
+                        <i class="fas fa-times text-white/80 group-hover:text-white 
+                            transition-transform duration-200 group-hover:rotate-90"></i>
                     </button>
                 </div>
                 {% endfor %}
             </div>
-            <script>
-                // Xabarlar uchun vaqt (millisekundlarda)
-                const DISPLAY_DURATION = 8000; // 8 sekund ko'rsatish
-                const ANIMATION_DELAY = 150; // Xabarlar orasidagi vaqt
-                const ANIMATION_DURATION = 700; // Animatsiya davomiyligi
+
+            {% compress js %}
+            <script defer>
+                const DISPLAY_DURATION = 8000;
+                const ANIMATION_DELAY = 150;
+                const ANIMATION_DURATION = 700;
 
                 document.addEventListener('DOMContentLoaded', function() {
                     const messages = document.querySelectorAll('.message-alert');
                     
                     messages.forEach((message, index) => {
-                        // Xabarlarni ketma-ket ko'rsatish
+                        // Add entrance animation with stagger effect
                         setTimeout(() => {
                             message.classList.remove('opacity-0', 'translate-x-full');
+                            message.classList.add('animate-entrance');
                         }, index * ANIMATION_DELAY);
                         
-                        // Avtomatik yopish
+                        // Auto dismiss with progress indicator
+                        const totalDuration = DISPLAY_DURATION + (index * ANIMATION_DELAY);
+                        
+                        // Create and add progress bar
+                        const progressBar = document.createElement('div');
+                        progressBar.className = 'absolute bottom-0 left-0 h-1 bg-white/30 transform scale-x-0 origin-left';
+                        progressBar.style.transition = `transform ${totalDuration}ms linear`;
+                        message.appendChild(progressBar);
+                        
+                        // Start progress animation
+                        setTimeout(() => {
+                            progressBar.style.transform = 'scaleX(1)';
+                        }, 50);
+
+                        // Setup auto dismiss
                         setTimeout(() => {
                             dismissMessage(message);
-                        }, DISPLAY_DURATION + (index * ANIMATION_DELAY));
+                        }, totalDuration);
                     });
                 });
 
                 function dismissMessage(element) {
-                    element.classList.add('opacity-0', 'translate-x-full');
+                    // Add exit animation
+                    element.classList.add('animate-exit');
+                    element.style.transform = 'translateX(100%) scale(0.95)';
+                    element.style.opacity = '0';
+
                     setTimeout(() => {
                         if (element && element.parentNode) {
                             element.remove();
@@ -255,6 +301,27 @@
                     }, ANIMATION_DURATION);
                 }
             </script>
+            {% endcompress %}
+
+            <style>
+                @keyframes slide-in {
+                    0% { transform: translateX(100%); opacity: 0; }
+                    100% { transform: translateX(0); opacity: 1; }
+                }
+
+                @keyframes slide-out {
+                    0% { transform: translateX(0); opacity: 1; }
+                    100% { transform: translateX(100%); opacity: 0; }
+                }
+
+                .animate-entrance {
+                    animation: slide-in 0.7s ease-out forwards;
+                }
+
+                .animate-exit {
+                    animation: slide-out 0.7s ease-in forwards;
+                }
+            </style>
             {% endif %}
             <!-- Footer -->
             <footer
@@ -374,3 +441,4 @@
 </body>
 
 </html>
+

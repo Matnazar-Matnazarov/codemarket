@@ -23,7 +23,7 @@ def ProjectDetailFunc(slug):
             Prefetch("database", queryset=ProjectBase.objects.only("name")),
             Prefetch("star", queryset=Stars.objects.only("stars")),
         )
-        .filter(slug=str(slug), is_active=True)
+        .filter(slug=str(slug), is_active=True, is_check_admin=True)
         .annotate(
             total_stars=Sum("star__stars", default=0),
             total_users=Count("star"),
@@ -33,7 +33,7 @@ def ProjectDetailFunc(slug):
                 output_field=FloatField(),
             ),
         )
-        .only("guid", "title", "about", "price", "url", "zip_file", "images")
+        .only("id","guid", "title", "about", "price", "url", "zip_file", "images")
         .first()
     )
     return project

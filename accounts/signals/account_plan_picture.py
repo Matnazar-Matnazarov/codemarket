@@ -29,6 +29,11 @@ def update_user_plan(sender, instance, created=False, **kwargs):
             update_fields=["role"]
         )  # Faqat role o'zgargan bo'lsa, save chaqiriladi
 
+@receiver(post_save, sender=CustomUser)
+def sign_up_gift(sender, instance, created=False, **kwargs):
+    if created:
+        instance.codecoins = 50
+        instance.save(update_fields=['codecoins'])
 
 # Foydalanuvchi profil rasmini saqlashdan oldin uning hajmini tekshirish
 @receiver(pre_save, sender=CustomUser)
@@ -56,85 +61,90 @@ def update_codecoins(sender, instance, created=False, **kwargs):
 
 @receiver(user_signed_up)
 def save_user_data(request, user, **kwargs):
-    socialaccount = user.socialaccount_set.filter(provider="google").first()
-    if socialaccount:
-        # Emailni saqlash
-        email = socialaccount.extra_data.get("email")
-        check_user = CustomUser.objects.filter(email=email).first()
-        if email and check_user is None:
-            user.email = email
+    # Google va GitHub uchun provayderlar
+    socialaccount_google = user.socialaccount_set.filter(provider="google").first()
+    socialaccount_github = user.socialaccount_set.filter(provider="github").first()
+    # Emailni saqlash yoki yangilash
+    email = None
+    if socialaccount_google:
+        email = socialaccount_google.extra_data.get("email")
+    elif socialaccount_github:
+        email = socialaccount_github.extra_data.get("email")
 
-        # Profil rasmni saqlash
-        picture_url = socialaccount.extra_data.get("picture")
-        if picture_url:
-            try:
-                response = requests.get(picture_url)
-                response.raise_for_status()
-
-                user.picture.save(
-                    f"{user.username}_profile.jpg",
-                    ContentFile(response.content),
-                    save=False,  # `save=True` emas, chunki oxirida bir marta `user.save()` qilamiz
-                )
-            except Exception as e:
-                pass
-
-        # Oxirgi ma'lumotlarni saqlash
-        user.save()
-        # subject = f'Xush kelibsiz, {user.username}!'
-        # message = render_to_string('emails/welcome_email.html', {'user': user})
-        # send_mail(
-        #     subject,
-        #     '',
-        #     'codemarketcode@gmail.com',
-        #     [user.email],
-        #     html_message=message,
-        #     fail_silently=False,
-        # )
+    if email:
+        existing_user = CustomUser.objects.filter(email=email).first()
+        if existing_user is None:
+            user.delete()  # Yangi foydalanuvchini o'chirish
+            user = existing_user
 
 
-@receiver(user_logged_in)
-def send_welcome_email(sender, request, user, **kwargs):
-    """
-    Foydalanuvchi tizimga kirganda, unga xush kelibsiz xabarini yuboradi.
-    """
-    one_user_time_start = time.time()
-    if not user.email:
-        subject = "Xush kelibsiz!"
-        from_email = "codemarketcode@gmail.com"
-        to_email = [user.email]
+    # Profil rasmni saqlash yoki yangilash
+    picture_url = None
+    if socialaccount_google:
+        picture_url = socialaccount_google.extra_data.get("picture")
+    elif socialaccount_github:
+        picture_url = socialaccount_github.extra_data.get("avatar_url")
 
-        # HTML shablonini yuklash
-        html_content = render_to_string("email/login_in.html", {"user": user})
-
-        # Emailni yaratish
-        msg = EmailMultiAlternatives(
-            subject,  # Mavzu
-            "",  # Oddiy matn
-            from_email,  # Kimdan
-            to_email,  # Qayerga
-        )
-
-        # HTML formatidagi emailni qo'shish
-        msg.attach_alternative(html_content, "text/html")
-
-        # Emailni yuborish
+    if picture_url and not user.picture:  # Faqat rasm mavjud bo'lmasa saqlanadi
         try:
-            msg.send()
+            response = requests.get(picture_url)
+            response.raise_for_status()
+
+            # Foydalanuvchi rasmni saqlash
+            user.picture.save(
+                f"{user.username}_profile.jpg",
+                ContentFile(response.content),
+                save=False,  # Oxirida bir marta user.save() qilinadi
+            )
         except Exception as e:
-            # Xatolikni loglash
-            print(f"Xatolik yuz berdi: {e}")
-    start_time = time.time()
-    send_emails_in_thread()
-    end_time = time.time()
-    print(f"Time: {end_time - start_time}")
-    # send_emails_in_background()
-    # one_user_time_end = time.time()
-    # print(f"User: {user.username}, Time: {one_user_time_end - one_user_time_start}")
-    # all_users_time_start = time.time()
-    # users = CustomUser.objects.exclude(id=1)
-    # email_list = [(subject, html_content, from_email, [user.email]) for user in users if user.email]
-    # send_mass_mail(email_list, fail_silently=False)
+            pass  # Agar rasm yuklashda muammo bo‘lsa, xatolikni e’tiborsiz qoldiramiz
+
+    # Oxirgi o‘zgarishlarni saqlash
+    user.save()
+
+
+# @receiver(user_logged_in)
+# def send_welcome_email(sender, request, user, **kwargs):
+#     """
+#     Foydalanuvchi tizimga kirganda, unga xush kelibsiz xabarini yuboradi.
+#     """
+#     one_user_time_start = time.time()
+#     if not user.email:
+#         subject = "Xush kelibsiz!"
+#         from_email = "codemarketcode@gmail.com"
+#         to_email = [user.email]
+
+#         # HTML shablonini yuklash
+#         html_content = render_to_string("email/login_in.html", {"user": user})
+
+#         # Emailni yaratish
+#         msg = EmailMultiAlternatives(
+#             subject,  # Mavzu
+#             "",  # Oddiy matn
+#             from_email,  # Kimdan
+#             to_email,  # Qayerga
+#         )
+
+#         # HTML formatidagi emailni qo'shish
+#         msg.attach_alternative(html_content, "text/html")
+
+#         # Emailni yuborish
+#         try:
+#             msg.send()
+#         except Exception as e:
+#             # Xatolikni loglash
+#             print(f"Xatolik yuz berdi: {e}")
+#     start_time = time.time()
+#     send_emails_in_thread()
+#     end_time = time.time()
+#     print(f"Time: {end_time - start_time}")
+# send_emails_in_background()
+# one_user_time_end = time.time()
+# print(f"User: {user.username}, Time: {one_user_time_end - one_user_time_start}")
+# all_users_time_start = time.time()
+# users = CustomUser.objects.exclude(id=1)
+# email_list = [(subject, html_content, from_email, [user.email]) for user in users if user.email]
+# send_mass_mail(email_list, fail_silently=False)
 
 
 # def send_bulk_emails(subject,from_email, recipient_list, batch_size=50):

@@ -37,12 +37,4 @@ class ProjectLanguageForm(forms.ModelForm):
 class ProjectBaseForm(forms.ModelForm):
     class Meta:
         model = ProjectBase
-        fields = ["name", "title", "about", "price", "url", "zip_file"]
-        widgets = {
-            "name": forms.TextInput(attrs={"class": "form-control"}),
-            "title": forms.TextInput(attrs={"class": "form-control"}),
-            "about": forms.Textarea(attrs={"class": "form-control"}),
-            "price": forms.TextInput(attrs={"class": "form-control"}),
-            "url": forms.TextInput(attrs={"class": "form-control"}),
-            "zip_file": forms.FileInput(attrs={"class": "form-control"}),
-        }
+        fields = ["name", "image"]

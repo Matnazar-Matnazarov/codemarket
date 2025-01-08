@@ -1,41 +1,10 @@
-// Fetch products from API
-let products = [];
-
-async function fetchProducts() {
-  try {
-    const response = await fetch('/products/json/');
-    const data = await response.json();
-    products = data.products;
-    renderProducts(products);
-  } catch (error) {
-    console.error('Error fetching products:', error);
-  }
-}
-
-function createProductCard(product) {
-  const stars = Array(5)
-    .fill()
-    .map((_, i) => {
-      if (i < Math.floor(product.rating)) return '<i class="fas fa-star"></i>';
-      if (i === Math.floor(product.rating) && product.rating % 1 !== 0)
-        return '<i class="fas fa-star-half-alt"></i>';
-      return '<i class="far fa-star"></i>';
-    })
-    .join("");
-
-  const date = new Date(product.uploadDate);
-  const uploadDate = `${date.getDate().toString().padStart(2, "0")}/${(
+let products=[];async function fetchProducts(){try{const response=await fetch('/products/json/');const data=await response.json();products=data.products;renderProducts(products);}catch(error){console.error('Error fetching products:',error);}}
+function createProductCard(product){const stars=Array(5).fill().map((_,i)=>{if(i<Math.floor(product.rating))return'<i class="fas fa-star"></i>';if(i===Math.floor(product.rating)&&product.rating%1!==0)
+return'<i class="fas fa-star-half-alt"></i>';return'<i class="far fa-star"></i>';}).join("");const date=new Date(product.uploadDate);const uploadDate=`${date.getDate().toString().padStart(2, "0")}/${(
     date.getMonth() + 1
   )
     .toString()
-    .padStart(2, "0")}/${date.getFullYear()}`;
-
-  // Truncate description to 100 characters and add ellipsis if needed
-  const truncatedDescription = product.description.length > 100 
-    ? product.description.substring(0, 100) + '...'
-    : product.description;
-
-  return `
+    .padStart(2, "0")}/${date.getFullYear()}`;const truncatedDescription=product.description.length>100?product.description.substring(0,100)+'...':product.description;return`
     <div class="group bg-white dark:bg-gray-800/95 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 p-5 border border-gray-100/10 dark:border-gray-700/50 transform hover:-translate-y-2">
         <div class="relative overflow-hidden rounded-xl">
             <a href="/projects/detail/${product.slug}">
@@ -99,83 +68,12 @@ function createProductCard(product) {
             </div>
         </div>
     </div>
-  `;
-}
-
-function renderProducts(filteredProducts) {
-  const productsGrid = document.getElementById("products-grid");
-  if (!productsGrid) return;
-  
-  productsGrid.innerHTML = filteredProducts
-    .map((product) => createProductCard(product))
-    .join("");
-}
-
-function filterByCategory(category) {
-  // Filter products
-  const filteredProducts =
-    category === "all"
-      ? products
-      : products.filter((product) => product.category === category);
-  
-  // Update button styles
-  const buttons = document.querySelectorAll('.category-btn');
-  buttons.forEach(btn => {
-    // Reset all buttons to default style
-    btn.className = "px-4 py-2 text-sm text-purple-600 transition-all duration-300 rounded-full category-btn sm:px-6 bg-purple-50 dark:bg-gray-700 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-gray-600 sm:text-base";
-  });
-  
-  // Set active button style
-  const activeBtn = document.getElementById(`${category}-btn`);
-  if (activeBtn) {
-    activeBtn.className = "category-btn px-4 sm:px-6 py-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 transition-all duration-300 text-sm sm:text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5";
-  }
-
-  renderProducts(filteredProducts);
-}
-
-function applyFilters() {
-  let filteredProducts = [...products];
-
-  // Technology filters
-  const selectedTechnologies = Array.from(
-    document.querySelectorAll("#language-filters input:checked")
-  ).map((checkbox) => checkbox.value);
-  if (selectedTechnologies.length > 0) {
-    filteredProducts = filteredProducts.filter((product) =>
-      selectedTechnologies.some(tech => product.technologies.includes(tech))
-    );
-  }
-
-  // Date filter
-  const selectedDate = document.querySelector(
-    'input[name="upload-date"]:checked'
-  )?.value;
-  if (selectedDate) {
-    const now = new Date();
-    const filterDate = new Date();
-    switch (selectedDate) {
-      case "24h":
-        filterDate.setDate(now.getDate() - 1);
-        break;
-      case "7d":
-        filterDate.setDate(now.getDate() - 7);
-        break;
-      case "30d":
-        filterDate.setMonth(now.getMonth() - 1);
-        break;
-      case "365d":
-        filterDate.setFullYear(now.getFullYear() - 1);
-        break;
-    }
-    filteredProducts = filteredProducts.filter(
-      (product) => new Date(product.uploadDate) >= filterDate
-    );
-  }
-
-  renderProducts(filteredProducts);
-  toggleFilterSidebar();
-}
-
-// Initial fetch and render
-document.addEventListener('DOMContentLoaded', fetchProducts);
+  `;}
+function renderProducts(filteredProducts){const productsGrid=document.getElementById("products-grid");if(!productsGrid)return;productsGrid.innerHTML=filteredProducts.map((product)=>createProductCard(product)).join("");}
+function filterByCategory(category){const filteredProducts=category==="all"?products:products.filter((product)=>product.category===category);const buttons=document.querySelectorAll('.category-btn');buttons.forEach(btn=>{btn.className="px-4 py-2 text-sm text-purple-600 transition-all duration-300 rounded-full category-btn sm:px-6 bg-purple-50 dark:bg-gray-700 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-gray-600 sm:text-base";});const activeBtn=document.getElementById(`${category}-btn`);if(activeBtn){activeBtn.className="category-btn px-4 sm:px-6 py-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 transition-all duration-300 text-sm sm:text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5";}
+renderProducts(filteredProducts);}
+function applyFilters(){let filteredProducts=[...products];const selectedTechnologies=Array.from(document.querySelectorAll("#language-filters input:checked")).map((checkbox)=>checkbox.value);if(selectedTechnologies.length>0){filteredProducts=filteredProducts.filter((product)=>selectedTechnologies.some(tech=>product.technologies.includes(tech)));}
+const selectedDate=document.querySelector('input[name="upload-date"]:checked')?.value;if(selectedDate){const now=new Date();const filterDate=new Date();switch(selectedDate){case"24h":filterDate.setDate(now.getDate()-1);break;case"7d":filterDate.setDate(now.getDate()-7);break;case"30d":filterDate.setMonth(now.getMonth()-1);break;case"365d":filterDate.setFullYear(now.getFullYear()-1);break;}
+filteredProducts=filteredProducts.filter((product)=>new Date(product.uploadDate)>=filterDate);}
+renderProducts(filteredProducts);toggleFilterSidebar();}
+document.addEventListener('DOMContentLoaded',fetchProducts);;

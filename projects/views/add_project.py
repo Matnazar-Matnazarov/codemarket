@@ -1,21 +1,15 @@
-from unicodedata import name
-from django.template import context
 from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.db import transaction
-from django.core.exceptions import ValidationError
 import uuid
-
-# from ..models.model_project import Project
 from ..models.model_project_image import ProjectImage
 from ..models.model_database import ProjectBase
 from ..models.model_language import ProjectLanguage
 from ..forms.project import ProjectForm
 from accounts.models.accounts import Role
-
-from ..forms.project import ProjectForm, ProjectImageForm, ProjectLanguageForm
+from ..forms.project import ProjectForm, ProjectImageForm
 
 
 class CreateProjectView(LoginRequiredMixin, View):
@@ -67,14 +61,17 @@ class CreateProjectView(LoginRequiredMixin, View):
             ProjectImage.objects.bulk_create(image_objects)
             project.images.add(*image_objects)
             print("Barcha images-list fayllar:", images)
-            selected_technologies = request.POST.getlist("technology")
-            project.technology.set(selected_technologies)
+            selected_technologies = request.POST.getlist("technology[]")
+            technologies = [int(i) for i in selected_technologies[0].split(",")]
+            print(technologies)
+            project.technology.set(technologies)
             print(project)
             # Tanlangan texnologiyalarni ko'rish uchun
-            print(selected_technologies)
-            selected_database = request.POST.getlist("database")
-            print(selected_database)
-            project.database.set(selected_database)
+            selected_database = request.POST.getlist("database[]")
+            print(selected_database[0].split(","))
+            databases = [int(i) for i in selected_database[0].split(",")]
+            print(databases)
+            project.database.set(databases)
             messages.success(
                 request,
                 "Ma'lumotlar muvaffaqiyatli qo'shildi, admin tomonidan tekshiriladi",
@@ -100,3 +97,9 @@ class CreateProjectView(LoginRequiredMixin, View):
             "form_base": ProjectBase.objects.all().order_by("name").only("name", "id"),
         }
         return render(request, "add_project.html", context)
+
+
+"""
+['6,10,1,4,5,7,3,11']
+['2,1']
+"""

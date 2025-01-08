@@ -24,7 +24,7 @@ from django.contrib import messages
 from ..models.model_stars import Stars
 from rest_framework import status
 from ..utils.project_detail import ProjectDetailFunc
-
+from ..models.model_project_buy import ModelProjectBuy
 
 class ProjectView(View):
     def get(self, request):
@@ -34,7 +34,6 @@ class ProjectView(View):
             .values_list("technology", flat=True)
             .distinct()
         )
-        print(technologies)
         return render(request, "product.html", {"technologies": technologies})
 
 
@@ -53,7 +52,7 @@ class ProjectJsonView(View):
                 Prefetch("database", queryset=ProjectBase.objects.only("name")),
                 Prefetch("star", queryset=Stars.objects.only("stars")),
             )
-            .filter(is_active=True)
+            .filter(is_active=True, is_check_admin=True)
             .annotate(
                 total_stars=Sum("star__stars", default=0),
                 total_users=Count("star"),
@@ -108,6 +107,7 @@ class ProjectDetailView(View):
         context = {}
 
         project = ProjectDetailFunc(slug=slug)
+        done = ModelProjectBuy.objects.filter(project= project, user = request.user, done= True).first()
         if not project:
             messages.error(request, "Project not found")
             return redirect("products")
@@ -122,7 +122,7 @@ class ProjectDetailView(View):
         hitcount = HitCount.objects.get_for_object(project)
         hits = hitcount.hits
         context["hitcount"] = {"pk": hitcount.pk}
-
+        context["done"] = done
         # Use an instance of HitCountMixin to count the hits
         hitcount_mixin = HitCountMixin()
         hitcount_response = hitcount_mixin.hit_count(request, hitcount)

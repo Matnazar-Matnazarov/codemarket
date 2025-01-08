@@ -81,6 +81,148 @@
         </a>
       </div>
 
+      <!-- web applications I have for sale -->
+      <div class="mt-12 space-y-10">
+        <!-- My Applications Section -->
+        <section>
+          <div class="flex items-center justify-between mb-8">
+            <h3 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent flex items-center">
+              <i class="fas fa-store text-purple-600 mr-3"></i>
+              My Applications for Sale
+            </h3>
+            <a href="{% url 'create_project' %}" class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:-translate-y-0.5 text-sm font-medium shadow-lg hover:shadow-xl">
+              <i class="fas fa-plus mr-2"></i>
+              Add New App
+            </a>
+          </div>
+        
+          {% if user_apps %}
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for app in user_apps %}
+            <div class="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 transform hover:-translate-y-1">
+              <div class="relative h-52 overflow-hidden">
+                {% if app.is_check_admin %}
+                  <div class="absolute top-2 left-2 z-10">
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                      <i class="fas fa-check-circle mr-1 text-[10px]"></i>
+                      Verified
+                    </span>
+                  </div>
+                {% else %}
+                  <div class="absolute top-2 left-2 z-10">
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700 hover:bg-amber-200 transition-all">
+                      <i class="fas fa-clock mr-1 text-[10px]"></i>
+                      Pending
+                    </span>
+                  </div>
+                {% endif %}
+                
+                {% if app.images %}
+                  <img src="{{ app.images.first.image.url }}" alt="{{ app.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                {% else %}
+                  <img src="{% static 'images/default-project.jpg' %}" alt="Default Project Image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                {% endif %}
+                <div class="absolute top-4 right-4">
+                  <span class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                    <i class="fas fa-coins mr-2"></i>{{ app.price }} CC
+                  </span>
+                </div>
+              </div>
+              <div class="p-6">
+                <div class="mb-4">
+                  <h4 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-3 line-clamp-1">{{ app.title }}</h4>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{{ app.description }}</p>
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
+                  <div class="flex items-center space-x-6">
+                    <span class="text-sm text-gray-500 dark:text-gray-400 flex items-center">
+                      <i class="fas fa-eye mr-2 text-purple-500"></i>{{ app.views|default:"0" }}
+                    </span>
+                    <span class="text-sm text-gray-500 dark:text-gray-400 flex items-center">
+                      <i class="fas fa-download mr-2 text-purple-500"></i>{{ app.downloads|default:"0" }}
+                    </span>
+                  </div>
+                  <a href="{% url 'project_detail' app.slug %}" class="inline-flex items-center text-purple-600 hover:text-blue-600 text-sm font-medium transition-colors duration-300">
+                    View Details
+                    <i class="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="text-center py-16 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800/50 dark:to-gray-900/50 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-purple-100 dark:bg-purple-900/30 mb-6">
+              <i class="fas fa-box-open text-3xl text-purple-600 dark:text-purple-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">No Applications Yet</h3>
+            <p class="text-gray-500 dark:text-gray-400 mb-8 max-w-md mx-auto">Start selling your applications and earn CodeCoins!</p>
+            <a href="{% url 'create_project' %}" class="inline-flex items-center px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:-translate-y-0.5 text-sm font-medium shadow-lg hover:shadow-xl">
+              <i class="fas fa-plus mr-2.5"></i>
+              Create Your First App
+            </a>
+          </div>
+          {% endif %}
+        </section>
+
+        <!-- Purchased Applications Section -->
+        <section class="mt-16">
+          <h3 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-8 flex items-center">
+            <i class="fas fa-shopping-bag text-purple-600 mr-3"></i>
+            Purchased Applications
+          </h3>
+
+          {% if buy_projects %}
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for project in buy_projects %}
+            <div class="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 transform hover:-translate-y-1">
+              <div class="relative h-52 overflow-hidden">
+                {% if project.project.images %}
+                  <img src="{{ project.project.images.first.image.url }}" alt="{{ project.project.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                {% else %}
+                  <img src="{% static 'images/default-project.jpg' %}" alt="Default Project Image" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                {% endif %}
+                <div class="absolute top-4 right-4">
+                  <span class="bg-gradient-to-r from-green-400 to-emerald-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                    <i class="fas fa-check-circle mr-2"></i>Purchased
+                  </span>
+                </div>
+              </div>
+              <div class="p-6">
+                <div class="mb-4">
+                  <h4 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-3 line-clamp-1">{{ project.project.title }}</h4>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{{ project.project.description }}</p>
+                </div>
+                <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
+                  <div class="flex items-center space-x-3">
+                    <img src="{{ project.project.user.picture.url }}" alt="Seller" class="w-8 h-8 rounded-full ring-2 ring-purple-500/20">
+                    <span class="text-sm text-gray-600 dark:text-gray-400 font-medium">{{ project.project.user.username }}</span>
+                  </div>
+                  <a href="{% url 'project_detail' project.project.slug %}" class="inline-flex items-center text-purple-600 hover:text-blue-600 text-sm font-medium transition-colors duration-300">
+                    Access Files
+                    <i class="fas fa-download ml-2 transition-transform duration-300 group-hover:translate-y-0.5"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="text-center py-16 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800/50 dark:to-gray-900/50 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-purple-100 dark:bg-purple-900/30 mb-6">
+              <i class="fas fa-shopping-cart text-3xl text-purple-600 dark:text-purple-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">No Purchases Yet</h3>
+            <p class="text-gray-500 dark:text-gray-400 mb-8 max-w-md mx-auto">Explore our marketplace to find amazing applications!</p>
+            <a href="" class="inline-flex items-center px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:-translate-y-0.5 text-sm font-medium shadow-lg hover:shadow-xl">
+              <i class="fas fa-store mr-2.5"></i>
+              Browse Marketplace
+            </a>
+          </div>
+          {% endif %}
+        </section>
+      </div>
     </div>
   </div>
 </main>

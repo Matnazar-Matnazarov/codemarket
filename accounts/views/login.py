@@ -10,9 +10,14 @@ from ..forms.login import EditPasswordForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from allauth.socialaccount.models import SocialAccount
 
 # from rest_framework.authtoken.models import Token
 # from rest_framework_simplejwt.models import Token
+
+
+def your_cancelled_view(request):
+    return redirect('login')  # Foydalanuvchini login sahifasiga yo'naltirish
 
 
 class LoginView(View):
@@ -29,7 +34,6 @@ class LoginView(View):
                 "next", "homeview"
             )  # `next` mavjud bo‘lsa, o‘sha yerga yo‘naltiradi
             try:
-                print(next_url)
                 if next_url == "":
                     messages.success(request, "You are logged in!")
                     redirect("homeview")
@@ -67,16 +71,43 @@ class EditProfileView(LoginRequiredMixin, View):
 
 class EditPasswordView(LoginRequiredMixin, View):
     def get(self, request):
+        user = request.user
+        done = user.has_usable_password()
         return render(
-            request, "registration/edit_password.html", {"form": EditPasswordForm()}
+            request,
+            "registration/edit_password.html",
+            {"form": EditPasswordForm(), "done": done},
         )
 
     def post(self, request):
+        user = request.user
         form = EditPasswordForm(data=request.POST)
-        if form.is_valid():
-            user = request.user
-            old_password = form.cleaned_data["old_password"]
-            if user.check_password(old_password):
+        custum_form = request.POST
+        old_p = custum_form.get("old_password") or ""
+        new_p = custum_form.get("new_password")
+        conf_p = custum_form.get("confirm_new_password")
+        if form.is_valid() or (
+            len(old_p) < 1
+            and (not user.has_usable_password())
+            and len(new_p) < 128
+            and len(conf_p) < 128
+        ):
+            print(1)
+            try:
+                old_password = form.cleaned_data["old_password"]
+            except:
+                old_password = old_p
+            done = False
+            if not user.has_usable_password():
+                if len(old_password) > 0:
+                    messages.error(
+                        request,
+                        "Your old password does not exist.",
+                    )
+                    return redirect("edit_password")
+                else:
+                    done = True
+            if user.check_password(old_password) or done:
                 new_password = form.cleaned_data["new_password"]
                 confirm_new_password = form.cleaned_data["confirm_new_password"]
                 if new_password == confirm_new_password:

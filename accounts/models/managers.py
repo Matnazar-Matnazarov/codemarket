@@ -3,15 +3,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUserManager(BaseUserManager):
-    """
-    Custom user model manager where and username are required fields.
-    """
 
     def create_user(self, username, password=None, **extra_fields):
-        """
-        Create and save a regular User with the given username and password.
-        """
-
         if not username:
             raise ValueError(_("The Username field must be set"))
 
@@ -25,9 +18,6 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, username, password=None, **extra_fields):
-        """
-        Create and save a SuperUser with the given username and password.
-        """
         extra_fields.setdefault("is_active", True)
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)

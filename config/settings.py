@@ -17,7 +17,6 @@ from .ckeditor_settings import (
 )
 from environs import Env
 
-
 env = Env()
 env.read_env()
 
@@ -74,7 +73,9 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",  # Google oauth
+    "allauth.socialaccount.providers.github",  # Github
     # 'silk'
+    # 'htmlmin',
 ]
 
 LOCAL_APPS = [
@@ -106,6 +107,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = "config.urls"
 WSGI_APPLICATION = "config.wsgi.application"
 
+
 # Template Configuration
 TEMPLATES = [
     {
@@ -126,13 +128,13 @@ TEMPLATES = [
 
 # Database Configuration
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-    # "default": dj_database_url.parse(
-    #     "postgresql://matnazar:zR1xKluz8tFxLNzDGQiSHrLK9diBueMw@dpg-ctgkpql2ng1s738k2q6g-a.oregon-postgres.render.com/codemarket_a9sm"
-    # )
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
+    # }
+    "default": dj_database_url.parse(
+        "postgresql://matnazar:zR1xKluz8tFxLNzDGQiSHrLK9diBueMw@dpg-ctgkpql2ng1s738k2q6g-a.oregon-postgres.render.com/codemarket_a9sm"
+    )
 }
 
 
@@ -160,20 +162,63 @@ AUTHENTICATION_BACKENDS = [
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
+
 ACCOUNT_SIGNUP_REDIRECT_URL = "/"
+
+
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
+        # 'APP': {
+        #     'client_id':'416230866474-c7d4jcaut4uqniepd7m9avrsov1voaee.apps.googleusercontent.com',
+        #     'secret': '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',
+        # },
         "SCOPE": [
             "profile",
             "email",
         ],
         "AUTH_PARAMS": {
-            "access_type": "online",
+            "access_type": "offline",
+            "prompt": "consent",
         },
         "METHOD": "oauth2",
         "VERIFIED_EMAIL": True,
-    }
+        "OAUTH_PKCE_ENABLED": True,  # Enable PKCE
+    },
+    "github": {
+        "SCOPE": [
+            'user',
+            'emails',
+            # 'repo',
+            # 'read:org',
+            # "read:user",  # Profil ma'lumotlarini o'qish
+            # "user:email",
+        ],  # Emailni olish uchun kerak
+        # "APP": {
+        #     "client_id": "",  # Ov23liEt32aa7quPaFoj
+        #     "secret": "",  # 57d88841d13a1aae9eaf19daf810fb9ec32607d6
+        # },
+        "AUTH_PARAMS": {
+            "allow_signup": "true",
+            "prompt": "consent",  # Har safar ruxsat so'rash
+        },
+        "OAUTH_PKCE_ENABLED": True,  # PKCE ni yoqish
+        "METHOD": "oauth2",
+        "VERIFIED_EMAIL": True,
+    },
 }
+
+SOCIALACCOUNT_ADAPTER = "accounts.adapters.CustomSocialAccountAdapter"
+SOCIALACCOUNT_AUTO_SIGNUP = True
+ACCOUNT_SIGNUP_FORM_CLASS = None  # Ro'yxatdan o'tish formasi kerak bo'lmasa
+SOCIALACCOUNT_QUERY_EMAIL = True
+ACCOUNT_EMAIL_REQUIRED = True
+
+# # SOCIALACCOUNT_QUERY_EMAIL = True
+# SOCIALACCOUNT_AUTO_SIGNUP = True
+
+# # ACCOUNT_EMAIL_REQUIRED = True
+
+
 
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"

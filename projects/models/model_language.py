@@ -4,7 +4,6 @@ from .model_base import ModelBase
 from django.core.validators import FileExtensionValidator
 
 
-# Create your models here.
 class ProjectLanguage(ModelBase):
     technology = models.CharField(
         max_length=50, null=True, blank=True, db_index=True, unique=True

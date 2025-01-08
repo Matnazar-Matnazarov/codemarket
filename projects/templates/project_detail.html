@@ -72,9 +72,9 @@
                 <div class="flex text-yellow-400">
                   {% with ''|center:5 as range %}
                     {% for _ in range %}
-                      {% if forloop.counter <= project.rating %}
+                      {% if forloop.counter <= project.total_stars %}
                         <i class="fas fa-star"></i>
-                      {% elif forloop.counter <= project.rating|add:0.5 %}
+                      {% elif forloop.counter <= project.total_stars|add:0.5 %}
                         <i class="fas fa-star-half-alt"></i>
                       {% else %}
                         <i class="far fa-star"></i>
@@ -82,7 +82,7 @@
                     {% endfor %}
                   {% endwith %}
                 </div>
-                <span class="text-gray-600">({{ project.rating|floatformat:1 }}/5)</span>
+                <span class="text-gray-600">({{ project.total_stars|floatformat:1 }}/5)</span>
               </div>
 
               <div class="flex items-center space-x-2">
@@ -114,26 +114,44 @@
               </div>
             </div>
 
-            <div class="space-y-4">
+            <div class="space-y-6">
               {% if project.price %}
-                <div class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                  ${{ project.price|floatformat:2 }}
+                <!-- Premium Project Price Card -->
+                <div class="bg-gradient-to-r from-purple-50 to-blue-50 p-6 rounded-xl shadow-md">
+                  <div class="flex items-center justify-between">
+                    <div class="space-y-1">
+                      <span class="text-sm font-medium text-purple-600">Project Price</span>
+                      <div class="flex items-center gap-3">
+                        <span class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                          {{ project.price|floatformat:0 }}
+                        </span>
+                        <div class="flex items-center gap-1.5">
+                          <i class="fas fa-coins text-yellow-500 text-2xl drop-shadow-sm"></i>
+                          <span class="text-gray-600 font-medium">coins</span>
+                        </div>
+                      </div>
+                      <p class="text-sm text-gray-500">Instant access after purchase</p>
+                    </div>
+                    <div class="hidden md:block">
+                      <i class="fas fa-shield-alt text-4xl text-purple-500/30"></i>
+                    </div>
+                  </div>
                 </div>
               {% endif %}
-              <div class="flex space-x-4">
-                {% if project.zip_file %}
-                  <a href="{{ project.zip_file.url }}" 
-                     class="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                    <i class="fas fa-download text-xl"></i>
+
+              <!-- Action Buttons -->
+              <div class="flex flex-col sm:flex-row gap-4">
+                  <a href="{% url 'buy_project' project.slug %}" 
+                     class="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl group">
+                    <i class="fas fa-download text-xl group-hover:animate-bounce"></i>
                     <span class="text-lg">Download Project</span>
                   </a>
-                {% endif %}
                 {% if project.url %}
                   <a href="{{ project.url }}" 
                      target="_blank" 
                      rel="noopener noreferrer"
-                     class="flex-1 border-2 border-purple-600 text-purple-600 hover:bg-purple-50 font-medium py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                    <i class="fas fa-eye text-xl"></i>
+                     class="flex-1 border-2 border-purple-600 text-purple-600 hover:bg-purple-50 font-medium py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl group">
+                    <i class="fas fa-eye text-xl group-hover:animate-pulse"></i>
                     <span class="text-lg">Live Demo</span>
                   </a>
                 {% endif %}

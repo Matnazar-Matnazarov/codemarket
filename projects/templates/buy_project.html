@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load compress static %}
+{% block content %}
+
+<main class="pt-20 pb-12">  
+    <div class="mt-8 sm:mt-16"> 
+        <div class="p-4 bg-white border border-gray-100 shadow-xl dark:bg-gray-800 rounded-2xl sm:p-6 md:p-8 dark:border-gray-700">            
+            <div class="flex flex-col items-start justify-between gap-4 mb-6 sm:flex-row sm:items-center sm:mb-8">                
+                <h2 class="text-xl font-bold text-transparent sm:text-2xl md:text-3xl bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text">Buy Project</h2>
+                <div class="flex flex-wrap w-full gap-2 sm:w-auto">
+                    <button class="flex-1 px-3 py-2 text-sm text-purple-600 transition-colors rounded-lg sm:flex-none sm:px-4 bg-purple-50 dark:bg-gray-700 dark:text-purple-400 hover:bg-purple-100 sm:text-base" data-filter="week">Buy</button>
+                </div>
+            </div>
+            
+            {% if done %}
+            <div class="p-4 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-700 dark:to-gray-600 sm:p-6 rounded-xl">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-base font-semibold text-gray-800 sm:text-lg dark:text-white">Buy Project</h3>
+                    <i class="text-lg text-purple-600 fas fa-check dark:text-purple-400 sm:text-xl"></i>
+                </div>
+                <p class="mt-2 text-2xl font-bold text-purple-600 sm:text-3xl dark:text-purple-400">Buy project successful</p>
+                <span class="flex items-center mt-2 text-sm text-green-500">
+                    <i class="mr-1 fas fa-arrow-up"></i> +15.3%
+                </span>
+            </div>
+            {% else %}
+            <div class="p-4 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-700 dark:to-gray-600 sm:p-6 rounded-xl">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-base font-semibold text-gray-800 sm:text-lg dark:text-white">Buy Project</h3>
+                    <i class="text-lg text-purple-600 fas fa-check dark:text-purple-400 sm:text-xl"></i>
+                </div>
+                <p class="mt-2 text-2xl font-bold text-purple-600 sm:text-3xl dark:text-purple-400">Buy project successful</p>
+                <span class="flex items-center mt-2 text-sm text-green-500">
+                    <i class="mr-1 fas fa-arrow-up"></i> +15.3%
+                </span>
+            </div>
+            {% endif %} 
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.41.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    {% compress js %}
+    <script src="{% static 'js/chart_analytics.js' %}"></script>
+    {% endcompress %}
+</main>
+
+{% endblock %}
