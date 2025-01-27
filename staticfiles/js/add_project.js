@@ -1,43 +1,104 @@
-$(document).ready(function () {
-    // Initialize Select2
-    $('.select2').select2({
-        placeholder: "Select technologies",
-        allowClear: true,
-        theme: "classic",
-        width: '100%',
-        closeOnSelect: false,
-        tags: true,
-        selectionCssClass: 'text-sm',
-        dropdownCssClass: 'text-sm',
-        tokenSeparators: [',', ' '],
-        createTag: function (params) {
-            return {
-                id: params.term,
-                text: params.term,
-                newTag: true
-            };
-        },
-        templateResult: function (data) {
-            var $result = $("<span></span>");
-            $result.text(data.text);
-            if (data.newTag) {
-                $result.append(" <em class='text-blue-500'>(new)</em>");
+
+document.addEventListener('DOMContentLoaded', function() {
+    const commonConfig = {
+        multiple: true,
+        search: true,
+        showSelectedOptionsFirst: true,
+        hideClearButton: false,
+        markSearchResults: true,
+        showDropboxAsPopup: true,
+        popupDropboxBreakpoint: '640px',
+        maxWidth: '100%',
+        hiddenInputName: true,
+        name: 'technology[]',
+        required: true,
+        dropboxWrapper: 'body',
+        position: 'auto',
+        showDropboxAsPopup: true,
+        popupDropboxBreakpoint: '640px',
+        zIndex: 9999,
+        afterDropboxOpen: (vsObj) => {
+            const dropbox = vsObj.dropboxWrapper.querySelector('.vscomp-dropbox');
+            const toggleButton = vsObj.container.querySelector('.vscomp-toggle-button');
+            
+            if (dropbox && toggleButton) {
+                const rect = toggleButton.getBoundingClientRect();
+                dropbox.style.top = `${rect.bottom + 8}px`;
+                dropbox.style.left = `${rect.left}px`;
+                
+                // Check if dropdown goes beyond viewport
+                const dropboxRect = dropbox.getBoundingClientRect();
+                const viewportWidth = window.innerWidth;
+                
+                if (dropboxRect.right > viewportWidth) {
+                    dropbox.style.left = `${viewportWidth - dropboxRect.width - 16}px`;
+                }
             }
-            return $result;
         }
-    });
+    };
 
-    // Custom Tailwind Styling for Select2
-    const select2BaseClass = 'bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg p-2 shadow-sm transition focus:ring-2 focus:ring-blue-500 focus:border-blue-500';
-    const choiceClass = 'bg-blue-500 text-white rounded-lg px-2 py-1 mr-1 mb-1 flex items-center space-x-1';
-    const removeClass = 'text-white hover:text-gray-200 transition';
-    const searchFieldClass = 'bg-transparent focus:outline-none placeholder-gray-400 text-sm';
+    // Initialize selects with enhanced config
+    const initSelect = (elementId, options, placeholder) => {
+        VirtualSelect.init({
+            ...commonConfig,
+            ele: elementId,
+            options: options,
+            placeholder: placeholder,
+            // Enhanced option renderer
+            optionRenderer: (option) => {
+                return `
+                    <div class="flex items-center justify-between w-full py-1">
+                        <div class="flex items-center gap-3">
+                            <div class="vscomp-option-checkbox"></div>
+                            <div class="flex flex-col">
+                                <span class="font-medium">${option.label}</span>
+                            </div>
+                        </div>
+                        <span class="selected-badge opacity-0 transition-opacity duration-200">
+                            Selected
+                        </span>
+                    </div>
+                `;
+            },
+            // After dropbox opens
+            afterDropboxOpen: (vsObj) => {
+                requestAnimationFrame(() => {
+                    updateDropboxPosition(vsObj.container);
+                });
+            }
+        });
 
-    $('.select2-container .select2-selection--multiple').addClass(select2BaseClass);
-    $('.select2-container .select2-selection--multiple .select2-selection__choice').addClass(choiceClass);
-    $('.select2-container .select2-selection--multiple .select2-selection__choice__remove').addClass(removeClass);
-    $('.select2-container .select2-search--inline .select2-search__field').addClass(searchFieldClass);
+        // Add scroll and resize listeners
+        ['scroll', 'resize'].forEach(event => {
+            window.addEventListener(event, () => {
+                const wrapper = document.querySelector(elementId);
+                if (wrapper?.classList.contains('show-dropdown')) {
+                    requestAnimationFrame(() => updateDropboxPosition(wrapper));
+                }
+            }, { passive: true });
+        });
+    };
+   
+    const techSelect = document.getElementById('technologies-select');
+    const techOptions = JSON.parse(techSelect.dataset.options);
+    const dbSelect = document.getElementById('database-select');
+    const dbOptions = JSON.parse(dbSelect.dataset.options);
+
+
+    // Initialize selects
+    initSelect('#technologies-select', 
+       techOptions,
+        'Select technologies'
+    );
+
+    initSelect('#database-select',
+        dbOptions,
+        'Select databases'
+    );
+
 });
+
+
 const addImageField = () => {
     const newImageField = document.createElement('input');
     newImageField.type = 'file';

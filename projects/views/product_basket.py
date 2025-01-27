@@ -7,7 +7,6 @@ from django.views import View
 from django.http import JsonResponse
 from django.contrib import messages
 
-
 class ProductBasketView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         products = None

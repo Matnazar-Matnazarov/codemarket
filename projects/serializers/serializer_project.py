@@ -47,7 +47,6 @@ class ProjectSerializer(serializers.ModelSerializer):
     def get_star(obj):
         return obj.star.count()
 
-    # @staticmethod
-    # def get_main_image(obj):
-    #     main_image = obj.main_image
-    #     return ProjectImageSerializer(main_image).data if main_image else None
+    @staticmethod
+    def get_main_image(obj):
+        return obj.images.first().image.url

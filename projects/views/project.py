@@ -70,7 +70,6 @@ class ProjectJsonView(View):
             .only("slug", "title", "about", "price", "created_at")
         )
 
-        # Ma'lumotlarni JSON formatiga o‘zgartirish
         project_list = []
         for project in projects:
             all_technologies = [
@@ -103,31 +102,32 @@ class ProjectJsonView(View):
 
 class ProjectDetailView(View):
     def get(self, request, slug):
-        # Initialize the context dictionary at the start
         context = {}
-
+        done = False
         project = ProjectDetailFunc(slug=slug)
-        done = ModelProjectBuy.objects.filter(project= project, user = request.user, done= True).first()
-        if not project:
+        if request.user.is_authenticated:
+            done=True
+        if done:
+            done = ModelProjectBuy.objects.filter(project= project, user = request.user, done= True).select_related('project','user').first()
+        if not project: 
             messages.error(request, "Project not found")
             return redirect("products")
 
-        # Add project and main_image to the context
         context["project"] = project
         context["main_image"] = (
             project.images or None
-        )  # Access main_image as an attribute
+        ) 
 
-        # Cache the hit count
+        # Cache  hit count
         hitcount = HitCount.objects.get_for_object(project)
         hits = hitcount.hits
         context["hitcount"] = {"pk": hitcount.pk}
         context["done"] = done
-        # Use an instance of HitCountMixin to count the hits
+        # CountMixin to count  hits
         hitcount_mixin = HitCountMixin()
         hitcount_response = hitcount_mixin.hit_count(request, hitcount)
         if hitcount_response.hit_counted:
-            hits += 1  # Increment hits only if it was counted
+            hits += 1  # hits count +1
             context["hitcount"].update(
                 {"hit_counted": hitcount_response.hit_counted, "total_hits": hits}
             )

@@ -36,37 +36,70 @@ function createProductCard(product) {
     : product.description;
 
   return `
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-4 border border-gray-100 dark:border-gray-700 transform hover:-translate-y-1">
-            <div class="relative group">
-                <a href="/projects/detail/${product.id}">
-                    <img src="/media/${product.image}" loading="lazy" alt="${product.title}" class="w-full h-48 object-cover rounded-lg mb-4">
-                </a>
-                <span class="absolute top-2 right-2 bg-purple-600 text-white px-2 py-1 rounded-lg text-sm">${product.badge}</span>
-                <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-                    <button class="px-4 py-2 bg-white dark:bg-gray-800 text-purple-600 dark:text-purple-400 rounded-lg transform hover:scale-105 transition-transform">
-                        <i class="fas fa-play-circle mr-2"></i>Watch Preview
-                    </button>
-                </div>
+    <div class="group bg-white dark:bg-gray-800/95 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 p-5 border border-gray-100/10 dark:border-gray-700/50 transform hover:-translate-y-2">
+        <div class="relative overflow-hidden rounded-xl">
+            <a href="/projects/detail/${product.slug}">
+                <img src="/media/${product.image}" loading="lazy" alt="${product.title}" 
+                     class="w-full h-52 object-cover transform transition-transform duration-700 group-hover:scale-110">
+            </a>
+            <div class="absolute top-3 right-3 flex gap-2">
+                <span class="bg-purple-600/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-lg text-sm font-medium">
+                    ${product.badge}
+                </span>
+                <span class="bg-gradient-to-r from-amber-500 to-orange-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5">
+                    ${product.price}
+                    <i class="fas fa-coins text-amber-300"></i>
+                </span>
             </div>
-            <h3 class="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-2">${product.title}</h3>
-            <p class="text-gray-600 dark:text-gray-400 mb-2 text-sm sm:text-base line-clamp-2">${truncatedDescription}</p>
-            <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">Upload date: ${uploadDate}</p>
-            <div class="flex justify-between items-center">
-                <div class="space-y-1">
-                    <span class="text-purple-600 dark:text-purple-400 font-bold text-lg sm:text-xl">$${product.price}</span>
-                    <div class="flex items-center">
-                        <div class="flex text-yellow-400">
-                            ${stars}
-                        </div>
-                        <span class="text-gray-500 dark:text-gray-400 text-sm ml-2">(${product.rating})</span>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
+                <button class="px-6 py-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm text-purple-600 dark:text-purple-400 rounded-xl transform hover:scale-105 transition-all duration-300 font-medium flex items-center gap-2 shadow-lg">
+                    <i class="fas fa-play-circle text-lg"></i>
+                    Watch Preview
+                </button>
+            </div>
+        </div>
+        
+        <div class="mt-4 space-y-3">
+            <h3 class="text-xl font-bold text-gray-800 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">
+                ${product.title}
+            </h3>
+            
+            <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">
+                ${truncatedDescription}
+            </p>
+            
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="flex text-amber-400">
+                        ${stars}
                     </div>
+                    <span class="text-gray-500 dark:text-gray-400 text-sm">(${product.rating})</span>
                 </div>
-                <a href="/products/detail/${product.slug}" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 text-sm sm:text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-                    <i class="fas fa-play-circle mr-2"></i>Demo
+                <p class="text-gray-500 dark:text-gray-400 text-sm">
+                    ${uploadDate}
+                </p>
+            </div>
+            
+            <div class="pt-4 flex justify-between items-center border-t border-gray-100 dark:border-gray-700/50">
+                <div class="flex items-center gap-1.5">
+                    <span class="text-2xl font-bold bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">
+                        ${product.price}
+                    </span>
+                    <i class="fas fa-coins text-xl text-amber-500"></i>
+                </div>
+                
+                <a href="/products/detail/${product.slug}" 
+                   class="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl 
+                          hover:from-purple-700 hover:to-blue-700 transition-all duration-300 
+                          font-medium shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 
+                          flex items-center gap-2">
+                    <i class="fas fa-play-circle"></i>
+                    Demo
                 </a>
             </div>
         </div>
-    `;
+    </div>
+  `;
 }
 
 function renderProducts(filteredProducts) {

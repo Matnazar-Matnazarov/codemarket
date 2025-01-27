@@ -25,7 +25,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     queryset = Project.objects.prefetch_related(
         "database", "technology", "images", "star"
-    ).all()
+    ).select_related("user").all()
     serializer_class = ProjectSerializer
     pagination_class = ProjectPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -34,6 +34,18 @@ class ProjectViewSet(viewsets.ModelViewSet):
     ordering = ["-created_at"]  # Default to newest first
     permission_classes = [IsAuthenticatedOrReadOnly]
     swagger_tags = ["Projects"]
+    swagger_operation_summary = "Project CRUD operations"
+    swagger_response = {
+        200: "Success",
+        201: "Created",
+        204: "No Content",
+        400: "Bad Request",
+        401: "Unauthorized",
+        403: "Forbidden",
+        404: "Not Found",
+        405: "Method Not Allowed",
+        500: "Internal Server Error",
+    }
 
     def get_permissions(self):
         if self.action in ["create", "update", "partial_update", "destroy"]:

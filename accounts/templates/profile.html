@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load compress static %}
+{% load hitcount_tags %}
 
 {% block content %}
 <main class="min-h-screen pt-28 md:pt-24 pb-12 px-4 bg-gray-50 dark:bg-gray-900">
@@ -136,10 +137,10 @@
                 <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
                   <div class="flex items-center space-x-6">
                     <span class="text-sm text-gray-500 dark:text-gray-400 flex items-center">
-                      <i class="fas fa-eye mr-2 text-purple-500"></i>{{ app.views|default:"0" }}
+                      <i class="fas fa-eye mr-2 text-purple-500"></i> {% get_hit_count for app %}
                     </span>
                     <span class="text-sm text-gray-500 dark:text-gray-400 flex items-center">
-                      <i class="fas fa-download mr-2 text-purple-500"></i>{{ app.downloads|default:"0" }}
+                      <i class="fas fa-download mr-2 text-purple-500"></i>{{ app.buy_count|default:"0" }}
                     </span>
                   </div>
                   <a href="{% url 'project_detail' app.slug %}" class="inline-flex items-center text-purple-600 hover:text-blue-600 text-sm font-medium transition-colors duration-300">

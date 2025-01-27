@@ -141,11 +141,22 @@
 
               <!-- Action Buttons -->
               <div class="flex flex-col sm:flex-row gap-4">
-                  <a href="{% url 'buy_project' project.slug %}" 
+                {% if done %}
+                  <a href="{{ project.zip_file.url }}" 
                      class="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl group">
                     <i class="fas fa-download text-xl group-hover:animate-bounce"></i>
                     <span class="text-lg">Download Project</span>
                   </a>
+                {% else %} 
+                <form action="{% url 'buy_project' project.slug %}" method="post">
+                  {% csrf_token %}
+                  <button class="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-105 shadow-lg hover:shadow-xl group">
+                    <i class="fas fa-shopping-cart text-xl group-hover:animate-bounce"></i>
+                    <span class="text-lg">Buy Project</span>
+                  </button>
+                </form>
+                {% endif %}
+                
                 {% if project.url %}
                   <a href="{{ project.url }}" 
                      target="_blank" 

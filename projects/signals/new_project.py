@@ -9,7 +9,7 @@ from .custom_send_emails import send_emails_in_thread
 @receiver(post_save, sender=Project)
 def new_project_users_send_mail(sender, instance, request, **kwargs):
     if instance.is_check_admin:
-        html_path = ""
+        html_path = "new_project.html"
         context = {"user": request.user.username, "project": instance}
         subject = "Yangi project yuklandi "
         start_time = time.time()

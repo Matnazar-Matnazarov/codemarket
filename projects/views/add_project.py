@@ -53,7 +53,7 @@ class CreateProjectView(LoginRequiredMixin, View):
                     )
             image_objects = [
                 ProjectImage(
-                    image=image, name=f"{project.name}_{i}_{str(uuid.uuid4())}"
+                    image=image, name=f"{project.name}_{i}_{str(uuid.uuid4())}"[:40]
                 )
                 for i, image in enumerate(images[:images_num])
             ]
@@ -66,7 +66,7 @@ class CreateProjectView(LoginRequiredMixin, View):
             print(technologies)
             project.technology.set(technologies)
             print(project)
-            # Tanlangan texnologiyalarni ko'rish uchun
+            # tanlangan texnologiya
             selected_database = request.POST.getlist("database[]")
             print(selected_database[0].split(","))
             databases = [int(i) for i in selected_database[0].split(",")]

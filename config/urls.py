@@ -53,6 +53,8 @@ urlpatterns = [
     path("__debug__/", include(debug_toolbar.urls)),  # Debug toolbar
     # Internationalization
     path("i18n/", set_language, name="set_language"),
+    # tailwind
+    path("__reload__/", include("django_browser_reload.urls")),
     # CKEditor 5
     path("ckeditor5/", include("django_ckeditor_5.urls")),
     path("upload/", upload_file, name="custom_upload_file"),

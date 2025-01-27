@@ -74,8 +74,11 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",  # Google oauth
     "allauth.socialaccount.providers.github",  # Github
-    # 'silk'
-    # 'htmlmin',
+    # 'silk', # silk
+    # Tailwind 
+    'tailwind',
+    'theme',
+    'django_browser_reload'
 ]
 
 LOCAL_APPS = [
@@ -86,6 +89,8 @@ LOCAL_APPS = [
 
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
+TAILWIND_APP_NAME = 'theme'
 
 # Middleware Configuration
 MIDDLEWARE = [
@@ -101,6 +106,7 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",  # Allauth middleware
     "config.middlewares.admin_toolbar.AdminDebugToolbarMiddleware",
     # 'silk.middleware.SilkyMiddleware',
+    "django_browser_reload.middleware.BrowserReloadMiddleware", # tailwind middleware 
 ]
 
 # URL Configuration
@@ -132,9 +138,17 @@ DATABASES = {
     #     "ENGINE": "django.db.backends.sqlite3",
     #     "NAME": BASE_DIR / "db.sqlite3",
     # }
-    "default": dj_database_url.parse(
-        "postgresql://matnazar:zR1xKluz8tFxLNzDGQiSHrLK9diBueMw@dpg-ctgkpql2ng1s738k2q6g-a.oregon-postgres.render.com/codemarket_a9sm"
-    )
+    # "default": dj_database_url.parse(
+    #     "postgresql://matnazar:zR1xKluz8tFxLNzDGQiSHrLK9diBueMw@dpg-ctgkpql2ng1s738k2q6g-a.oregon-postgres.render.com/codemarket_a9sm"
+    # )
+     "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "CodeMarket",
+        "USER": "postgres",
+        "PASSWORD": "password",
+        "HOST": "localhost",
+        "PORT": "5432",
+    }
 }
 
 
@@ -260,6 +274,7 @@ COMPRESS_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 #     'css': ['compressor.filters.css_default.CssAbsoluteFilter'],
 #     'js': ['compressor.filters.js_default.JSMinFilter'],
 # }
+
 # Default Primary Key Field
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

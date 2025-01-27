@@ -50,7 +50,7 @@ def validate_user_picture(sender, instance, **kwargs):
 @receiver(post_save, sender=CustomUser)
 def update_codecoins(sender, instance, created=False, **kwargs):
     if instance.role == Role.SUPER_ADMIN:
-        if instance.codecoins < 1:
+        if instance.codecoins < 1000:
             instance.codecoins = 1000
             instance.save(update_fields=["codecoins"])
     elif instance.role == Role.ADMIN:
