@@ -120,3 +120,20 @@ cython_debug/
 *.swn
 *.bak
 *.tmp
+
+
+# Media files
+media/
+
+# Static files
+staticfiles/
+
+# django_ckeditor_5
+django_ckeditor_5/
+
+#theme
+theme/
+
+
+#django_ error
+django_error.txt

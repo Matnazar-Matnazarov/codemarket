@@ -26,13 +26,10 @@ env.read_env()
 BASE_DIR = Path(__file__).resolve().parent.parent
 # load_dotenv()
 
-SECRET_KEY = (
-    env.str("SECRET_KEY")
-    or "django-insecure-scy6y3q5p0ha_e=l679pbvd+v@cfzyl44(5zr2#)kmzmt50c8n"
-)
+SECRET_KEY = env.str("SECRET_KEY", default="django-insecure-scy6y3q5p0ha_e=l679pbvd+v@cfzyl44(5zr2#)kmzmt50c8n")
 
-DEBUG = True  # env.bool("DEBUG") or True
-ALLOWED_HOSTS = ["*"]  # env.list("ALLOWED_HOSTS", default="*")
+DEBUG = env.bool("DEBUG", default=True)
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])
 
 # CSRF_TRUSTED_ORIGINS = [
 #     "http://127.0.0.1:8000",
@@ -75,9 +72,6 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount.providers.google",  # Google oauth
     "allauth.socialaccount.providers.github",  # Github
     # 'silk', # silk
-    # Tailwind 
-    'tailwind',
-    'theme',
     'django_browser_reload'
 ]
 
@@ -90,7 +84,6 @@ LOCAL_APPS = [
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
-TAILWIND_APP_NAME = 'theme'
 
 # Middleware Configuration
 MIDDLEWARE = [
@@ -134,21 +127,7 @@ TEMPLATES = [
 
 # Database Configuration
 DATABASES = {
-    # "default": {
-    #     "ENGINE": "django.db.backends.sqlite3",
-    #     "NAME": BASE_DIR / "db.sqlite3",
-    # }
-    # "default": dj_database_url.parse(
-    #     "postgresql://matnazar:zR1xKluz8tFxLNzDGQiSHrLK9diBueMw@dpg-ctgkpql2ng1s738k2q6g-a.oregon-postgres.render.com/codemarket_a9sm"
-    # )
-     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "CodeMarket",
-        "USER": "postgres",
-        "PASSWORD": "password",
-        "HOST": "localhost",
-        "PORT": "5432",
-    }
+    "default": dj_database_url.parse(env.str("DATABASE_URL", default="postgresql://postgres:password@localhost:5432/CodeMarket"))
 }
 
 
@@ -182,10 +161,10 @@ ACCOUNT_SIGNUP_REDIRECT_URL = "/"
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
-        # 'APP': {
-        #     'client_id':'416230866474-c7d4jcaut4uqniepd7m9avrsov1voaee.apps.googleusercontent.com',
-        #     'secret': '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',
-        # },
+        'APP': {
+            'client_id': env.str("GOOGLE_CLIENT_ID"),
+            'secret': env.str("GOOGLE_CLIENT_SECRET"),
+        },
         "SCOPE": [
             "profile",
             "email",
@@ -202,15 +181,15 @@ SOCIALACCOUNT_PROVIDERS = {
         "SCOPE": [
             'user',
             'emails',
-            # 'repo',
-            # 'read:org',
-            # "read:user",  # Profil ma'lumotlarini o'qish
-            # "user:email",
+            'repo',
+            'read:org',
+            "read:user",  # Profil ma'lumotlarini o'qish
+            "user:email",
         ],  # Emailni olish uchun kerak
-        # "APP": {
-        #     "client_id": "",  # Ov23liEt32aa7quPaFoj
-        #     "secret": "",  # 57d88841d13a1aae9eaf19daf810fb9ec32607d6
-        # },
+        "APP": {
+            "client_id": env.str("GITHUB_CLIENT_ID"),
+            "secret": env.str("GITHUB_CLIENT_SECRET"),
+        },
         "AUTH_PARAMS": {
             "allow_signup": "true",
             "prompt": "consent",  # Har safar ruxsat so'rash
@@ -239,8 +218,8 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "codemarketcode@gmail.com"
-EMAIL_HOST_PASSWORD = "pnddxszmhusletey"  # App password
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="codemarketcode@gmail.com")
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")  # App password
 
 # Internationalization
 LANGUAGE_CODE = "en-us"
@@ -354,6 +333,9 @@ IMPORT_EXPORT_TMP_STORAGE_CLASS = "import_export.tmp_storages.MediaStorage"
 LOGIN_URL = "/accounts/login/"  # Login talab qilinadigan sahifalar uchun yo‘naltirish
 
 LOGOUT_REDIRECT_URL = "/"
+
+# Redis Configuration
+REDIS_URL = env.str("REDIS_URL", default="redis://localhost:6379/0")
 
 # silk
 

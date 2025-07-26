@@ -1,88 +1,234 @@
-![Django Logo](https://www.djangoproject.com/m/img/logos/django-logo-positive.png)
-# CodeMarket Django Project
+# CodeMarket - Professional Code Marketplace Platform
 
-This is a professional Django-based web application project. Below you will find detailed information on how to set up, run, and use the project.
+[![Django](https://img.shields.io/badge/Django-5.0+-green.svg)](https://www.djangoproject.com/)
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12+-blue.svg)](https://www.postgresql.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## Prerequisites
+<div align="center">
+  <img src="https://www.djangoproject.com/m/img/logos/django-logo-positive.png" alt="Django Logo" width="200"/>
+  <h3>A modern marketplace for buying and selling code projects</h3>
+</div>
 
-- Python 3.x
-- Django 5.x or higher
-- pip (Python package installer)
-- PostgreSQL (or any other preferred database)
+## 📋 Table of Contents
 
-## Installation
+- [Overview](#overview)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [API Documentation](#api-documentation)
+- [Development](#development)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
+- [Support](#support)
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/yourusername/yourproject.git
-   cd yourproject
-   ```
+## 🎯 Overview
 
-2. **Create a virtual environment and activate it:**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   ```
+CodeMarket is a comprehensive Django-based web application that serves as a marketplace for developers to buy and sell code projects. The platform provides a secure, user-friendly environment for code transactions with features like user authentication, project management, and payment processing.
 
-3. **Install the required Python packages:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+### Key Features:
+- **User Authentication**: Secure login with email/password and OAuth (Google, GitHub)
+- **Project Management**: Create, edit, and manage code projects
+- **Marketplace**: Browse and purchase code projects
+- **Payment System**: Integrated payment processing
+- **Admin Panel**: Comprehensive admin interface with Jazzmin theme
+- **API**: RESTful API for mobile and third-party integrations
+- **Multi-language Support**: English, Uzbek, and Russian languages
 
-4. **Install the required Node packages:**
-   ```bash
-   npm install
-   ```
+## 🚀 Features
 
-5. **Set up the database:**
-   - Create a PostgreSQL database and user.
-   - Update the `DATABASES` setting in `settings.py` with your database credentials.
+### Core Functionality
+- ✅ User registration and authentication
+- ✅ OAuth integration (Google, GitHub)
+- ✅ Project creation and management
+- ✅ Project marketplace
+- ✅ Payment processing
+- ✅ User profiles and settings
+- ✅ Admin dashboard
+- ✅ REST API endpoints
+- ✅ Email notifications
+- ✅ Multi-language support
 
-6. **Apply database migrations:**
-   ```bash
-   python manage.py migrate
-   ```
+### Technical Features
+- ✅ Django 5.x with modern practices
+- ✅ PostgreSQL database
+- ✅ Redis for caching
+- ✅ JWT authentication
+- ✅ Swagger API documentation
+- ✅ Tailwind CSS for styling
+- ✅ Responsive design
+- ✅ Security best practices
 
-7. **Create a superuser:**
-   ```bash
-   python manage.py createsuperuser
-   ```
+## 🛠 Technology Stack
 
-8. **Collect static files:**
-   ```bash
-   python manage.py collectstatic
-   ```
-## Running the Project
+### Backend
+- **Framework**: Django 5.x
+- **Database**: PostgreSQL
+- **Cache**: Redis
+- **Authentication**: JWT, OAuth2 (Google, GitHub)
+- **API**: Django REST Framework
+- **Documentation**: Swagger/OpenAPI (drf-yasg)
+- **Admin**: Jazzmin
 
-1. **Start the development server:**
-   ```bash
-   python manage.py runserver
-   ```
+### Frontend
+- **CSS Framework**: Tailwind CSS
+- **JavaScript**: Vanilla JS
+- **Templates**: Django Templates
+- **Admin Theme**: Jazzmin
+- **Rich Text Editor**: CKEditor 5
 
-2. **Access the application:**
-   Open your web browser and go to `http://127.0.0.1:8000/`.
+### Development Tools
+- **Package Manager**: pip
+- **Environment**: environs
+- **Code Quality**: Black, autopep8
+- **Version Control**: Git
 
-## Usage
+## 📋 Prerequisites
 
-- **Admin Panel:**
-  Access the admin panel at `http://127.0.0.1:8000/admin/` and log in with the superuser credentials.
+Before you begin, ensure you have the following installed:
 
-- **API Endpoints:**
-  The project includes various API endpoints for managing projects. You can explore them using tools like Postman or through the provided Swagger documentation.
+- **Python 3.8+** - [Download Python](https://www.python.org/downloads/)
+- **PostgreSQL 12+** - [Download PostgreSQL](https://www.postgresql.org/download/)
+- **Redis** - [Download Redis](https://redis.io/download)
+- **Git** - [Download Git](https://git-scm.com/downloads)
 
-## Contributing
+## 🚀 Installation
 
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-branch`).
-3. Make your changes.
-4. Commit your changes (`git commit -m 'Add some feature'`).
-5. Push to the branch (`git push origin feature-branch`).
-6. Open a pull request.
+### 1. Clone the Repository
 
-## License
+```bash
+git clone https://github.com/Matnazar-Matnazarov/codemarket.git
+cd codemarket
+```
 
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
+### 2. Create Virtual Environment
 
-## Contact
+```bash
+# Create virtual environment
+python -m venv venv
 
-For any inquiries or support, please contact [your-email@example.com].
+# Activate virtual environment
+# On Windows:
+venv\Scripts\activate
+# On macOS/Linux:
+source venv/bin/activate
+```
+
+### 3. Install Python Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+
+### 5. Environment Configuration
+
+Create a `.env` file in the project root:
+
+```bash
+cp .env.example .env
+```
+
+Edit the `.env` file with your configuration:
+
+```env
+# Database Configuration
+DATABASE_URL=postgresql://username:password@localhost:5432/codemarket
+
+# Django Configuration
+DEBUG=True
+SECRET_KEY=your-secret-key-here
+ALLOWED_HOSTS=localhost,127.0.0.1,*
+
+# Email Configuration
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=your-app-password
+
+# OAuth Configuration
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
+
+# Redis Configuration
+REDIS_URL=redis://localhost:6379/0
+```
+
+### 6. Database Setup
+
+```bash
+# Create PostgreSQL database
+createdb codemarket
+
+# Run migrations
+python manage.py migrate
+
+# Create superuser
+python manage.py createsuperuser
+```
+
+
+
+### 8. Static Files Setup
+
+```bash
+# Collect static files
+python manage.py collectstatic --noinput
+
+# Create media directory (if not exists)
+mkdir -p media
+```
+
+## ⚙️ Configuration
+
+### Database Configuration
+
+The project uses PostgreSQL by default. Update your database settings in `config/settings.py` or use the `DATABASE_URL` environment variable.
+
+### Email Configuration
+
+Configure your email settings in the `.env` file:
+
+```env
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=your-app-password
+```
+
+### OAuth Configuration
+
+#### Google OAuth
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select existing one
+3. Enable Google+ API
+4. Create OAuth 2.0 credentials
+5. Add authorized redirect URIs: `http://localhost:8000/accounts/google/login/callback/`
+
+#### GitHub OAuth
+1. Go to [GitHub Developer Settings](https://github.com/settings/developers)
+2. Create a new OAuth App
+3. Set callback URL: `http://localhost:8000/accounts/github/login/callback/`
+
+## 🎮 Usage
+
+### Running the Development Server
+
+```bash
+# Start the development server
+python manage.py runserver
+
+# Access the application
+# Open http://127.0.0.1:8000/ in your browser
+```
+
+### Admin Panel
+
+Access the admin panel at `http://127.0.0.1:8000/admin/` and log in with your superuser credentials.
+
+### API Endpoints
+
+The project includes a comprehensive REST API. Access the API documentation at:
+- **Swagger UI**: `http://127.0.0.1:8000/api/swagger/`

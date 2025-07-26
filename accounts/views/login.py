@@ -117,6 +117,11 @@ class EditPasswordView(LoginRequiredMixin, View):
                             "Your new password cannot be the same as your old password!",
                         )
                         return redirect("edit_password")
+                    if len(set(str(new_password))) < 2:
+                        messages.error(
+                            request,
+                            "Password is too short. Please enter a valid new password."
+                        )
                     try:
                         validate_password(new_password)
                     except ValidationError as e:
