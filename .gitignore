@@ -11,6 +11,7 @@ __pycache__/
 env/
 venv/
 ENV/
+codeenv/
 env.bak/
 venv.bak/
 
@@ -137,3 +138,4 @@ theme/
 
 #django_ error
 django_error.txt
+
