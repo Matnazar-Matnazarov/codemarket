@@ -71,7 +71,7 @@ sqlparse==0.5.3
 tablib==3.7.0
 typing_extensions==4.12.2
 uritemplate==4.1.1
-urllib3==2.2.3
+urllib3==2.5.0
 webencodings==0.5.1
 whitenoise==6.8.2
 yarl==1.18.3
