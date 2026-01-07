@@ -39,7 +39,7 @@ gunicorn==23.0.0
 html5lib==1.1
 idna==3.10
 inflection==0.5.1
-marshmallow==3.23.1
+marshmallow==3.26.2
 multidict==6.1.0
 mypy-extensions==1.0.0
 oauthlib==3.2.2
