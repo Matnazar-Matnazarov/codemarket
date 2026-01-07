@@ -16,7 +16,7 @@ diff-match-patch==20241021
 dj-database-url==2.3.0
 Django==5.1.15
 django-admin-honeypot-updated-2021==1.2.0
-django-allauth==65.3.0
+django-allauth==65.13.0
 django-appconf==1.0.6
 django-ckeditor-5==0.2.15
 django-compressor==4.5.1
